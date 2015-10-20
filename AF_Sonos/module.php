@@ -227,4 +227,219 @@
 
  
 	}
+
+
+function sonos_content()
+{
+	$Sonos_Data = read_sonos_data();
+
+
+	SO_build_or_fix_sonos_variables($Sonos_Data);
+	SO_build_or_fix_sonos_controls($Sonos_Data);
+	SO_populate_variables($Sonos_Data);
+	SO_create_profile();
+	SO_build_or_fix_profile($Sonos_Data);
+
+	return $Sonos_Data;
+}
+
+function build_or_fix_sonos_controls(&$Data)
+{
+		$cat_id = 16169 /*[Scripte\SONOS\Variables\SONOS_ACTION]*/;
+
+   	$ii = 0;
+   	$Var_Names[] = NULL;
+   	$Var_ID[] = NULL;
+
+		foreach( IPS_GetObject($cat_id)['ChildrenIDs']as $index => $ID) // Loop all Variablen unterhalb der Kategorie und erstellt array mit Namen+ID
+		{
+			$Var_Names[$ii] = IPS_GetObject($ID)['ObjectName'];
+			$Var_ID[$ii] = $ID;
+			$ii++;
+		}
+		$i = 0;
+		foreach($Data as $z) // Looped durch SONOS Array
+		{
+			if(in_array ($Data[$i]['Name'],$Var_Names )) //Name bereits vorhanden
+			{
+			 	$Data[$i][IPS_GetObject($cat_id)['ObjectName']] = $Var_ID[array_search($Data[$i]['Name'], $Var_Names)];
+			}
+			else
+			{
+				$Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = create_var($Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],true);
+			}
+			$i++;
+		}
+
+}
+
+
+
+function populate_variables($Sonos_Data)
+{
+  $i = 0;
+  
+  foreach($Sonos_Data as $z)
+  {
+			$group_number[$i] = $Sonos_Data[$i]['GroupNr'];
+			$Master_Rincon[$i] = $Sonos_Data[$i]['Master_RINCON'];
+			$Player_Rincon[$i] = $Sonos_Data[$i]['Player_RINCON'];
+  			SO_populate_mute($Sonos_Data,$i);
+  			SO_populate_volume($Sonos_Data,$i);
+  			SO_populate_master($Sonos_Data,$i);
+  			
+			$i++;
+  }
+  foreach($Master_Rincon as $key => $value)
+  {
+		if(
+				($value == $Master_Rincon[$key])
+				AND
+				($Sonos_Data[$key]['COORD'])
+		  )
+		{
+  			foreach($Master_Rincon as $i => $unique_value)
+  			{
+  			   if($value == $unique_value)
+  			   {
+ 					SetValueInteger($Sonos_Data[$i]['SONOS_MASTER_ID'],$key);
+  			   }
+  			   else
+  			   {
+  			   }
+  			}
+		}
+		else
+		{
+		}
+  }
+}
+
+function  populate_mute($Sonos_Data,$i)
+{
+	if($Sonos_Data[$i]['Mute'] == 1)
+	{
+		SetValueInteger($Sonos_Data[$i]['Mute_ID'],1);
+	}
+	else
+	{
+		SetValueInteger($Sonos_Data[$i]['Mute_ID'],0);
+	}
+}
+function populate_volume($Sonos_Data,$i)
+{
+		SetValueInteger($Sonos_Data[$i]['Volume_ID'],$Sonos_Data[$i]['Volume']);
+
+}
+function populate_master($Sonos_Data,$i)
+{
+	if($Sonos_Data[$i]['COORD'])
+	{
+		SetValueInteger($Sonos_Data[$i]['SONOS_MASTER_ID'],$i);
+	}
+	else
+	{
+
+	}
+}
+
+
+
+function build_or_fix_profile($Data)
+{
+	$key = 0;
+	foreach($Data as $i)
+	{
+	 $Color = [0x15EB4A,0xF21344,0x1833DE,0xE8DA10,0xF21BB9,0x1BCEF2,0x1BF2C0,0x1A694C,0xF2981B,0x48508A,0x912A41];
+	 IPS_SetVariableProfileAssociation ('SONOS_MASTER',$key,$Data[$key]['Name'],'',  $Color[$key]);
+	 $key++;
+	}
+
+}
+
+
+function 	create_profile()
+{
+	if(IPS_VariableProfileExists ( 'SONOS_MASTER' ))
+	{
+//      IPS_DeleteVariableProfile ( 'SONOS_MASTER' );
+	}
+	else
+	{
+		IPS_CreateVariableProfile ( 'SONOS_MASTER', 1 );
+	}
+
+}
+
+
+function build_or_fix_sonos_variables(&$Data)
+{
+	$root_list = IPS_GetObject(34117 /*[Scripte\SONOS\Variables\Player Data]*/)['ChildrenIDs'];
+	foreach ($root_list as $cat_key => $cat_id)//Loop alle Kategorien
+	{
+   	
+   	$ii = 0;
+   	$Var_Names[] = NULL;
+   	$Var_ID[] = NULL;
+		foreach( IPS_GetObject ($cat_id)['ChildrenIDs']as $index => $ID) // Loop all Variablen unterhalb der Kategorie und erstellt array mit Namen+ID
+		{
+			$Var_Names[$ii] = IPS_GetObject($ID)['ObjectName'];
+			$Var_ID[$ii] = $ID;
+			$ii++;
+		}
+		$i = 0;
+		foreach($Data as $z) // Looped durch SONOS Array
+		{
+			if(in_array ($Data[$i]['Name'],$Var_Names )) //Name bereits vorhanden
+			{
+			 	$Data[$i][IPS_GetObject($cat_id)['ObjectName']."_ID"] = $Var_ID[array_search($Data[$i]['Name'], $Var_Names)];
+			}
+			else
+			{
+				$Data[$i][IPS_GetObject ($cat_id)['ObjectName']."_ID"] = create_var($Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],false);
+
+			}
+			$i++;
+		}
+	}
+}
+
+
+
+
+function delete_var($Name,$root)
+{
+
+}
+
+function create_var($Name,$Root,$Type,$Profile,$Action)
+{
+  $ID = IPS_GetVariableIDByName ( $Name, $Root );
+  if ($ID)
+  {
+  }
+  else
+  {
+  		$ID = IPS_CreateVariable ( $Type );
+  		IPS_SetName ( $ID,$Name );
+  		IPS_SetParent ( $ID, $Root );
+  		if ($Action) {IPS_SetVariableCustomAction ( $ID, 38913 /*[Scripte\SONOS\Variables\Variable Ändern]*/ );}
+  		IPS_SetVariableCustomProfile ( $ID, $Profile);
+  }
+  
+  return $ID;
+  
+}
+
+function create_link($Parent,$Name,$Root,$ID)
+{
+  $LID = IPS_CreateLink ( );
+  IPS_SetName ( $LID,$Name );
+  IPS_SetParent ( $LID, $Parent);
+  IPS_SetLinkTargetID ( $LID, $ID );
+}
+
+
+
+
 ?>
