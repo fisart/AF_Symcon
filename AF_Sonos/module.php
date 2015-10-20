@@ -226,7 +226,7 @@
 		 }
 
  
-	}
+	
 
 
 public function sonos_content()
@@ -441,7 +441,7 @@ public function create_link($Parent,$Name,$Root,$ID)
   IPS_SetLinkTargetID ( $LID, $ID );
 }
 
-
+}
 
 
 ?>
