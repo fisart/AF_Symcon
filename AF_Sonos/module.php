@@ -106,8 +106,8 @@
 		{
 			global $sonos_reader_id,$ID_IP;
 			$socket_name = "Sonos_Reader_Socket" ;
+			$Sonos_Master_IP = GetValueString($ID_IP);
 			$ALL_IDS = IPS_GetObjectList ( );
-			$ID_IP = 0;
 			$InstanzID = 0;
 			foreach ($ALL_IDS as $key => $value) 
 			{
@@ -116,11 +116,6 @@
 					$InstanzID = $value;
 				}
 			}
-			if ($ID_IP == 0)
-			{
-				return false;
-			}
-			$Sonos_Master_IP = GetValueString($ID_IP);
 			if ($InstanzID == 0)
 			{ 
      				$id = IPS_CreateInstance ('{4CB91589-CE01-4700-906F-26320EFCF6C4}');
