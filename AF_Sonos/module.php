@@ -93,7 +93,7 @@
 				return false;
 			}
 			$Sonos_Master_IP = GetValueString($ID_IP);
-//			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
+echo " ID : ".$Sonos_Master_IP." END ";
 			if ($InstanzID == 0)
 			{ 
      				$id = IPS_CreateInstance ('{4CB91589-CE01-4700-906F-26320EFCF6C4}');
