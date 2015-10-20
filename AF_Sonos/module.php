@@ -326,11 +326,13 @@ public function  populate_mute($Sonos_Data,$i)
 		SetValueInteger($Sonos_Data[$i]['Mute_ID'],0);
 	}
 }
+
 public function populate_volume($Sonos_Data,$i)
 {
 		SetValueInteger($Sonos_Data[$i]['Volume_ID'],$Sonos_Data[$i]['Volume']);
 
 }
+
 public function populate_master($Sonos_Data,$i)
 {
 	if($Sonos_Data[$i]['COORD'])
@@ -412,7 +414,7 @@ public function delete_var($Name,$root)
 
 }
 
-function create_var($Name,$Root,$Type,$Profile,$Action)
+public function create_var($Name,$Root,$Type,$Profile,$Action)
 {
   $ID = IPS_GetVariableIDByName ( $Name, $Root );
   if ($ID)
