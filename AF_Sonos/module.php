@@ -44,11 +44,11 @@
 
 		public function define_sonos_text_parser()
 		{
-			global  $text_parser_id,$Var_ID1;
+			global  $text_parser_id,$Var_ID1,$sonos_reader_id;
 			$Rule = '[{"Variable":'.$Var_ID1.',"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
 			IPS_SetProperty ( $text_parser_id,"Rules", $Rule);
 			IPS_ApplyChanges($text_parser_id);
-
+			IPS_ConnectInstance ( $text_parser_id,$sonos_reader_id );
 
 		}
 
