@@ -1,0 +1,10 @@
+{
+	"elements":
+	[
+		{ "name": "Sonos_Master_IP", "type": "ValidationTextBox", "caption": "IP Sonosmaster" },
+	],
+	"actions":
+	[
+		{ "type": "Button", "label": "Update", "onClick": "SO_Install_framework($id);" }
+	]	
+}

@@ -1,0 +1,14 @@
+{
+        "id": "{c13392d9-b27d-4db1-957b-dbdbd49826c9}",
+	"name": "SonosAF",
+	"type": 3,
+	"vendor": "AF",
+	"aliases": 
+	[
+		"SonosAF"
+	],	
+	"parentRequirements": [],
+	"childRequirements": [],
+	"implemented": [],
+	"prefix": "SO"
+}

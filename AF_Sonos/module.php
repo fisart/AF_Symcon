@@ -1,0 +1,164 @@
+<?
+	class SonosAF extends IPSModule
+	{
+		public function Create()
+		{
+			//Never delete this line!
+			parent::Create();
+			
+			$this->RegisterPropertyString("Sonos_Master_IP", "192.168.0.63");//Erzeugt die Eigenschaft
+			
+		}		
+	
+		public function ApplyChanges()
+		{
+			//Never delete this line!
+			parent::ApplyChanges();
+			
+			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos Master IP", ""); // Erzeugt die Variable
+		}
+	
+		/**
+		* This function will be available automatically after the module is imported with the module control.
+		* Using the custom prefix this function will be callable from PHP and JSON-RPC through:
+		*
+		* SO_RequestInfo($id);
+		*
+		*/
+		public function Install_framework()
+		{
+		
+			
+			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
+			SetValue($this->GetIDForIdent("Sonos_Master_IP"), $Sonos_Master_IP); //Beschreibt die Variable
+			SO_create_sonos_reader_socket("");
+			
+		}
+    
+		public function create_sonos_reader_socket()
+		{
+			$socket_name = "Sonos_Reader_Socket" ;
+			$ALL_IDS = IPS_GetObjectList ( );
+			$ID_IP = 0;
+			$InstanzID = 0;
+			foreach ($ALL_IDS as $key => $value) 
+			{
+				if(IPS_GetName($value) == "Sonos Master IP")
+				{
+					$ID_IP = $value;
+				}
+				if(IPS_GetName($value) ==$socket_name)
+				{
+					$InstanzID = $value;
+				}
+			}
+			if ($ID_IP == 0)
+			{
+				return false;
+			}
+			$Sonos_Master_IP = GetValueString($ID_IP);
+//			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
+			if ($InstanzID == 0)
+			{ 
+     				$id = IPS_CreateInstance ('{4CB91589-CE01-4700-906F-26320EFCF6C4}');
+     				$URL = "http://".$Sonos_Master_IP.":1400/status/topology";
+    				IPS_SetProperty($id, "URL", $URL);
+				IPS_SetProperty($id,"Active",true);
+				IPS_SetProperty($id,"UseBasicAuth",false);
+				IPS_SetProperty($id,"AuthUser","");
+				IPS_SetProperty($id,"AuthPass","");
+				IPS_SetProperty($id,"Interval",1);
+				IPS_ApplyChanges($id);
+				IPS_SetName ( $id,$socket_name);
+			}
+			else
+			{
+     				$id = $InstanzID;
+     				$URL = "http://".$Sonos_Master_IP.":1400/status/topology";
+    				IPS_SetProperty($id, "URL", $URL);
+				IPS_SetProperty($id,"Active",true);
+				IPS_SetProperty($id,"UseBasicAuth",false);
+				IPS_SetProperty($id,"AuthUser","");
+				IPS_SetProperty($id,"AuthPass","");
+				IPS_SetProperty($id,"Interval",1);
+				IPS_ApplyChanges($id);
+			}
+
+		}
+
+		public function read_sonos_data()
+		{
+			$Text = GetValueString(36164 /*[Scripte\SONOS\Static Data\Sonos\Sonos text cutter\Topology]*/);
+			// $Text = strip_tags($Text);
+			$result = explode("<",$Text);
+			//echo $Text;
+			//print_r( $result);
+			$i = 0;
+			foreach ($result as$key => $value)
+			{
+ 				if(stripos($value,"RINCON") > 0)
+ 				{
+					$list[] = get_sonos_details($value);
+					$sonos = new PHPSonos($list[$i]['IP']); //Sonos ZP IPAdresse
+					$list[$i]['Volume'] = $sonos->GetVolume();
+					$list[$i]['Mute'] = $sonos->GetMute();
+					$ZoneAttributes = $sonos->GetZoneAttributes();
+					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
+					$i = $i+1;
+					//echo $value;
+ 				}
+ 				else
+ 				{
+ 				}
+			}
+			return $list;
+		}
+
+
+
+
+ 
+ 		public function get_sonos_details($value)
+ 		{
+			$List['Master_RINCON'] = substr($value,stripos($value,"RINCON"),24);
+			$tmp = substr($value,stripos($value,"http://"),24);
+			$start = stripos($tmp,"/") + 2;
+			$stop = stripos ($tmp,":1400")- 7;
+			$List["IP"] = substr($tmp,$start,$stop);
+			$tmp = substr($value,stripos($value,"coordinator"),19);
+			$start = stripos($tmp,"'=")+12;
+			$stop = stripos ($tmp," ");
+			$List["COORD"] = substr($tmp,$start,$stop);
+			$tmp = substr($value,stripos($value,"bootseq="),20);
+			$start = stripos($tmp,"='")+2;
+			$stop = stripos ($tmp,"uuid")-11;
+			$List["bootseq"] = substr($tmp,$start,$stop);
+			$tmp = substr($value,stripos($value,"1400:"),8);
+			$start = stripos($tmp,":")+1;
+			$stop = stripos ($tmp,"'")-5;
+			$List["GroupNr"] = substr($tmp,$start,$stop);
+			$tmp = substr($value,stripos($value,"uuid='"),30);
+			$start = stripos($tmp,"='")+2;
+			$stop = $start + 18;
+			$List["Player_RINCON"] = substr($tmp,$start,$stop);
+			$tmp = substr($value,stripos($value,"wirelessmode"),24);
+			$start = stripos($tmp,"='")+2;
+			$stop = stripos ($tmp,"channel")-16;
+			$List["Wireless_Mode"] = substr($tmp,$start,$stop);
+			$tmp = substr($value,stripos($value,"channelfreq"),29);
+			$start = stripos($tmp,"='")+2;
+			$stop = stripos ($tmp,"behindwifi")-15;
+			$List["Channel_Freq"] = substr($tmp,$start,$stop);
+			$tmp = substr($value,stripos($value,"behindwifiext"),29);
+			$start = stripos($tmp,"='")+2;
+			$stop = stripos ($tmp,"location")-17;
+			$List["Behind_Wifi_Ext"] = substr($tmp,$start,$stop);
+
+
+
+			return $List;
+		 }
+
+ 
+	}
+?>
