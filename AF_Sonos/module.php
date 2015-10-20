@@ -34,11 +34,9 @@
 			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
 			SetValue($ID_IP, $Sonos_Master_IP); //Beschreibt die Variable
 			$parent_id = IPS_GetObject($ID_IP)['ParentID'];
-			SO_create_sonos_content_variable("");
-
-
 			SO_create_sonos_reader_socket("");
 			SO_create_sonos_text_parser(" ");
+			SO_create_sonos_content_variable("");
 			SO_build_sonos_static_data(" ");
 			
 		}
