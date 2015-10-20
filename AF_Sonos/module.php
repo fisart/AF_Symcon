@@ -29,18 +29,42 @@
 		public function Install_framework()
 		{
 		
-			global $Var_ID1,$parent_id ;
-			$Var_ID1 = 12199;
+			global $parent_id, $ID_IP ;
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
-			SetValue($this->GetIDForIdent("Sonos_Master_IP"), $Sonos_Master_IP); //Beschreibt die Variable
-			$parent_id = IPS_GetObject($this->GetIDForIdent("Sonos_Master_IP"))['ParentID'];
-echo " ".$parent_id." ";
+			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
+			SetValue($ID_IP, $Sonos_Master_IP); //Beschreibt die Variable
+			$parent_id = IPS_GetObject($ID_IP)['ParentID'];
+			SO_create_sonos_content_variable("");
+
+
 			SO_create_sonos_reader_socket("");
 			SO_create_sonos_text_parser(" ");
 			SO_build_sonos_static_data(" ");
 			
 		}
-    
+ 		public function create_sonos_content_variable()
+		{
+			global $Var_ID1,$parent_id, $ID_IP ;
+			$name_content_var = "Sonos_Content";
+			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
+			$InstanzID = 0;
+			foreach ($ALL_IDS as $key => $value) 
+			{
+				if(IPS_GetName($value) ==$name_content_var)
+				{
+					$InstanzID = $value;
+				}
+			}
+			if ($InstanzID == 0)
+			{ 
+				$Var_ID1 = IPS_CreateVariable (3);
+				IPS_SetName ( $Var_ID1, $name_content_var );
+				IPS_SetParent ( $Var_ID1, $parent_id );
+			}
+
+
+		}
+   
 		public function build_sonos_static_data()
 		{
 
@@ -48,7 +72,7 @@ echo " ".$parent_id." ";
 
 		public function create_sonos_text_parser()
 		{
-			global $Var_ID1;
+			global $Var_ID1, $text_parser_id;
 			$parser_name = "Sonos_Text_Parser" ;
 			$ALL_IDS = IPS_GetObjectList ( );
 			$InstanzID = 0;
@@ -74,20 +98,19 @@ echo " ".$parent_id." ";
 				IPS_SetProperty ( $id,"Rules", $Rule);
 				IPS_ApplyChanges($id);
 			}
+ 			$text_parser_id = $id;
+
 		}
 
 		public function create_sonos_reader_socket()
 		{
+			global $sonos_reader_id,$ID_IP;
 			$socket_name = "Sonos_Reader_Socket" ;
 			$ALL_IDS = IPS_GetObjectList ( );
 			$ID_IP = 0;
 			$InstanzID = 0;
 			foreach ($ALL_IDS as $key => $value) 
 			{
-				if(IPS_GetName($value) == "Sonos Master IP")
-				{
-					$ID_IP = $value;
-				}
 				if(IPS_GetName($value) ==$socket_name)
 				{
 					$InstanzID = $value;
@@ -123,6 +146,7 @@ echo " ".$parent_id." ";
 				IPS_SetProperty($id,"Interval",1);
 				IPS_ApplyChanges($id);
 			}
+			$sonos_reader_id =$id;
 
 		}
 
