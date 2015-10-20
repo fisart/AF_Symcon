@@ -38,7 +38,8 @@
 			SO_create_sonos_text_parser(" ");
 			SO_create_sonos_content_variable("");
 			SO_define_sonos_text_parser(" ");
-			SO_build_sonos_static_data(" ");
+			SO_sonos_content(" ");
+
 			
 		}
 
