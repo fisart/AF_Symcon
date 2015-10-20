@@ -32,7 +32,7 @@
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			SetValue($this->GetIDForIdent("Sonos_Master_IP"), $Sonos_Master_IP); //Beschreibt die Variable
 			SO_create_sonos_reader_socket("");
-			SO_create_sonos_text_cutter(" ");
+			SO_create_sonos_text_parser(" ");
 			SO_build_sonos_static_data(" ");
 			
 		}
@@ -42,9 +42,31 @@
 
 		}
 
-		public function create_sonos_text_cutter()
+		public function create_sonos_text_parser()
 		{
-
+			$parser_name = "Sonos_Text_Parser" ;
+			$ALL_IDS = IPS_GetObjectList ( );
+			$InstanzID = 0;
+			foreach ($ALL_IDS as $key => $value) 
+			{
+				if(IPS_GetName($value) ==$parser_name)
+				{
+					$InstanzID = $value;
+				}
+			}
+			if ($InstanzID == 0)
+			{ 
+     				$id = IPS_CreateInstance ('{4B00C7F7-1A6D-4795-A2D2-08151854D259}');
+				$Rule = '{"Variable":12199,"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}';
+				IPS_ApplyChanges($id);
+				IPS_SetName ( $id,$parser_name);
+			}
+			else
+			{
+     				$id = $InstanzID;
+				$Rule = '{"Variable":12199,"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}';
+				IPS_ApplyChanges($id);
+			}
 		}
 
 		public function create_sonos_reader_socket()
