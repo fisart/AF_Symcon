@@ -1,7 +1,6 @@
 <?
 	class SonosAF extends IPSModule
 	{
-		$Var_ID1 = 12199;
 		public function Create()
 
 		{
@@ -30,7 +29,8 @@
 		public function Install_framework()
 		{
 		
-			
+			global $Var_ID1;
+			$Var_ID1 = 12199;
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			SetValue($this->GetIDForIdent("Sonos_Master_IP"), $Sonos_Master_IP); //Beschreibt die Variable
 			SO_create_sonos_reader_socket("");
