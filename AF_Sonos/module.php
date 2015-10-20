@@ -29,10 +29,12 @@
 		public function Install_framework()
 		{
 		
-			global $Var_ID1;
+			global $Var_ID1,$parent_id ;
 			$Var_ID1 = 12199;
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			SetValue($this->GetIDForIdent("Sonos_Master_IP"), $Sonos_Master_IP); //Beschreibt die Variable
+			$parent_id = IPS_GetObject($this->GetIDForIdent("Sonos_Master_IP"))['ParentID'];
+echo " ".$parent_id." ";
 			SO_create_sonos_reader_socket("");
 			SO_create_sonos_text_parser(" ");
 			SO_build_sonos_static_data(" ");
