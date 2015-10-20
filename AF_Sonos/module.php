@@ -37,9 +37,22 @@
 			SO_create_sonos_reader_socket("");
 			SO_create_sonos_text_parser(" ");
 			SO_create_sonos_content_variable("");
+			SO_define_sonos_text_parser(" ");
 			SO_build_sonos_static_data(" ");
 			
 		}
+
+		public function SO_define_sonos_text_parser()
+		{
+			global  $text_parser_id,$Var_ID1;
+			$Rule = '[{"Variable":'.$Var_ID1.',"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
+			IPS_SetProperty ( $text_parser_id,"Rules", $Rule);
+			IPS_ApplyChanges($text_parser_id);
+
+
+		}
+
+
  		public function create_sonos_content_variable()
 		{
 			global $Var_ID1,$parent_id, $ID_IP,$text_parser_id ;
@@ -60,7 +73,6 @@
 				IPS_SetParent ( $Var_ID1, $text_parser_id );
 			}
 
-
 		}
    
 		public function build_sonos_static_data()
@@ -71,7 +83,6 @@
 		public function create_sonos_text_parser()
 		{
 			global $Var_ID1, $text_parser_id,$parent_id;
-echo " V ".$Var_ID1." P ". $text_parser_id." PA ".$parent_id." ";
 			$parser_name = "Sonos_Text_Parser" ;
 			$ALL_IDS = IPS_GetObjectList ( );
 			$InstanzID = 0;
@@ -85,9 +96,6 @@ echo " V ".$Var_ID1." P ". $text_parser_id." PA ".$parent_id." ";
 			if ($InstanzID == 0)
 			{ 
      				$id = IPS_CreateInstance ('{4B00C7F7-1A6D-4795-A2D2-08151854D259}');
-				$Rule = '[{"Variable":'.$Var_ID1.',"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
-				IPS_SetProperty ( $id,"Rules", $Rule);
-				IPS_ApplyChanges($id);
 				IPS_SetName ( $id,$parser_name);
 				IPS_SetParent ( $id, $parent_id );
 
@@ -95,9 +103,6 @@ echo " V ".$Var_ID1." P ". $text_parser_id." PA ".$parent_id." ";
 			else
 			{
      				$id = $InstanzID;
-				$Rule = '[{"Variable":'.$Var_ID1.',"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
-				IPS_SetProperty ( $id,"Rules", $Rule);
-				IPS_ApplyChanges($id);
 			}
  			$text_parser_id = $id;
 
