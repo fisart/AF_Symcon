@@ -32,9 +32,21 @@
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			SetValue($this->GetIDForIdent("Sonos_Master_IP"), $Sonos_Master_IP); //Beschreibt die Variable
 			SO_create_sonos_reader_socket("");
+			SO_create_sonos_text_cutter(" ");
+			SO_build_sonos_static_data(" ");
 			
 		}
     
+		public function build_sonos_static_data()
+		{
+
+		}
+
+		public function create_sonos_text_cutter()
+		{
+
+		}
+
 		public function create_sonos_reader_socket()
 		{
 			$socket_name = "Sonos_Reader_Socket" ;
