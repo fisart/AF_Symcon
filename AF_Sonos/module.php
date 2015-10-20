@@ -72,7 +72,7 @@
 
 		public function create_sonos_text_parser()
 		{
-			global $Var_ID1, $text_parser_id;
+			global $Var_ID1, $text_parser_id,$parent_id;
 			$parser_name = "Sonos_Text_Parser" ;
 			$ALL_IDS = IPS_GetObjectList ( );
 			$InstanzID = 0;
