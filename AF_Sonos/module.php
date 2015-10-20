@@ -229,7 +229,7 @@
 	}
 
 
-function sonos_content()
+public function sonos_content()
 {
 	$Sonos_Data = read_sonos_data();
 
@@ -243,7 +243,7 @@ function sonos_content()
 	return $Sonos_Data;
 }
 
-function build_or_fix_sonos_controls(&$Data)
+public function build_or_fix_sonos_controls(&$Data)
 {
 		$cat_id = 16169 /*[Scripte\SONOS\Variables\SONOS_ACTION]*/;
 
@@ -275,7 +275,7 @@ function build_or_fix_sonos_controls(&$Data)
 
 
 
-function populate_variables($Sonos_Data)
+public function populate_variables($Sonos_Data)
 {
   $i = 0;
   
@@ -315,7 +315,7 @@ function populate_variables($Sonos_Data)
   }
 }
 
-function  populate_mute($Sonos_Data,$i)
+public function  populate_mute($Sonos_Data,$i)
 {
 	if($Sonos_Data[$i]['Mute'] == 1)
 	{
@@ -326,12 +326,12 @@ function  populate_mute($Sonos_Data,$i)
 		SetValueInteger($Sonos_Data[$i]['Mute_ID'],0);
 	}
 }
-function populate_volume($Sonos_Data,$i)
+public function populate_volume($Sonos_Data,$i)
 {
 		SetValueInteger($Sonos_Data[$i]['Volume_ID'],$Sonos_Data[$i]['Volume']);
 
 }
-function populate_master($Sonos_Data,$i)
+public function populate_master($Sonos_Data,$i)
 {
 	if($Sonos_Data[$i]['COORD'])
 	{
@@ -345,7 +345,7 @@ function populate_master($Sonos_Data,$i)
 
 
 
-function build_or_fix_profile($Data)
+public function build_or_fix_profile($Data)
 {
 	$key = 0;
 	foreach($Data as $i)
@@ -358,7 +358,7 @@ function build_or_fix_profile($Data)
 }
 
 
-function 	create_profile()
+public function 	create_profile()
 {
 	if(IPS_VariableProfileExists ( 'SONOS_MASTER' ))
 	{
@@ -372,7 +372,7 @@ function 	create_profile()
 }
 
 
-function build_or_fix_sonos_variables(&$Data)
+public function build_or_fix_sonos_variables(&$Data)
 {
 	$root_list = IPS_GetObject(34117 /*[Scripte\SONOS\Variables\Player Data]*/)['ChildrenIDs'];
 	foreach ($root_list as $cat_key => $cat_id)//Loop alle Kategorien
@@ -407,7 +407,7 @@ function build_or_fix_sonos_variables(&$Data)
 
 
 
-function delete_var($Name,$root)
+public function delete_var($Name,$root)
 {
 
 }
@@ -431,7 +431,7 @@ function create_var($Name,$Root,$Type,$Profile,$Action)
   
 }
 
-function create_link($Parent,$Name,$Root,$ID)
+public function create_link($Parent,$Name,$Root,$ID)
 {
   $LID = IPS_CreateLink ( );
   IPS_SetName ( $LID,$Name );
