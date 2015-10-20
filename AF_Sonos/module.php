@@ -44,9 +44,9 @@
 		}
  		public function create_sonos_content_variable()
 		{
-			global $Var_ID1,$parent_id, $ID_IP ;
+			global $Var_ID1,$parent_id, $ID_IP,$text_parser_id ;
 			$name_content_var = "Sonos_Content";
-			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
+			$ALL_IDS = IPS_GetChildrenIDs($text_parser_id);
 			$InstanzID = 0;
 			foreach ($ALL_IDS as $key => $value) 
 			{
@@ -59,7 +59,7 @@
 			{ 
 				$Var_ID1 = IPS_CreateVariable (3);
 				IPS_SetName ( $Var_ID1, $name_content_var );
-				IPS_SetParent ( $Var_ID1, $parent_id );
+				IPS_SetParent ( $Var_ID1, $text_parser_id );
 			}
 
 
