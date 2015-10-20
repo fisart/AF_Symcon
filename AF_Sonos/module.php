@@ -48,10 +48,10 @@
 		{
 			global $action_ID, $player_data_id;
 			$action_ID = IPS_CreateCategory();       // Kategorie anlegen
-			IPS_SetName($CatID, "Sonos_Action"); // Kategorie benennen
+			IPS_SetName($action_ID, "Sonos_Action"); // Kategorie benennen
 			IPS_SetParent($action_ID, $parent_id);
 			$player_data_id = IPS_CreateCategory();       // Kategorie anlegen
-			IPS_SetName($CatID, "Player_Data"); // Kategorie benennen
+			IPS_SetName(player_data_id "Player_Data"); // Kategorie benennen
 			IPS_SetParent($player_data_id, $parent_id);
 		}
 
