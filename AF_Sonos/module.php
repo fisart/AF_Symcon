@@ -57,7 +57,7 @@
 			if ($InstanzID == 0)
 			{ 
      				$id = IPS_CreateInstance ('{4B00C7F7-1A6D-4795-A2D2-08151854D259}');
-				$Rule = '[{"Variable":12199,"TagTwo":"","TagOne":"ZPSupportInfo","ParseType":4}]';
+				$Rule = '[{"Variable":12199,"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
 				IPS_SetProperty ( $id,"Rules", $Rule);
 				IPS_ApplyChanges($id);
 				IPS_SetName ( $id,$parser_name);
@@ -65,7 +65,7 @@
 			else
 			{
      				$id = $InstanzID;
-				$Rule = '[{"Variable":12199,"TagTwo":"","TagOne":"ZPSupportInfo","ParseType":4}]';
+				$Rule = '[{"Variable":12199,"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
 				IPS_SetProperty ( $id,"Rules", $Rule);
 				IPS_ApplyChanges($id);
 			}
