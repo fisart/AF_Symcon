@@ -231,7 +231,7 @@
 
 public function sonos_content()
 {
-	$Sonos_Data = read_sonos_data();
+	$Sonos_Data = SO_read_sonos_data();
 
 
 	SO_build_or_fix_sonos_variables($Sonos_Data);
