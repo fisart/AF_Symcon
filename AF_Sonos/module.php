@@ -90,6 +90,8 @@
 				IPS_SetProperty ( $id,"Rules", $Rule);
 				IPS_ApplyChanges($id);
 				IPS_SetName ( $id,$parser_name);
+				IPS_SetParent ( $id, $parent_id );
+
 			}
 			else
 			{
