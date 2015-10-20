@@ -42,7 +42,7 @@
 			
 		}
 
-		public function SO_define_sonos_text_parser()
+		public function define_sonos_text_parser()
 		{
 			global  $text_parser_id,$Var_ID1;
 			$Rule = '[{"Variable":'.$Var_ID1.',"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
