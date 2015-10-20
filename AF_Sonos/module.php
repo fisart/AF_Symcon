@@ -38,9 +38,21 @@
 			SO_create_sonos_text_parser(" ");
 			SO_create_sonos_content_variable("");
 			SO_define_sonos_text_parser(" ");
+			SO_define_categories(" ");
 			SO_sonos_content(" ");
 
 			
+		}
+
+		public function define_categories()
+		{
+			global $action_ID, $player_data_id;
+			$action_ID = IPS_CreateCategory();       // Kategorie anlegen
+			IPS_SetName($CatID, "Sonos_Action"); // Kategorie benennen
+			IPS_SetParent($action_ID, $parent_id);
+			$player_data_id = IPS_CreateCategory();       // Kategorie anlegen
+			IPS_SetName($CatID, "Player_Data"); // Kategorie benennen
+			IPS_SetParent($player_data_id, $parent_id);
 		}
 
 		public function define_sonos_text_parser()
@@ -154,7 +166,8 @@
 
 		public function read_sonos_data()
 		{
-			$Text = GetValueString(36164 /*[Scripte\SONOS\Static Data\Sonos\Sonos text cutter\Topology]*/);
+         		global $Var_ID1;
+			$Text = GetValueString($Var_ID1);
 			// $Text = strip_tags($Text);
 			$result = explode("<",$Text);
 			//echo $Text;
@@ -245,8 +258,10 @@ public function sonos_content()
 
 public function build_or_fix_sonos_controls(&$Data)
 {
-		$cat_id = 16169 /*[Scripte\SONOS\Variables\SONOS_ACTION]*/;
-
+		
+	global $action_ID;
+	
+	$cat_id = $action_ID;
    	$ii = 0;
    	$Var_Names[] = NULL;
    	$Var_ID[] = NULL;
@@ -376,7 +391,8 @@ public function 	create_profile()
 
 public function build_or_fix_sonos_variables(&$Data)
 {
-	$root_list = IPS_GetObject(34117 /*[Scripte\SONOS\Variables\Player Data]*/)['ChildrenIDs'];
+	global $player_data_id;
+	$root_list = IPS_GetObject($player_data_id)['ChildrenIDs'];
 	foreach ($root_list as $cat_key => $cat_id)//Loop alle Kategorien
 	{
    	
