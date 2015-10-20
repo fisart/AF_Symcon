@@ -1,7 +1,9 @@
 <?
 	class SonosAF extends IPSModule
 	{
+		$Var_ID1 = 12199;
 		public function Create()
+
 		{
 			//Never delete this line!
 			parent::Create();
@@ -44,6 +46,7 @@
 
 		public function create_sonos_text_parser()
 		{
+			global $Var_ID1;
 			$parser_name = "Sonos_Text_Parser" ;
 			$ALL_IDS = IPS_GetObjectList ( );
 			$InstanzID = 0;
@@ -57,7 +60,7 @@
 			if ($InstanzID == 0)
 			{ 
      				$id = IPS_CreateInstance ('{4B00C7F7-1A6D-4795-A2D2-08151854D259}');
-				$Rule = '[{"Variable":12199,"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
+				$Rule = '[{"Variable":'.$Var_ID1.',"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
 				IPS_SetProperty ( $id,"Rules", $Rule);
 				IPS_ApplyChanges($id);
 				IPS_SetName ( $id,$parser_name);
@@ -65,7 +68,7 @@
 			else
 			{
      				$id = $InstanzID;
-				$Rule = '[{"Variable":12199,"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
+				$Rule = '[{"Variable":'.$Var_ID1.',"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
 				IPS_SetProperty ( $id,"Rules", $Rule);
 				IPS_ApplyChanges($id);
 			}
@@ -93,7 +96,6 @@
 				return false;
 			}
 			$Sonos_Master_IP = GetValueString($ID_IP);
-echo " ID : ".$Sonos_Master_IP." END ";
 			if ($InstanzID == 0)
 			{ 
      				$id = IPS_CreateInstance ('{4CB91589-CE01-4700-906F-26320EFCF6C4}');
