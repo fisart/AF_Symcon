@@ -29,7 +29,7 @@
 		public function Install_framework()
 		{
 		
-			global $parent_id, $ID_IP,$player_data_id ;
+			global $parent_id, $ID_IP,$player_data_id,$Var_ID1 ;
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
 			SetValue($ID_IP, $Sonos_Master_IP); //Beschreibt die Variable
@@ -157,6 +157,7 @@
 				if(IPS_GetName($value) ==$name_content_var)
 				{
 					$InstanzID = $value;
+
 				}
 			}
 			if ($InstanzID == 0)
@@ -164,6 +165,10 @@
 				$Var_ID1 = IPS_CreateVariable (3);
 				IPS_SetName ( $Var_ID1, $name_content_var );
 				IPS_SetParent ( $Var_ID1, $text_parser_id );
+			}
+			else
+			{
+				$Var_ID1 = $InstanzID;
 			}
 
 		}
