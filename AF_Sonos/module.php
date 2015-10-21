@@ -248,7 +248,7 @@
 
 		public function read_sonos_data()
 		{
-         		global $Var_ID1,$Sonos_Data,$parent_id,$value.$List;
+         		global $Var_ID1,$Sonos_Data,$parent_id,$value,$List;
 			//echo $Var_ID1;
 			$Text = GetValueString($Var_ID1);
 			// $Text = strip_tags($Text);
