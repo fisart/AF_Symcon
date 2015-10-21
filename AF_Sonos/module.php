@@ -253,8 +253,8 @@
 			$Text = GetValueString($Var_ID1);
 			// $Text = strip_tags($Text);
 			$result = explode("<",$Text);
-			echo $Text;
-			//print_r( $result);
+			//echo $Text;
+			print_r( $result);
 			$i = 0;
 			$list[][] = NULL;
 
@@ -263,7 +263,7 @@
  				if(stripos($value,"RINCON") > 0)
  				{
 					$list[] = SO_get_sonos_details($value);
-					$sonos = new PHPSonos($list[$i]['IP']); //Sonos ZP IPAdresse
+					$sonos = new SNSSonos($list[$i]['IP']); //Sonos ZP IPAdresse
 					$list[$i]['Volume'] = $sonos->GetVolume();
 					$list[$i]['Mute'] = $sonos->GetMute();
 					$ZoneAttributes = $sonos->GetZoneAttributes();
