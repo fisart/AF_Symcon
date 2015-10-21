@@ -41,7 +41,7 @@
 			SO_define_categories(" ");
 //			$Sonos_Data = SO_read_sonos_data("");
 //			SO_build_or_fix_sonos_variables("","");
-		SO_ab();
+		SO_ab($parent_id);
 
 			
 		}
