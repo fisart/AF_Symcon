@@ -245,10 +245,10 @@ public function sonos_content()
 	global $Data;
 	$Sonos_Data = SO_read_sonos_data("");
 	$Data = $Sonos_Data;
-	SO_build_or_fix_sonos_variables("");
-	SO_build_or_fix_sonos_controls("");
+	SO_build_or_fix_sonos_variables("","");
+	SO_build_or_fix_sonos_controls("","");
 	SO_populate_variables($Sonos_Data);
-	SO_create_profile("");
+	SO_create_profile("","");
 	SO_build_or_fix_profile($Sonos_Data);
 
 	return $Sonos_Data;
