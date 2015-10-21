@@ -246,7 +246,7 @@ public function sonos_content()
 	$Sonos_Data = SO_read_sonos_data("");
 
 	$Data = $Sonos_Data;
-	SO_build_or_fix_sonos_variables($Sonos_Data);
+	SO_build_or_fix_sonos_variables("");
 	SO_build_or_fix_sonos_controls("");
 	SO_populate_variables($Sonos_Data);
 	SO_create_profile("");
@@ -388,9 +388,9 @@ public function 	create_profile()
 }
 
 
-public function build_or_fix_sonos_variables(&$Data)
+public function build_or_fix_sonos_variables()
 {
-	global $player_data_id;
+	global $player_data_id,$Data;
 	$root_list = IPS_GetObject($player_data_id)['ChildrenIDs'];
 	foreach ($root_list as $cat_key => $cat_id)//Loop alle Kategorien
 	{
