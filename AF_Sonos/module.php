@@ -242,11 +242,12 @@
 
 public function sonos_content()
 {
+	global $Data;
 	$Sonos_Data = SO_read_sonos_data("");
 
-
+	$Data = $Sonos_Data;
 	SO_build_or_fix_sonos_variables($Sonos_Data);
-	SO_build_or_fix_sonos_controls($Sonos_Data);
+	SO_build_or_fix_sonos_controls("");
 	SO_populate_variables($Sonos_Data);
 	SO_create_profile("");
 	SO_build_or_fix_profile($Sonos_Data);
@@ -254,10 +255,10 @@ public function sonos_content()
 	return $Sonos_Data;
 }
 
-public function build_or_fix_sonos_controls(&$Data)
+public function build_or_fix_sonos_controls()
 {
 		
-	global $action_ID;
+	global $action_ID,$Data;
 	
 	$cat_id = $action_ID;
    	$ii = 0;
