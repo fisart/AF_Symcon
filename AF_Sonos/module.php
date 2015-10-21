@@ -45,13 +45,49 @@
 
 		public function define_categories()
 		{
+			
 			global $parent_id,$action_ID, $player_data_id;
-			$action_ID = IPS_CreateCategory();       // Kategorie anlegen
-			IPS_SetName($action_ID, "Sonos_Action"); // Kategorie benennen
-			IPS_SetParent($action_ID, $parent_id);
-			$player_data_id = IPS_CreateCategory();       // Kategorie anlegen
-			IPS_SetName($player_data_id, "Player_Data"); // Kategorie benennen
-			IPS_SetParent($player_data_id, $parent_id);
+			$action = "Sonos_Action";
+			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
+			$InstanzID = 0;
+			foreach ($ALL_IDS as $key => $value) 
+			{
+				if(IPS_GetName($value) ==$action)
+				{
+					$InstanzID = $value;
+				}
+			}
+			if ($InstanzID == 0)
+			{
+				$action_ID = IPS_CreateCategory();       // Kategorie anlegen
+				IPS_SetName($action_ID, $action); // Kategorie benennen
+				IPS_SetParent($action_ID, $parent_id);
+			}
+			else
+			{
+				$action_ID = $InstanzID;
+			}
+			$player = "Player_Data";
+			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
+			$InstanzID = 0;
+			foreach ($ALL_IDS as $key => $value) 
+			{
+				if(IPS_GetName($value) == $player)
+				{
+					$InstanzID = $value;
+				}
+			}
+			if ($InstanzID == 0)
+			{
+				$player_data_id = IPS_CreateCategory();       // Kategorie anlegen
+				IPS_SetName($player_data_id, $player); // Kategorie benennen
+				IPS_SetParent($player_data_id, $parent_id);
+			}
+			else
+			{
+				$player_data_id = $InstanzID;
+			}
+
 		}
 
 		public function define_sonos_text_parser()
