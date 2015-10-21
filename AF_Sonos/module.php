@@ -94,7 +94,7 @@
 		{
 
 			global  $text_parser_id,$Var_ID1,$sonos_reader_id;
-			if(IPS_DisconnectInstance (  $text_parser_id ))
+			if(@IPS_DisconnectInstance (  $text_parser_id ))
 			{
 			}
 			else
