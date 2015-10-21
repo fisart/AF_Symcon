@@ -96,7 +96,7 @@
 			$Rule = '[{"Variable":'.$Var_ID1.',"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
 			IPS_SetProperty ( $text_parser_id,"Rules", $Rule);
 			IPS_ApplyChanges($text_parser_id);
-			if (IPS_HasInstanceParent( $text_parser_id)){}else{IPS_ConnectInstance ( $text_parser_id,$sonos_reader_id );}
+			if (IPS_GetInstanceParentID ($text_parser_id) == $sonos_reader_id){}else{IPS_ConnectInstance ( $text_parser_id,$sonos_reader_id );}
 
 		}
 
