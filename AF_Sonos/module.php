@@ -39,18 +39,11 @@
 			SO_create_sonos_content_variable($parent_id);
 			SO_define_sonos_text_parser($parent_id);
 			SO_define_categories($parent_id);
-//			$Sonos_Data = SO_read_sonos_data($parent_id);
+			$Sonos_Data = SO_read_sonos_data($parent_id);
+			print_r($Sonos_Data);
 //			SO_build_or_fix_sonos_variables($parent_id);
-		SO_ab($parent_id);
-
-			
-		}
 
 
-
-		public function ab()
-		{
-		} 
 
 		function build_or_fix_sonos_variables()
 		{
@@ -334,8 +327,8 @@
 
 public function sonos_content()
 {
-	global $Data;
-	$Sonos_Data = SO_read_sonos_data("");
+	global $Data,$Sonos_Data,$parent_id;
+	$Sonos_Data = SO_read_sonos_data($parent_id);
 	$Data = $Sonos_Data;
 	SO_build_or_fix_sonos_variables("","");
 	SO_build_or_fix_sonos_controls("","");
