@@ -249,6 +249,7 @@
 		public function read_sonos_data()
 		{
          		global $Var_ID1,$Sonos_Data;
+			echo $Var_ID1;
 			$Text = GetValueString($Var_ID1);
 			// $Text = strip_tags($Text);
 			$result = explode("<",$Text);
@@ -274,7 +275,7 @@
  				{
  				}
 			}
-			print_r ($list);
+//			print_r ($list);
 			$Sonos_Data = $list;
 		}
 
