@@ -42,6 +42,7 @@
 			$Sonos_Data = SO_read_sonos_data($parent_id);
 			print_r($Sonos_Data);
 //			SO_build_or_fix_sonos_variables($parent_id);
+		}
 
 
 
