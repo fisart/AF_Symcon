@@ -29,7 +29,7 @@
 		public function Install_framework()
 		{
 		
-			global $parent_id, $ID_IP ;
+			global $parent_id, $ID_IP,$player_data_id ;
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
 			SetValue($ID_IP, $Sonos_Master_IP); //Beschreibt die Variable
