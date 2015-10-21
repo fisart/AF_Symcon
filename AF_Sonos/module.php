@@ -248,7 +248,7 @@
 
 		public function read_sonos_data()
 		{
-         global $Var_ID1,$Sonos_Data,$parent_id,$value;
+         global $Var_ID1,$Sonos_Data,$parent_id,$value,$list;
 			//echo $Var_ID1;
 			$Text = GetValueString($Var_ID1);
 			// $Text = strip_tags($Text);
@@ -256,7 +256,6 @@
 			//echo $Text;
 			print_r( $result);
 			$i = 0;
-			$list[][] = NULL;
 
 			foreach ($result as$key => $value)
 			{
@@ -556,7 +555,7 @@ class PHPSonos {
 
 	public function __construct( $address ) {
 	   $this->address = $address;
-	   
+
 	}
 
 
@@ -725,7 +724,7 @@ $returnContent = $this->XMLsendPacket($content);
       		if($state) { $state = "On"; } else { $state = "Off"; }
       	}
 		}
-		
+
 $content='POST /DeviceProperties/Control HTTP/1.1
 CONNECTION: close
 HOST: '.$this->address.':1400
@@ -885,7 +884,7 @@ Content-Length: '. strlen($xml) .'
 
     $returnContent = $this->sendPacket($content);
 	}
-	
+
 	public function GetCrossfadeMode() // added br
 	{
 
@@ -921,7 +920,7 @@ $content=$header . 'Content-Length: '. strlen($xml) .'
 '. $xml;
 
 	$this->sendPacket($content);
-		
+
 
 	}
 
@@ -970,10 +969,10 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#Play"
 
 		$this->sendPacket($content);
 	}
-	
+
 	public function Next()
 	{
-	
+
 $content='POST /MediaRenderer/AVTransport/Control HTTP/1.1
 CONNECTION: close
 HOST: '.$this->address.':1400
@@ -985,10 +984,10 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#Next"
 
 		$this->sendPacket($content);
 	}
-	
+
 	public function Previous()
 	{
-	
+
 $content='POST /MediaRenderer/AVTransport/Control HTTP/1.1
 CONNECTION: close
 HOST: '.$this->address.':1400
@@ -1000,7 +999,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#Previous"
 
 		$this->sendPacket($content);
 	}
-	
+
 	public function Seek($arg1,$arg2="NONE")
 	{
 // Abwärtskompatibel zu Paresys Original sein
@@ -1025,10 +1024,10 @@ Content-Length: '. strlen($xml) .'
 
 
 	}
-	
+
 	public function Rewind()
 	{
-	
+
 $content='POST /MediaRenderer/AVTransport/Control HTTP/1.1
 CONNECTION: close
 HOST: '.$this->address.':1400
@@ -1040,7 +1039,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#Seek"
 
 		$this->sendPacket($content);
 	}
-	
+
 	public function SetVolume($volume)
 	{
 
@@ -1055,7 +1054,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:RenderingControl:1#SetVolume"
 
 		$this->sendPacket($content);
 	}
-	
+
 	public function GetVolume()
 	{
 
@@ -1070,7 +1069,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:RenderingControl:1#GetVolume"
 
 		return (int)$this->sendPacket($content);
 	}
-	
+
 	public function SetMute($mute)
 	{
 
@@ -1087,7 +1086,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:RenderingControl:1#SetMute"
 
 		$this->sendPacket($content);
 	}
-	
+
 	public function GetMute()
 	{
 
@@ -1102,7 +1101,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:RenderingControl:1#GetMute"
 
 		return (bool)$this->sendPacket($content);
 	}
-	
+
 	public function SetPlayMode($mode)
 	{
 
@@ -1117,7 +1116,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#SetPlayMode"
 
 		$this->sendPacket($content);
 	}
-	
+
 	public function GetTransportSettings()
 	{
 
@@ -1143,8 +1142,8 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#GetTransportSettings"
 			return Array (
 				"repeat" => true,
 				"shuffle" => false
-			);	
-		
+			);
+
 		} elseif (strstr($returnContent, "SHUFFLE_NOREPEAT") !== false) {
 			return Array (
 				"repeat" => false,
@@ -1180,7 +1179,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#GetTransportInfo"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:GetTransportInfo xmlns:u="urn:schemas-upnp-org:service:AVTransport:1"><InstanceID>0</InstanceID></u:GetTransportInfo></s:Body></s:Envelope>';
 
 		$returnContent = $this->sendPacket($content);
-		
+
 		if (strstr($returnContent, "PLAYING") !== false) {
 		   return 1;
 		} elseif (strstr($returnContent, "PAUSED_PLAYBACK") !== false) {
@@ -1188,9 +1187,9 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#GetTransportInfo"
 		} elseif (strstr($returnContent, "STOPPED") !== false) {
 		   return 3;
 		}
-		
+
 	}
-	
+
 		public function GetMediaInfo()
 	{
 
@@ -1206,7 +1205,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#GetMediaInfo"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:GetMediaInfo xmlns:u="urn:schemas-upnp-org:service:AVTransport:1"><InstanceID>0</InstanceID></u:GetMediaInfo></s:Body></s:Envelope>';
 
 		$returnContent = $this->XMLsendPacket($content);
-		
+
 /*		$returnContent = substr($returnContent, stripos($returnContent, '&lt;'));
 		$returnContent = substr($returnContent, 0, strrpos($returnContent, '&gt;') + 4);
 		$returnContent = str_replace(array("&lt;", "&gt;", "&quot;", "&amp;", "%3a", "%2f", "%25"), array("<", ">", "\"", "&", ":", "/", "%"), $returnContent);
@@ -1234,9 +1233,9 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#GetMediaInfo"
 			$mediaInfo["CurrentURIMetaData"] = "";
 		}
 		return $mediaInfo;
-		
+
 	}
-	
+
 	public function GetPositionInfo()
 	{
 
@@ -1250,25 +1249,25 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#GetPositionInfo"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:GetPositionInfo xmlns:u="urn:schemas-upnp-org:service:AVTransport:1"><InstanceID>0</InstanceID></u:GetPositionInfo></s:Body></s:Envelope>';
 
 		$returnContent = $this->sendPacket($content);
-	
+
 		$position = substr($returnContent, stripos($returnContent, "NOT_IMPLEMENTED") - 7, 7);
 
 		$returnContent = substr($returnContent, stripos($returnContent, '&lt;'));
 		$returnContent = substr($returnContent, 0, strrpos($returnContent, '&gt;') + 4);
 		$returnContent = str_replace(array("&lt;", "&gt;", "&quot;", "&amp;", "%3a", "%2f", "%25"), array("<", ">", "\"", "&", ":", "/", "%"), $returnContent);
-		
-		
+
+
 		$xmlParser = xml_parser_create("UTF-8");
 		xml_parser_set_option($xmlParser, XML_OPTION_TARGET_ENCODING, "UTF-8");
 		xml_parse_into_struct($xmlParser, $returnContent, $vals, $index);
 		xml_parser_free($xmlParser);
-	
+
 		$positionInfo = Array ();
-		
+
 		$positionInfo["position"] = $position;
 		$positionInfo["RelTime"] = $position;
-		
-	
+
+
 		if (isset($index["RES"]) and isset($vals[$index["RES"][0]]["attributes"]["DURATION"])) {
 			$positionInfo["duration"] = $vals[$index["RES"][0]]["attributes"]["DURATION"];
 				$positionInfo["TrackDuration"] = $vals[$index["RES"][0]]["attributes"]["DURATION"];
@@ -1277,7 +1276,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#GetPositionInfo"
 				$positionInfo["TrackDuration"] = "";
 		}
 
-		
+
 		if (isset($index["RES"]) and isset($vals[$index["RES"][0]]["value"])) {
 			$positionInfo["URI"] = $vals[$index["RES"][0]]["value"];
 			$positionInfo["TrackURI"] = $vals[$index["RES"][0]]["value"];
@@ -1285,43 +1284,43 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#GetPositionInfo"
 			$positionInfo["URI"] = "";
 			$positionInfo["TrackURI"] = "";
 		}
-		
+
 		if (isset($index["DC:CREATOR"]) and isset($vals[$index["DC:CREATOR"][0]]["value"])) {
 			$positionInfo["artist"] = $vals[$index["DC:CREATOR"][0]]["value"];
 		} else {
 			$positionInfo["artist"] = "";
 		}
-		
+
 		if (isset($index["DC:TITLE"]) and isset($vals[$index["DC:TITLE"][0]]["value"])) {
 			$positionInfo["title"] = $vals[$index["DC:TITLE"][0]]["value"];
 		} else {
 			$positionInfo["title"] = "";
 		}
-		
+
 		if (isset($index["UPNP:ALBUM"]) and isset($vals[$index["UPNP:ALBUM"][0]]["value"])) {
 			$positionInfo["album"] = $vals[$index["UPNP:ALBUM"][0]]["value"];
 		} else {
 			$positionInfo["album"] = "";
 		}
-		
+
 		if (isset($index["UPNP:ALBUMARTURI"]) and isset($vals[$index["UPNP:ALBUMARTURI"][0]]["value"])) {
 			$positionInfo["albumArtURI"] = "http://" . $this->address . ":1400" . $vals[$index["UPNP:ALBUMARTURI"][0]]["value"];
 		} else {
 			$positionInfo["albumArtURI"] = "";
 		}
-		
+
 		if (isset($index["R:ALBUMARTIST"]) and isset($vals[$index["R:ALBUMARTIST"][0]]["value"])) {
 			$positionInfo["albumArtist"] = $vals[$index["R:ALBUMARTIST"][0]]["value"];
 		} else {
 			$positionInfo["albumArtist"] = "";
 		}
-		
+
 		if (isset($index["UPNP:ORIGINALTRACKNUMBER"]) and isset($vals[$index["UPNP:ORIGINALTRACKNUMBER"][0]]["value"])) {
 			$positionInfo["albumTrackNumber"] = $vals[$index["UPNP:ORIGINALTRACKNUMBER"][0]]["value"];
 		} else {
 			$positionInfo["albumTrackNumber"] = "";
 		}
-		
+
 		if (isset($index["R:STREAMCONTENT"]) and isset($vals[$index["R:STREAMCONTENT"][0]]["value"])) {
 			$positionInfo["streamContent"] = $vals[$index["R:STREAMCONTENT"][0]]["value"];
 		} else {
@@ -1350,7 +1349,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#GetPositionInfo"
 			} else {
 				$positionInfo["trackURI"] = "";
 			}
-		
+
 			// Track Number in Playlist
 			if (isset($index["TRACK"][0]) and isset($vals[($index["TRACK"][0])]["value"])) {
 			$positionInfo["Track"] = $vals[($index["TRACK"][0])]["value"];;
@@ -1358,12 +1357,12 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#GetPositionInfo"
 			} else {
 				$positionInfo["Track"] = "";
 			}
-			
 
-		
+
+
 		return $positionInfo;
 	}
-	
+
 	public function SetRadio($radio,$Name="IP-Symcon Radio")
 	{
 	$Metadata="&lt;DIDL-Lite xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; xmlns:upnp=&quot;urn:schemas-upnp-org:metadata-1-0/upnp/&quot; xmlns:r=&quot;urn:schemas-rinconnetworks-com:metadata-1-0/&quot; xmlns=&quot;urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/&quot;&gt;&lt;item id=&quot;R:0/0/0&quot; parentID=&quot;R:0/0&quot; restricted=&quot;true&quot;&gt;&lt;dc:title&gt;".$Name."&lt;/dc:title&gt;&lt;upnp:class&gt;object.item.audioItem.audioBroadcast&lt;/upnp:class&gt;&lt;desc id=&quot;cdudn&quot; nameSpace=&quot;urn:schemas-rinconnetworks-com:metadata-1-0/&quot;&gt;SA_RINCON65031_&lt;/desc&gt;&lt;/item&gt;&lt;/DIDL-Lite&gt;";
@@ -1386,7 +1385,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#SetAVTransportURI"
 
 		$this->sendPacket($content);
 	}
-	
+
 	public function SetQueue($queue,$MetaData="")
 	{
  	$this->SetAVTransportURI($queue,$MetaData);
@@ -1410,7 +1409,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#RemoveAllTracksFromQueue
 
 	public function AddToQueue($file)
 	{
-	
+
 $content='POST /MediaRenderer/AVTransport/Control HTTP/1.1
 CONNECTION: close
 HOST: '.$this->address.':1400
@@ -1422,7 +1421,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#AddURIToQueue"
 
 		$this->sendPacket($content);
 	}
-	
+
 	public function RemoveFromQueue($track)
 	{
 
@@ -1437,10 +1436,10 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#RemoveTrackFromQueue"
 
 		$this->sendPacket($content);
 	}
-	
+
 	public function SetTrack($track)
 	{
-	
+
 $content='POST /MediaRenderer/AVTransport/Control HTTP/1.1
 CONNECTION: close
 HOST: '.$this->address.':1400
@@ -1590,7 +1589,7 @@ Content-Length: '. strlen($xml) .'
             $title = $xml->container[$i];
             $title = $title->xpath('dc:title');
 				// br substring use cuts my playlist names at the 4th char
-			
+
 				$liste[$i]['title'] = (string)$title[0];
 					$liste[$i]['title']=preg_replace("/^(.+)\.m3u$/i","\\1",$liste[$i]['title']);
             $liste[$i]['typ'] = "Import";
@@ -1684,7 +1683,7 @@ Quelle: http://www.ip-symcon.de/forum/f53/php-sonos-klasse-ansteuern-einzelner-p
 		$fp = fsockopen($this->address, 1400 /* Port */, $errno, $errstr, 10);
 		if (!$fp)
 		    throw new Exception("Error opening socket: ".$errstr." (".$errno.")");
-		    
+
 		fputs ($fp, $content);
 		$ret = "";
 		$buffer = "";
@@ -1700,7 +1699,7 @@ Quelle: http://www.ip-symcon.de/forum/f53/php-sonos-klasse-ansteuern-einzelner-p
 		if(strpos($ret, "200 OK") === false)
 			throw new Exception("Error sending command: ".$ret);
 		$array = preg_split("/\n/", $ret);
-		
+
 		return $array[count($array) - 1];
 	}
 
@@ -1724,7 +1723,7 @@ Quelle: http://www.ip-symcon.de/forum/f53/php-sonos-klasse-ansteuern-einzelner-p
 
 		// echo "sendPacketDebug: "; //DEBUG
 		// print_r($ret);
-		
+
 		$array = preg_split("/\n/", $ret);
 
 		return $array[count($array) - 1];
