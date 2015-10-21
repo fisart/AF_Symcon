@@ -34,13 +34,13 @@
 			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
 			SetValue($ID_IP, $Sonos_Master_IP); //Beschreibt die Variable
 			$parent_id = IPS_GetObject($ID_IP)['ParentID'];
-			SO_create_sonos_reader_socket("");
-			SO_create_sonos_text_parser(" ");
-			SO_create_sonos_content_variable("");
-			SO_define_sonos_text_parser(" ");
-			SO_define_categories(" ");
-//			$Sonos_Data = SO_read_sonos_data("");
-//			SO_build_or_fix_sonos_variables("","");
+			SO_create_sonos_reader_socket($parent_id);
+			SO_create_sonos_text_parser($parent_id);
+			SO_create_sonos_content_variable($parent_id);
+			SO_define_sonos_text_parser($parent_id);
+			SO_define_categories($parent_id);
+//			$Sonos_Data = SO_read_sonos_data($parent_id);
+//			SO_build_or_fix_sonos_variables($parent_id);
 		SO_ab($parent_id);
 
 			
