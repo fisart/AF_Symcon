@@ -6,19 +6,19 @@
 		{
 			//Never delete this line!
 			parent::Create();
-			
+
 			$this->RegisterPropertyString("Sonos_Master_IP", "192.168.0.63");//Erzeugt die Eigenschaft
-			
-		}		
-	
+
+		}
+
 		public function ApplyChanges()
 		{
 			//Never delete this line!
 			parent::ApplyChanges();
-			
+
 			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos Master IP", ""); // Erzeugt die Variable
 		}
-	
+
 		/**
 		* This function will be available automatically after the module is imported with the module control.
 		* Using the custom prefix this function will be callable from PHP and JSON-RPC through:
@@ -28,7 +28,7 @@
 		*/
 		public function Install_framework()
 		{
-		
+
 			global $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data ;
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
@@ -52,7 +52,7 @@
 			$root_list = IPS_GetObject($player_data_id)['ChildrenIDs'];
 			foreach ($root_list as $cat_key => $cat_id)//Loop alle Kategorien
 			{
-   	
+
    				$ii = 0;
    				$Var_Names[] = NULL;
    				$Var_ID[] = NULL;
@@ -76,7 +76,7 @@
 					}
 					$i++;
 				}
-			}		
+			}
 		}
 
 
@@ -84,12 +84,12 @@
 
 		public function define_categories()
 		{
-			
+
 			global $parent_id,$action_ID, $player_data_id;
 			$action = "Sonos_Action";
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
 			$InstanzID = 0;
-			foreach ($ALL_IDS as $key => $value) 
+			foreach ($ALL_IDS as $key => $value)
 			{
 				if(IPS_GetName($value) ==$action)
 				{
@@ -109,7 +109,7 @@
 			$player = "Player_Data";
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
 			$InstanzID = 0;
-			foreach ($ALL_IDS as $key => $value) 
+			foreach ($ALL_IDS as $key => $value)
 			{
 				if(IPS_GetName($value) == $player)
 				{
@@ -153,7 +153,7 @@
 			$name_content_var = "Sonos_Content";
 			$ALL_IDS = IPS_GetChildrenIDs($text_parser_id);
 			$InstanzID = 0;
-			foreach ($ALL_IDS as $key => $value) 
+			foreach ($ALL_IDS as $key => $value)
 			{
 				if(IPS_GetName($value) ==$name_content_var)
 				{
@@ -162,7 +162,7 @@
 				}
 			}
 			if ($InstanzID == 0)
-			{ 
+			{
 				$Var_ID1 = IPS_CreateVariable (3);
 				IPS_SetName ( $Var_ID1, $name_content_var );
 				IPS_SetParent ( $Var_ID1, $text_parser_id );
@@ -173,7 +173,7 @@
 			}
 
 		}
-   
+
 
 		public function create_sonos_text_parser()
 		{
@@ -181,7 +181,7 @@
 			$parser_name = "Sonos_Text_Parser" ;
 			$ALL_IDS = IPS_GetObjectList ( );
 			$InstanzID = 0;
-			foreach ($ALL_IDS as $key => $value) 
+			foreach ($ALL_IDS as $key => $value)
 			{
 				if(IPS_GetName($value) ==$parser_name)
 				{
@@ -189,7 +189,7 @@
 				}
 			}
 			if ($InstanzID == 0)
-			{ 
+			{
      				$id = IPS_CreateInstance ('{4B00C7F7-1A6D-4795-A2D2-08151854D259}');
 				IPS_SetName ( $id,$parser_name);
 				IPS_SetParent ( $id, $parent_id );
@@ -210,7 +210,7 @@
 			$Sonos_Master_IP = GetValueString($ID_IP);
 			$ALL_IDS = IPS_GetObjectList ( );
 			$InstanzID = 0;
-			foreach ($ALL_IDS as $key => $value) 
+			foreach ($ALL_IDS as $key => $value)
 			{
 				if(IPS_GetName($value) ==$socket_name)
 				{
@@ -218,7 +218,7 @@
 				}
 			}
 			if ($InstanzID == 0)
-			{ 
+			{
      				$id = IPS_CreateInstance ('{4CB91589-CE01-4700-906F-26320EFCF6C4}');
      				$URL = "http://".$Sonos_Master_IP.":1400/status/topology";
     				IPS_SetProperty($id, "URL", $URL);
@@ -248,7 +248,7 @@
 
 		public function read_sonos_data()
 		{
-         		global $Var_ID1,$Sonos_Data;
+         		global $Var_ID1,$Sonos_Data,$parent_id,$value;
 			//echo $Var_ID1;
 			$Text = GetValueString($Var_ID1);
 			// $Text = strip_tags($Text);
@@ -262,8 +262,8 @@
 			{
  				if(stripos($value,"RINCON") > 0)
  				{
-					$list[] = SO_get_sonos_details($value);
-					$sonos = new SNSSonos($list[$i]['IP']); //Sonos ZP IPAdresse
+					$list[] = SO_get_sonos_details($parent_id);
+					$sonos = new PHPSonos($list[$i]['IP']); //Sonos ZP IPAdresse
 					$list[$i]['Volume'] = $sonos->GetVolume();
 					$list[$i]['Mute'] = $sonos->GetMute();
 					$ZoneAttributes = $sonos->GetZoneAttributes();
@@ -282,9 +282,10 @@
 
 
 
- 
- 		public function get_sonos_details($value)
+
+ 		public function get_sonos_details()
  		{
+			global $value;
 			$List['Master_RINCON'] = substr($value,stripos($value,"RINCON"),24);
 			$tmp = substr($value,stripos($value,"http://"),24);
 			$start = stripos($tmp,"/") + 2;
@@ -324,8 +325,8 @@
 			return $List;
 		 }
 
- 
-	
+
+
 
 
 public function sonos_content()
@@ -344,9 +345,9 @@ public function sonos_content()
 
 public function build_or_fix_sonos_controls()
 {
-		
+
 	global $action_ID,$Data;
-	
+
 	$cat_id = $action_ID;
    	$ii = 0;
    	$Var_Names[] = NULL;
@@ -380,7 +381,7 @@ public function populate_variables()
 {
   global $Sonos_Data;
   $i = 0;
-  
+
   foreach($Sonos_Data as $z)
   {
 			$group_number[$i] = $Sonos_Data[$i]['GroupNr'];
@@ -389,7 +390,7 @@ public function populate_variables()
   			SO_populate_mute($Sonos_Data,$i);
   			SO_populate_volume($Sonos_Data,$i);
   			SO_populate_master($Sonos_Data,$i);
-  			
+
 			$i++;
   }
   foreach($Master_Rincon as $key => $value)
@@ -493,9 +494,9 @@ public function create_var($Name,$Root,$Type,$Profile,$Action)
   		if ($Action) {IPS_SetVariableCustomAction ( $ID, 38913 /*[Scripte\SONOS\Variables\Variable Ändern]*/ );}
   		IPS_SetVariableCustomProfile ( $ID, $Profile);
   }
-  
+
   return $ID;
-  
+
 }
 
 public function create_link($Parent,$Name,$Root,$ID)
