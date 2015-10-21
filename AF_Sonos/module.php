@@ -248,7 +248,7 @@
 
 		public function read_sonos_data()
 		{
-         		global $Var_ID1,$Sonos_Data,$parent_id,$value,$List;
+         global $Var_ID1,$Sonos_Data,$parent_id,$value;
 			//echo $Var_ID1;
 			$Text = GetValueString($Var_ID1);
 			// $Text = strip_tags($Text);
@@ -262,7 +262,7 @@
 			{
  				if(stripos($value,"RINCON") > 0)
  				{
-					SO_get_sonos_details($parent_id);
+					SO_get_sonos_details($parent_id,$value);
 					$sonos = new PHPSonos($list[$i]['IP']); //Sonos ZP IPAdresse
 					$list[$i]['Volume'] = $sonos->GetVolume();
 					$list[$i]['Mute'] = $sonos->GetMute();
@@ -283,9 +283,9 @@
 
 
 
- 		public function get_sonos_details()
+ 		public function get_sonos_details($value)
  		{
-			global $value,$List;
+			global $List;
 			$List['Master_RINCON'] = substr($value,stripos($value,"RINCON"),24);
 			$tmp = substr($value,stripos($value,"http://"),24);
 			$start = stripos($tmp,"/") + 2;
