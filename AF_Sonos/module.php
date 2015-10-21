@@ -88,10 +88,6 @@
 
 		}
    
-		public function build_sonos_static_data()
-		{
-
-		}
 
 		public function create_sonos_text_parser()
 		{
@@ -244,13 +240,13 @@
 
 public function sonos_content()
 {
-	$Sonos_Data = SO_read_sonos_data();
+	$Sonos_Data = SO_read_sonos_data("");
 
 
 	SO_build_or_fix_sonos_variables($Sonos_Data);
 	SO_build_or_fix_sonos_controls($Sonos_Data);
 	SO_populate_variables($Sonos_Data);
-	SO_create_profile();
+	SO_create_profile("");
 	SO_build_or_fix_profile($Sonos_Data);
 
 	return $Sonos_Data;
@@ -424,11 +420,6 @@ public function build_or_fix_sonos_variables(&$Data)
 
 
 
-
-public function delete_var($Name,$root)
-{
-
-}
 
 public function create_var($Name,$Root,$Type,$Profile,$Action)
 {
