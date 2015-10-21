@@ -169,6 +169,8 @@
 			//echo $Text;
 			//print_r( $result);
 			$i = 0;
+			$list[][] = NULL;
+
 			foreach ($result as$key => $value)
 			{
  				if(stripos($value,"RINCON") > 0)
