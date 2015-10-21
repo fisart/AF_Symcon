@@ -39,7 +39,6 @@
 			SO_create_sonos_content_variable("");
 			SO_define_sonos_text_parser(" ");
 			SO_define_categories(" ");
-			SO_sonos_content(" ");
 
 			
 		}
