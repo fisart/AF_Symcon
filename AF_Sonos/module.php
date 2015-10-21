@@ -468,39 +468,6 @@ public function 	create_profile()
 }
 
 
-public function build_or_fix_sonos_variables()
-{
-	global $player_data_id,$Data;
-	$root_list = IPS_GetObject($player_data_id)['ChildrenIDs'];
-	foreach ($root_list as $cat_key => $cat_id)//Loop alle Kategorien
-	{
-   	
-   	$ii = 0;
-   	$Var_Names[] = NULL;
-   	$Var_ID[] = NULL;
-		foreach( IPS_GetObject ($cat_id)['ChildrenIDs']as $index => $ID) // Loop all Variablen unterhalb der Kategorie und erstellt array mit Namen+ID
-		{
-			$Var_Names[$ii] = IPS_GetObject($ID)['ObjectName'];
-			$Var_ID[$ii] = $ID;
-			$ii++;
-		}
-		$i = 0;
-		foreach($Data as $z) // Looped durch SONOS Array
-		{
-			if(in_array ($Data[$i]['Name'],$Var_Names )) //Name bereits vorhanden
-			{
-			 	$Data[$i][IPS_GetObject($cat_id)['ObjectName']."_ID"] = $Var_ID[array_search($Data[$i]['Name'], $Var_Names)];
-			}
-			else
-			{
-				$Data[$i][IPS_GetObject ($cat_id)['ObjectName']."_ID"] = create_var($Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],false);
-
-			}
-			$i++;
-		}
-	}
-}
-
 
 
 
