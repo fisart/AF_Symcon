@@ -39,7 +39,7 @@
 			SO_create_sonos_content_variable($parent_id);
 			SO_define_sonos_text_parser($parent_id);
 			SO_define_categories($parent_id);
-			$Sonos_Data = SO_read_sonos_data($parent_id);
+			SO_read_sonos_data($parent_id);
 			print_r($Sonos_Data);
 //			SO_build_or_fix_sonos_variables($parent_id);
 		}
@@ -248,7 +248,7 @@
 
 		public function read_sonos_data()
 		{
-         		global $Var_ID1;
+         		global $Var_ID1,$Sonos_Data;
 			$Text = GetValueString($Var_ID1);
 			// $Text = strip_tags($Text);
 			$result = explode("<",$Text);
@@ -274,7 +274,7 @@
  				{
  				}
 			}
-			return $list;
+			$Sonos_Data = $list;
 		}
 
 
