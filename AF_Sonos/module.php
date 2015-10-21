@@ -249,11 +249,11 @@
 		public function read_sonos_data()
 		{
          		global $Var_ID1,$Sonos_Data;
-			echo $Var_ID1;
+			//echo $Var_ID1;
 			$Text = GetValueString($Var_ID1);
 			// $Text = strip_tags($Text);
 			$result = explode("<",$Text);
-			//echo $Text;
+			echo $Text;
 			//print_r( $result);
 			$i = 0;
 			$list[][] = NULL;
