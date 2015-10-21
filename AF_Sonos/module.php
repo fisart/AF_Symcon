@@ -40,12 +40,12 @@
 			SO_define_sonos_text_parser(" ");
 			SO_define_categories(" ");
 			$Sonos_Data = SO_read_sonos_data("");
-			SO_build_or_fix_sonos_variables($player_data_id,$Sonos_Data);
+			SO_build_or_fix_sonos_variables("","");
 
 			
 		}
 
-		function build_or_fix_sonos_variables($player_data_id,$Sonos_Data)
+		function build_or_fix_sonos_variables()
 		{
 			global $player_data_id,$Sonos_Data;
 			$root_list = IPS_GetObject($player_data_id)['ChildrenIDs'];
