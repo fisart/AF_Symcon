@@ -39,7 +39,7 @@
 			SO_create_sonos_content_variable("");
 			SO_define_sonos_text_parser(" ");
 			SO_define_categories(" ");
-			$Sonos_Data = SO_read_sonos_data("");
+//			$Sonos_Data = SO_read_sonos_data("");
 //			SO_build_or_fix_sonos_variables("","");
 
 			
