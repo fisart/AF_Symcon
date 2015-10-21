@@ -274,7 +274,7 @@
  				{
  				}
 			}
-			print_r ($list)
+			print_r ($list);
 			$Sonos_Data = $list;
 		}
 
