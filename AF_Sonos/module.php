@@ -40,7 +40,7 @@
 			SO_define_sonos_text_parser($parent_id);
 			SO_define_categories($parent_id);
 			SO_read_sonos_data($parent_id);
-			print_r($Sonos_Data);
+//			print_r($Sonos_Data);
 //			SO_build_or_fix_sonos_variables($parent_id);
 		}
 
@@ -274,6 +274,7 @@
  				{
  				}
 			}
+			print_r ($list)
 			$Sonos_Data = $list;
 		}
 
