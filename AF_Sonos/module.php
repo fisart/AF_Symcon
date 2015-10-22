@@ -530,8 +530,8 @@ public function 	create_profile()
 
 public function create_var($Name,$Root,$Type,$Profile,$Action)
 {
-	global $script_id;
-  $ID = IPS_GetVariableIDByName ( $Name, $Root );
+  global $script_id;
+  $ID = @IPS_GetVariableIDByName ( $Name, $Root );
   if ($ID)
   {
   }
