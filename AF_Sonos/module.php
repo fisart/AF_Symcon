@@ -29,7 +29,7 @@
 		public function Install_framework()
 		{
 
-			global $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data ;
+			global $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list ;
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
 			SetValue($ID_IP, $Sonos_Master_IP); //Beschreibt die Variable
@@ -284,40 +284,40 @@
 
  		public function get_sonos_details($value)
  		{
-			global $List;
-			$List['Master_RINCON'] = substr($value,stripos($value,"RINCON"),24);
+			global $list;
+			$list['Master_RINCON'] = substr($value,stripos($value,"RINCON"),24);
 			$tmp = substr($value,stripos($value,"http://"),24);
 			$start = stripos($tmp,"/") + 2;
 			$stop = stripos ($tmp,":1400")- 7;
-			$List["IP"] = substr($tmp,$start,$stop);
+			$list["IP"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"coordinator"),19);
 			$start = stripos($tmp,"'=")+12;
 			$stop = stripos ($tmp," ");
-			$List["COORD"] = substr($tmp,$start,$stop);
+			$list["COORD"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"bootseq="),20);
 			$start = stripos($tmp,"='")+2;
 			$stop = stripos ($tmp,"uuid")-11;
-			$List["bootseq"] = substr($tmp,$start,$stop);
+			$list["bootseq"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"1400:"),8);
 			$start = stripos($tmp,":")+1;
 			$stop = stripos ($tmp,"'")-5;
-			$List["GroupNr"] = substr($tmp,$start,$stop);
+			$list["GroupNr"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"uuid='"),30);
 			$start = stripos($tmp,"='")+2;
 			$stop = $start + 18;
-			$List["Player_RINCON"] = substr($tmp,$start,$stop);
+			$list["Player_RINCON"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"wirelessmode"),24);
 			$start = stripos($tmp,"='")+2;
 			$stop = stripos ($tmp,"channel")-16;
-			$List["Wireless_Mode"] = substr($tmp,$start,$stop);
+			$list["Wireless_Mode"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"channelfreq"),29);
 			$start = stripos($tmp,"='")+2;
 			$stop = stripos ($tmp,"behindwifi")-15;
-			$List["Channel_Freq"] = substr($tmp,$start,$stop);
+			$list["Channel_Freq"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"behindwifiext"),29);
 			$start = stripos($tmp,"='")+2;
 			$stop = stripos ($tmp,"location")-17;
-			$List["Behind_Wifi_Ext"] = substr($tmp,$start,$stop);
+			$list["Behind_Wifi_Ext"] = substr($tmp,$start,$stop);
 		 }
 
 
