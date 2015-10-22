@@ -513,13 +513,13 @@ public function build_or_fix_profile()
 
 public function 	create_profile()
 {
-	if(IPS_VariableProfileExists ( 'SONOS_MASTER' ))
+	if(IPS_VariableProfileExists ( 'Sonos_Master' ))
 	{
-//      IPS_DeleteVariableProfile ( 'SONOS_MASTER' );
+//      IPS_DeleteVariableProfile ( 'Sonos_Master' );
 	}
 	else
 	{
-		IPS_CreateVariableProfile ( 'SONOS_MASTER', 1 );
+		IPS_CreateVariableProfile ( 'Sonos_Master', 1 );
 	}
 
 }
