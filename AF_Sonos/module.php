@@ -255,14 +255,14 @@
 			$result = explode("<",$Text);
 			//echo $Text;
 			print_r( $result);
-			$i = 0;
+			$i = 1;
 
 			foreach ($result as$key => $value)
 			{
  				if(stripos($value,"RINCON") > 0)
  				{
 					SO_get_sonos_details($parent_id,$value);
-					echo " IP : ".$list[$i]['IP']." ";
+					echo " i ".$i." IP : ".$list[$i]['IP']." ";
 					$sonos = new PHPSonos($list[$i]['IP']); //Sonos ZP IPAdresse
 					$list[$i]['Volume'] = $sonos->GetVolume();
 					$list[$i]['Mute'] = $sonos->GetMute();
