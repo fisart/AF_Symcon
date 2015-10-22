@@ -262,6 +262,7 @@
  				if(stripos($value,"RINCON") > 0)
  				{
 					SO_get_sonos_details($parent_id,$value);
+					echo " IP : ".$list[$i]['IP']." ";
 					$sonos = new PHPSonos($list[$i]['IP']); //Sonos ZP IPAdresse
 					$list[$i]['Volume'] = $sonos->GetVolume();
 					$list[$i]['Mute'] = $sonos->GetMute();
@@ -486,7 +487,7 @@ public function create_var($Name,$Root,$Type,$Profile,$Action)
   		$ID = IPS_CreateVariable ( $Type );
   		IPS_SetName ( $ID,$Name );
   		IPS_SetParent ( $ID, $Root );
-  		if ($Action) {IPS_SetVariableCustomAction ( $ID, 38913 /*[Scripte\SONOS\Variables\Variable Ändern]*/ );}
+  		if ($Action) {IPS_SetVariableCustomAction ( $ID, 38913 /*[Object #38913 does not exist]*/ );}
   		IPS_SetVariableCustomProfile ( $ID, $Profile);
   }
 
