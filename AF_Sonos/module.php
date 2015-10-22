@@ -261,7 +261,7 @@
 	{
  		if(stripos($value,"RINCON") > 0)
  		{
-			$list[$i] = get_sonos_details($parent_id,$value);
+			$list[$i] = SO_get_sonos_details($parent_id,$value);
 			$sonos = new PHPSonos($list[$i]['IP']); //Sonos ZP IPAdresse
 			$list[$i]['Volume'] = $sonos->GetVolume();
 			$list[$i]['Mute'] = $sonos->GetMute();
