@@ -133,7 +133,7 @@
 				IPS_SetName($player_data_id, $player); // Kategorie benennen
 				IPS_SetParent($player_data_id, $parent_id);
 				$Mute_id = IPS_CreateCategory();       // Kategorie anlegen
-				IPS_SetName($player_data_id, "Mute"); // Kategorie benennen
+				IPS_SetName($Mute_id, "Mute"); // Kategorie benennen
 				IPS_SetParent($Mute_id, $player_data_id);
 				$Volume_id = IPS_CreateCategory();       // Kategorie anlegen
 				IPS_SetName($Volume_id, "Volume"); // Kategorie benennen
@@ -170,7 +170,7 @@
 				if ($Mute_id == 0)
 				{
 					$Mute_id = IPS_CreateCategory();       // Kategorie anlegen
-					IPS_SetName($player_data_id, "Mute"); // Kategorie benennen
+					IPS_SetName($Mute_id, "Mute"); // Kategorie benennen
 					IPS_SetParent($Mute_id, $player_data_id);
 				}
 				if ($Volume_id == 0)
