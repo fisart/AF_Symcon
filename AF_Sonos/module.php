@@ -248,37 +248,33 @@
 
 		public function read_sonos_data()
 		{
-         global $Var_ID1,$Sonos_Data,$parent_id,$value,$list;
+         global $Var_ID1,$Sonos_Data,$parent_id,$value;
 			//echo $Var_ID1;
-			$Text = GetValueString($Var_ID1);
-			// $Text = strip_tags($Text);
-			$result = explode("<",$Text);
-			//echo $Text;
-//			print_r( $result);
-			$i = 0;
-
-			foreach ($result as$key => $value)
-			{
- 				if(stripos($value,"RINCON") > 0)
- 				{
-					SO_get_sonos_details($parent_id,$value);
-//					echo " i ".$i." IP : ".$list[$i]['IP']." ";
-//					echo " V ".$value." ";
-					print_r($list);
-					$sonos = new PHPSonos($list[$i]['IP']); //Sonos ZP IPAdresse
-					$list[$i]['Volume'] = $sonos->GetVolume();
-					$list[$i]['Mute'] = $sonos->GetMute();
-					$ZoneAttributes = $sonos->GetZoneAttributes();
-					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
-					$i = $i+1;
-					//echo $value;
- 				}
- 				else
- 				{
- 				}
-			}
-//			print_r ($list);
-			$Sonos_Data = $list;
+	$Text = GetValueString(36164 /*[Object #36164 does not exist]*/);
+	// $Text = strip_tags($Text);
+	$result = explode("<",$Text);
+	//echo $Text;
+	print_r( $result);
+	$i = 0;
+	foreach ($result as$key => $value)
+	{
+ 		if(stripos($value,"RINCON") > 0)
+ 		{
+			$list[$i] = get_sonos_details($parent_id,$value);
+			$sonos = new PHPSonos($list[$i]['IP']); //Sonos ZP IPAdresse
+			$list[$i]['Volume'] = $sonos->GetVolume();
+			$list[$i]['Mute'] = $sonos->GetMute();
+			$ZoneAttributes = $sonos->GetZoneAttributes();
+			$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
+			$i = $i+1;
+		//echo $value;
+ 		}
+ 		else
+ 		{
+ 		}
+	}
+	$Sonos_Data = $list;
+//	return $list;
 		}
 
 
@@ -287,40 +283,40 @@
 
  		public function get_sonos_details($value)
  		{
-			global $list;
-			$list['Master_RINCON'] = substr($value,stripos($value,"RINCON"),24);
+			$l['Master_RINCON'] = substr($value,stripos($value,"RINCON"),24);
 			$tmp = substr($value,stripos($value,"http://"),24);
 			$start = stripos($tmp,"/") + 2;
 			$stop = stripos ($tmp,":1400")- 7;
-			$list["IP"] = substr($tmp,$start,$stop);
+			$l["IP"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"coordinator"),19);
 			$start = stripos($tmp,"'=")+12;
 			$stop = stripos ($tmp," ");
-			$list["COORD"] = substr($tmp,$start,$stop);
+			$l["COORD"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"bootseq="),20);
 			$start = stripos($tmp,"='")+2;
 			$stop = stripos ($tmp,"uuid")-11;
-			$list["bootseq"] = substr($tmp,$start,$stop);
+			$l["bootseq"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"1400:"),8);
 			$start = stripos($tmp,":")+1;
 			$stop = stripos ($tmp,"'")-5;
-			$list["GroupNr"] = substr($tmp,$start,$stop);
+			$l["GroupNr"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"uuid='"),30);
 			$start = stripos($tmp,"='")+2;
 			$stop = $start + 18;
-			$list["Player_RINCON"] = substr($tmp,$start,$stop);
+			$l["Player_RINCON"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"wirelessmode"),24);
 			$start = stripos($tmp,"='")+2;
 			$stop = stripos ($tmp,"channel")-16;
-			$list["Wireless_Mode"] = substr($tmp,$start,$stop);
+			$l["Wireless_Mode"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"channelfreq"),29);
 			$start = stripos($tmp,"='")+2;
 			$stop = stripos ($tmp,"behindwifi")-15;
-			$list["Channel_Freq"] = substr($tmp,$start,$stop);
+			$l["Channel_Freq"] = substr($tmp,$start,$stop);
 			$tmp = substr($value,stripos($value,"behindwifiext"),29);
 			$start = stripos($tmp,"='")+2;
 			$stop = stripos ($tmp,"location")-17;
-			$list["Behind_Wifi_Ext"] = substr($tmp,$start,$stop);
+			$l["Behind_Wifi_Ext"] = substr($tmp,$start,$stop);
+			return $l;
 		 }
 
 
