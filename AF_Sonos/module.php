@@ -339,7 +339,7 @@
 public function build_or_fix_sonos_controls($Sonos_Data)
 {
 
-	global $action_ID,$Data,$parent_id,;
+	global $action_ID,$Data,$parent_id;
 
 	$cat_id = $action_ID;
    	$ii = 0;
