@@ -53,7 +53,7 @@
 			SO_build_or_fix_sonos_controls($parent_id,"");
 			SO_populate_variables($parent_id,"");
 			SO_create_profile($parent_id);
-			SO_build_or_fix_profile($parent_id,"");
+			SO_build_or_fix_profile($parent_id);
 
 			return $Sonos_Data;
 		}
@@ -452,7 +452,7 @@ public function populate_variables()
   			{
   			   if($value == $unique_value)
   			   {
- 					SetValueInteger($Sonos_Data[$i]['SONOS_MASTER_ID'],$key);
+ 					SetValueInteger($Sonos_Data[$i]['Sonos_Master_ID'],$key);
   			   }
   			   else
   			   {
@@ -497,13 +497,14 @@ public function populate_master($Sonos_Data,$i)
 
 
 
-public function build_or_fix_profile($Data)
+public function build_or_fix_profile()
 {
+	global $Sonos_Data;
 	$key = 0;
-	foreach($Data as $i)
+	foreach($Sonos_Data as $i)
 	{
 	 $Color = [0x15EB4A,0xF21344,0x1833DE,0xE8DA10,0xF21BB9,0x1BCEF2,0x1BF2C0,0x1A694C,0xF2981B,0x48508A,0x912A41];
-	 IPS_SetVariableProfileAssociation ('SONOS_MASTER',$key,$Data[$key]['Name'],'',  $Color[$key]);
+	 IPS_SetVariableProfileAssociation ('Sonos_Master',$key,$Sonos_Data[$key]['Name'],'',  $Color[$key]);
 	 $key++;
 	}
 
