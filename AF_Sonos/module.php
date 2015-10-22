@@ -30,7 +30,7 @@
 		{
 
 			global $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
-			$script_id = 43943; //noch dynamisieren
+			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
 			SetValue($ID_IP, $Sonos_Master_IP); //Beschreibt die Variable
@@ -48,7 +48,7 @@
 		{
 			global $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
 			$Sonos_Data = SO_read_sonos_data($parent_id);
-			SO_build_or_fix_sonos_variables($parent_id);
+			SO_build_or_fix_sonos_variables($parent_id,"");
 			SO_build_or_fix_sonos_controls($parent_id);
 			SO_populate_variables($parent_id,$Sonos_Data);
 			SO_create_profile($parent_id);
@@ -485,7 +485,7 @@ public function create_var($Name,$Root,$Type,$Profile,$Action)
   		$ID = IPS_CreateVariable ( $Type );
   		IPS_SetName ( $ID,$Name );
   		IPS_SetParent ( $ID, $Root );
-  		if ($Action) {IPS_SetVariableCustomAction ( $ID, $script_id /*[Object #38913 does not exist]*/ );}
+  		if ($Action) {IPS_SetVariableCustomAction ( $ID, $script_id );}
   		IPS_SetVariableCustomProfile ( $ID, $Profile);
   }
 
