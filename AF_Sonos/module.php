@@ -40,7 +40,7 @@
 			SO_create_sonos_content_variable($parent_id);
 			SO_define_sonos_text_parser($parent_id);
 			SO_define_categories($parent_id);
-			sonos_content(sonos_content( $parent_id);
+			SO_sonos_content( $parent_id);
 	   }
 
 
