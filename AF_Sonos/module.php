@@ -29,7 +29,8 @@
 		public function Install_framework()
 		{
 
-			global $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list ;
+			global $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
+			$script_id = 43943; //noch dynamisieren
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
 			SetValue($ID_IP, $Sonos_Master_IP); //Beschreibt die Variable
@@ -39,16 +40,25 @@
 			SO_create_sonos_content_variable($parent_id);
 			SO_define_sonos_text_parser($parent_id);
 			SO_define_categories($parent_id);
-			SO_read_sonos_data($parent_id);
-//			print_r($Sonos_Data);
-			SO_build_or_fix_sonos_variables($parent_id,"");
+			sonos_content(sonos_content( $parent_id);
+	   }
+
+
+		public function sonos_content()
+		{
+			global $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
+			$Sonos_Data = SO_read_sonos_data($parent_id);
+			SO_build_or_fix_sonos_variables($parent_id);
+			SO_build_or_fix_sonos_controls($parent_id);
+			SO_populate_variables($parent_id,$Sonos_Data);
+			SO_create_profile($parent_id);
+			SO_build_or_fix_profile($parent_id,$Sonos_Data);
+
+			return $Sonos_Data;
 		}
-
-
-
 		function build_or_fix_sonos_variables()
 		{
-			global $player_data_id,$Sonos_Data;
+			global $player_data_id,$Sonos_Data,$parent_id;
 			$root_list = IPS_GetObject($player_data_id)['ChildrenIDs'];
 			foreach ($root_list as $cat_key => $cat_id)//Loop alle Kategorien
 			{
@@ -71,7 +81,7 @@
 					}
 					else
 					{
-						$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']."_ID"] = create_var($Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],false);
+						$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']."_ID"] = SO_create_var($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],false);
 
 					}
 					$i++;
@@ -324,19 +334,7 @@
 
 
 
-public function sonos_content()
-{
-	global $Data,$Sonos_Data,$parent_id;
-	$Sonos_Data = SO_read_sonos_data($parent_id);
-	$Data = $Sonos_Data;
-	SO_build_or_fix_sonos_variables("","");
-	SO_build_or_fix_sonos_controls("","");
-	SO_populate_variables($Sonos_Data);
-	SO_create_profile("","");
-	SO_build_or_fix_profile($Sonos_Data);
 
-	return $Sonos_Data;
-}
 
 public function build_or_fix_sonos_controls()
 {
@@ -477,6 +475,7 @@ public function 	create_profile()
 
 public function create_var($Name,$Root,$Type,$Profile,$Action)
 {
+	global $script_id;
   $ID = IPS_GetVariableIDByName ( $Name, $Root );
   if ($ID)
   {
@@ -486,7 +485,7 @@ public function create_var($Name,$Root,$Type,$Profile,$Action)
   		$ID = IPS_CreateVariable ( $Type );
   		IPS_SetName ( $ID,$Name );
   		IPS_SetParent ( $ID, $Root );
-  		if ($Action) {IPS_SetVariableCustomAction ( $ID, 38913 /*[Object #38913 does not exist]*/ );}
+  		if ($Action) {IPS_SetVariableCustomAction ( $ID, $script_id /*[Object #38913 does not exist]*/ );}
   		IPS_SetVariableCustomProfile ( $ID, $Profile);
   }
 
