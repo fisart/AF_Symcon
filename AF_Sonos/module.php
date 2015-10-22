@@ -253,6 +253,7 @@
 	$Text = GetValueString($Var_ID1/*[Object #36164 does not exist]*/);
 	// $Text = strip_tags($Text);
 	$result = explode("<",$Text);
+	$list[0][0] = NULL;
 	//echo $Text;
 	print_r( $result);
 	$i = 0;
