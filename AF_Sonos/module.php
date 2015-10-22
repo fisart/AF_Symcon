@@ -39,7 +39,6 @@
 			SO_create_sonos_text_parser($parent_id);
 			SO_create_sonos_content_variable($parent_id);
 			SO_define_sonos_text_parser($parent_id);
-			SO_define_categories($parent_id);
 			SO_sonos_content( $parent_id);
 	   }
 
@@ -48,8 +47,9 @@
 		{
 			global $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
 			SO_read_sonos_data($parent_id);
+			SO_define_categories($parent_id);
 			SO_build_or_fix_sonos_variables($parent_id,"");
-			print_r($Sonos_Data);
+//			print_r($Sonos_Data);
 			SO_build_or_fix_sonos_controls($parent_id,"");
 			SO_populate_variables($parent_id,"");
 			SO_create_profile($parent_id);
@@ -57,9 +57,12 @@
 
 			return $Sonos_Data;
 		}
+		
+		
 		function build_or_fix_sonos_variables()
 		{
 			global $player_data_id,$Sonos_Data,$parent_id,$action_ID;
+
 			$root_list = IPS_GetObject($player_data_id)['ChildrenIDs'];
 			foreach ($root_list as $cat_key => $cat_id)//Loop alle Kategorien
 			{
@@ -484,7 +487,7 @@ public function populate_master($Sonos_Data,$i)
 {
 	if($Sonos_Data[$i]['COORD'])
 	{
-		SetValueInteger($Sonos_Data[$i]['SONOS_MASTER_ID'],$i);
+		SetValueInteger($Sonos_Data[$i]['Sonos_Master_ID'],$i);
 	}
 	else
 	{
