@@ -263,7 +263,8 @@
  				{
 					SO_get_sonos_details($parent_id,$value);
 //					echo " i ".$i." IP : ".$list[$i]['IP']." ";
-					echo " V ".$value." ";
+//					echo " V ".$value." ";
+					print_r($list);
 					$sonos = new PHPSonos($list[$i]['IP']); //Sonos ZP IPAdresse
 					$list[$i]['Volume'] = $sonos->GetVolume();
 					$list[$i]['Mute'] = $sonos->GetMute();
