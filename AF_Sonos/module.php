@@ -41,7 +41,7 @@
 			SO_define_categories($parent_id);
 			SO_read_sonos_data($parent_id);
 //			print_r($Sonos_Data);
-//			SO_build_or_fix_sonos_variables($parent_id);
+			SO_build_or_fix_sonos_variables($parent_id);
 		}
 
 
@@ -341,7 +341,7 @@ public function sonos_content()
 public function build_or_fix_sonos_controls()
 {
 
-	global $action_ID,$Data;
+	global $action_ID,$Data,$parent_id;
 
 	$cat_id = $action_ID;
    	$ii = 0;
@@ -359,11 +359,11 @@ public function build_or_fix_sonos_controls()
 		{
 			if(in_array ($Data[$i]['Name'],$Var_Names )) //Name bereits vorhanden
 			{
-			 	$Data[$i][IPS_GetObject($cat_id)['ObjectName']] = $Var_ID[array_search($Data[$i]['Name'], $Var_Names)];
+			 	$Data[$i][IPS_GetObject($cat_id)['ObjectName']] = $Var_ID[SO_array_search($parent_id,$Data[$i]['Name'], $Var_Names)];
 			}
 			else
 			{
-				$Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = create_var($Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],true);
+				$Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_var($parent_id,$Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],true);
 			}
 			$i++;
 		}
@@ -374,7 +374,7 @@ public function build_or_fix_sonos_controls()
 
 public function populate_variables()
 {
-  global $Sonos_Data;
+  global $Sonos_Data,$parent_id;
   $i = 0;
 
   foreach($Sonos_Data as $z)
@@ -382,9 +382,9 @@ public function populate_variables()
 			$group_number[$i] = $Sonos_Data[$i]['GroupNr'];
 			$Master_Rincon[$i] = $Sonos_Data[$i]['Master_RINCON'];
 			$Player_Rincon[$i] = $Sonos_Data[$i]['Player_RINCON'];
-  			SO_populate_mute($Sonos_Data,$i);
-  			SO_populate_volume($Sonos_Data,$i);
-  			SO_populate_master($Sonos_Data,$i);
+  			SO_populate_mute($parent_id,$Sonos_Data,$i);
+  			SO_populate_volume($parent_id,$Sonos_Data,$i);
+  			SO_populate_master($parent_id,$Sonos_Data,$i);
 
 			$i++;
   }
