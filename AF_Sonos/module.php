@@ -48,11 +48,12 @@
 		{
 			global $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
 			$Sonos_Data = SO_read_sonos_data($parent_id);
-			SO_build_or_fix_sonos_variables($parent_id,$Sonos_Data);
-			SO_build_or_fix_sonos_controls($parent_id,$Sonos_Data);
-			SO_populate_variables($parent_id,$Sonos_Data);
+			SO_build_or_fix_sonos_variables($parent_id,"");
+			print_r($Sonos_Data);
+			SO_build_or_fix_sonos_controls($parent_id,"");
+			SO_populate_variables($parent_id,"");
 			SO_create_profile($parent_id);
-			SO_build_or_fix_profile($parent_id,$Sonos_Data);
+			SO_build_or_fix_profile($parent_id,"");
 
 			return $Sonos_Data;
 		}
@@ -353,7 +354,7 @@ public function build_or_fix_sonos_controls()
 			$ii++;
 		}
 		$i = 0;
-		print_r ($Sonos_Data);
+//		print_r ($Sonos_Data);
 		foreach($Sonos_Data as $z) // Looped durch SONOS Array
 		{
 			if(in_array ($Sonos_Data[$i]['Name'],$Var_Names )) //Name bereits vorhanden
