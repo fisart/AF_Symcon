@@ -250,7 +250,7 @@
 		{
          global $Var_ID1,$Sonos_Data,$parent_id,$value;
 			//echo $Var_ID1;
-	$Text = GetValueString(36164 /*[Object #36164 does not exist]*/);
+	$Text = GetValueString($Var_ID1/*[Object #36164 does not exist]*/);
 	// $Text = strip_tags($Text);
 	$result = explode("<",$Text);
 	//echo $Text;
