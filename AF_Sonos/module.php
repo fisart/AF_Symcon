@@ -353,7 +353,7 @@ public function build_or_fix_sonos_controls($Sonos_Data)
 			$ii++;
 		}
 		$i = 0;
-		print_r($Sonos_Data);
+		echo " SD ".$Sonos_Data." ";
 		foreach($Sonos_Data as $z) // Looped durch SONOS Array
 		{
 			if(in_array ($Sonos_Data[$i]['Name'],$Var_Names )) //Name bereits vorhanden
