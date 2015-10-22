@@ -57,7 +57,7 @@
 
 			return $Sonos_Data;
 		}
-		
+
 		
 		function build_or_fix_sonos_variables()
 		{
@@ -99,7 +99,7 @@
 		public function define_categories()
 		{
 
-			global $parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ;
+			global $parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data;
 			$action = "Sonos_Action";
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
 			$InstanzID = 0;
@@ -313,32 +313,31 @@
 		{
          global $Var_ID1,$Sonos_Data,$parent_id,$value;
 			//echo $Var_ID1;
-	$Text = GetValueString($Var_ID1/*[Object #36164 does not exist]*/);
-	// $Text = strip_tags($Text);
-	$result = explode("<",$Text);
-	$list[0][0] = NULL;
-	//echo $Text;
-//	print_r( $result);
-	$i = 0;
-	foreach ($result as$key => $value)
-	{
- 		if(stripos($value,"RINCON") > 0)
- 		{
-			$list[$i] = SO_get_sonos_details($parent_id,$value);
-			$sonos = new PHPSonos($list[$i]['IP']); //Sonos ZP IPAdresse
-			$list[$i]['Volume'] = $sonos->GetVolume();
-			$list[$i]['Mute'] = $sonos->GetMute();
-			$ZoneAttributes = $sonos->GetZoneAttributes();
-			$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
-			$i = $i+1;
-		//echo $value;
- 		}
- 		else
- 		{
- 		}
-	}
-	$Sonos_Data = $list;
-
+			$Text = GetValueString($Var_ID1/*[Object #36164 does not exist]*/);
+			// $Text = strip_tags($Text);
+			$result = explode("<",$Text);
+			$list[0][0] = NULL;
+			//echo $Text;
+			//	print_r( $result);
+			$i = 0;
+			foreach ($result as$key => $value)
+			{
+ 				if(stripos($value,"RINCON") > 0)
+ 				{
+					$list[$i] = SO_get_sonos_details($parent_id,$value);
+					$sonos = new PHPSonos($list[$i]['IP']); //Sonos ZP IPAdresse
+					$list[$i]['Volume'] = $sonos->GetVolume();
+					$list[$i]['Mute'] = $sonos->GetMute();
+					$ZoneAttributes = $sonos->GetZoneAttributes();
+					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
+					$i = $i+1;
+					//echo $value;
+ 				}
+ 				else
+ 				{
+ 				}
+			}
+			$Sonos_Data = $list;
 		}
 
 
