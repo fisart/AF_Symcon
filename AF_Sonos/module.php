@@ -29,7 +29,7 @@
 		public function Install_framework()
 		{
 
-			global $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
+			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
@@ -59,7 +59,7 @@
 		}
 		function build_or_fix_sonos_variables()
 		{
-			global $player_data_id,$Sonos_Data,$parent_id;
+			global $player_data_id,$Sonos_Data,$parent_id,$action_ID;
 			$root_list = IPS_GetObject($player_data_id)['ChildrenIDs'];
 			foreach ($root_list as $cat_key => $cat_id)//Loop alle Kategorien
 			{
@@ -96,7 +96,7 @@
 		public function define_categories()
 		{
 
-			global $parent_id,$action_ID, $player_data_id;
+			global $parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ;
 			$action = "Sonos_Action";
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
 			$InstanzID = 0;
@@ -132,10 +132,59 @@
 				$player_data_id = IPS_CreateCategory();       // Kategorie anlegen
 				IPS_SetName($player_data_id, $player); // Kategorie benennen
 				IPS_SetParent($player_data_id, $parent_id);
+				$Mute_id = IPS_CreateCategory();       // Kategorie anlegen
+				IPS_SetName($player_data_id, "Mute"); // Kategorie benennen
+				IPS_SetParent($Mute_id, $player_data_id);
+				$Volume_id = IPS_CreateCategory();       // Kategorie anlegen
+				IPS_SetName($Volume_id, "Volume"); // Kategorie benennen
+				IPS_SetParent($Volume_id,$player_data_id);
+				$Sonos_Master_id = IPS_CreateCategory();       // Kategorie anlegen
+				IPS_SetName($Sonos_Master_id,"Sonos_Master"); // Kategorie benennen
+				IPS_SetParent($Sonos_Master_id,$player_data_id);
+
 			}
 			else
 			{
 				$player_data_id = $InstanzID;
+				$Mute_id = 0;
+				$Volume_id = 0;
+				$Sonos_Master_id = 0;
+				foreach (IPS_GetChildrenIDs($player_data_id)as $key => $value)
+				{
+					if(IPS_GetName($value) == "Mute")
+					{
+						$Mute_id = $value;
+					}
+					elseif (IPS_GetName($value) == "Volume")
+					{
+						$Volume_id = $value;
+					}
+					elseif(IPS_GetName($value) == "Sonos_Master")
+					{
+						$Sonos_Master_id = $value;
+					}
+					else
+					{
+					}
+				}
+				if ($Mute_id == 0)
+				{
+					$Mute_id = IPS_CreateCategory();       // Kategorie anlegen
+					IPS_SetName($player_data_id, "Mute"); // Kategorie benennen
+					IPS_SetParent($Mute_id, $player_data_id);
+				}
+				if ($Volume_id == 0)
+				{
+					$Volume_id = IPS_CreateCategory();       // Kategorie anlegen
+					IPS_SetName($Volume_id, "Volume"); // Kategorie benennen
+					IPS_SetParent($Volume_id,$player_data_id);
+				}
+				if ($Sonos_Master_id  == 0)
+				{
+					$Sonos_Master_id = IPS_CreateCategory();       // Kategorie anlegen
+					IPS_SetName($Sonos_Master_id,"Sonos_Master"); // Kategorie benennen
+					IPS_SetParent($Sonos_Master_id,$player_data_id);
+				}
 			}
 
 		}
