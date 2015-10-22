@@ -336,12 +336,12 @@
 
 
 
-public function build_or_fix_sonos_controls($Sonos_Data)
+public function build_or_fix_sonos_controls()
 {
 
-	global $action_ID,$Data,$parent_id;
+		global $action_ID,$parent_id,$Sonos_Data;
 
-	$cat_id = $action_ID;
+		$cat_id = $action_ID;
    	$ii = 0;
    	$Var_Names[] = NULL;
    	$Var_ID[] = NULL;
@@ -353,7 +353,7 @@ public function build_or_fix_sonos_controls($Sonos_Data)
 			$ii++;
 		}
 		$i = 0;
-		echo " SD ".$Sonos_Data." ";
+		print_r ($Sonos_Data);
 		foreach($Sonos_Data as $z) // Looped durch SONOS Array
 		{
 			if(in_array ($Sonos_Data[$i]['Name'],$Var_Names )) //Name bereits vorhanden
