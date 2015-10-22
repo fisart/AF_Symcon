@@ -63,15 +63,15 @@
 					$ii++;
 				}
 				$i = 0;
-				foreach($Data as $z) // Looped durch SONOS Array
+				foreach($Sonos_Data as $z) // Looped durch SONOS Array
 				{
-					if(in_array ($Data[$i]['Name'],$Var_Names )) //Name bereits vorhanden
+					if(in_array ($Sonos_Data[$i]['Name'],$Var_Names )) //Name bereits vorhanden
 					{
-			 			$Data[$i][IPS_GetObject($cat_id)['ObjectName']."_ID"] = $Var_ID[array_search($Data[$i]['Name'], $Var_Names)];
+			 			$Sonos_Data[$i][IPS_GetObject($cat_id)['ObjectName']."_ID"] = $Var_ID[array_search($Sonos_Data[$i]['Name'], $Var_Names)];
 					}
 					else
 					{
-						$Data[$i][IPS_GetObject ($cat_id)['ObjectName']."_ID"] = create_var($Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],false);
+						$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']."_ID"] = create_var($Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],false);
 
 					}
 					$i++;
@@ -341,7 +341,7 @@ public function sonos_content()
 public function build_or_fix_sonos_controls()
 {
 
-	global $action_ID,$Data,$parent_id;
+	global $action_ID,$Data,$parent_id,$Sonos_Data;
 
 	$cat_id = $action_ID;
    	$ii = 0;
@@ -357,13 +357,13 @@ public function build_or_fix_sonos_controls()
 		$i = 0;
 		foreach($Data as $z) // Looped durch SONOS Array
 		{
-			if(in_array ($Data[$i]['Name'],$Var_Names )) //Name bereits vorhanden
+			if(in_array ($Sonos_Data[$i]['Name'],$Var_Names )) //Name bereits vorhanden
 			{
-			 	$Data[$i][IPS_GetObject($cat_id)['ObjectName']] = $Var_ID[SO_array_search($parent_id,$Data[$i]['Name'], $Var_Names)];
+			 	$Data[$i][IPS_GetObject($cat_id)['ObjectName']] = $Var_ID[array_search($Sonos_Data[$i]['Name'], $Var_Names)];
 			}
 			else
 			{
-				$Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_var($parent_id,$Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],true);
+				$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_var($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],true);
 			}
 			$i++;
 		}
