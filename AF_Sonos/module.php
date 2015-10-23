@@ -26,7 +26,6 @@
 			SO_create_sonos_reader_socket($parent_id);
 			SO_create_sonos_text_parser($parent_id);
 			SO_create_sonos_content_variable($parent_id);
-			SO_define_sonos_text_parser($parent_id);
 			SO_define_categories($parent_id);
 		}
 
@@ -41,7 +40,7 @@
 		{
 			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
 			$parent_id = IPS_GetObject($ID_IP)['ParentID'];
-			SO_sonos_content( $parent_id);
+//			SO_sonos_content( $parent_id);
 	   }
 
 
