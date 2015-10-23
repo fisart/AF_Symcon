@@ -39,8 +39,31 @@
 		*/
 		public function Install_framework()
 		{
-			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
+			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$action,$content_var ;
+			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
 			$parent_id = IPS_GetObject($ID_IP)['ParentID'];
+			$ALL_IDS = IPS_GetObjectList ( );
+			$Var_ID1 = 0;
+			$action = "Sonos_Action";
+			$content_var = "Sonos_Content";
+			$player = "Player_Data";
+			foreach ($ALL_IDS as $key => $value)
+			{
+				if(IPS_GetName($value) == $content_var)
+				{
+					$Var_ID1 = $value;
+				}
+				if(IPS_GetName($value) == $action)
+				{
+					$action_ID = $value;
+				}
+				if(IPS_GetName($value) == $player)
+				{
+					$player_data_id= $value;
+				}
+			}
+			SO_define_categories($parent_id);
+
 			SO_read_sonos_data($parent_id);
 			SO_create_sonos_content_variable($parent_id);
 			SO_build_or_fix_sonos_variables($parent_id,"");
@@ -102,7 +125,7 @@
 		public function define_categories()
 		{
 
-			global $parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data;
+			global $parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,$action;
 			$action = "Sonos_Action";
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
 			$InstanzID = 0;
@@ -316,15 +339,6 @@
 		{
          global $Var_ID1,$Sonos_Data,$parent_id,$value;
 			//echo $Var_ID1;
-			$ALL_IDS = IPS_GetObjectList ( );
-			$Var_ID1 = 0;
-			foreach ($ALL_IDS as $key => $value)
-			{
-				if(IPS_GetName($value) == "Sonos_Content")
-				{
-					$Var_ID1 = $value;
-				}
-			}
 			$Text = GetValueString($Var_ID1/*[Object #36164 does not exist]*/);
 			// $Text = strip_tags($Text);
 			$result = explode("<",$Text);
