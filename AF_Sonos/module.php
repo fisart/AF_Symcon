@@ -68,9 +68,9 @@
 			SO_create_sonos_content_variable($parent_id);
 			SO_build_or_fix_sonos_variables($parent_id,"");
 			SO_build_or_fix_sonos_controls($parent_id,"");
-			SO_populate_variables($parent_id,"");
-			SO_create_profile($parent_id);
-			SO_build_or_fix_profile($parent_id,"");
+//			SO_populate_variables($parent_id,"");
+//			SO_create_profile($parent_id);
+//			SO_build_or_fix_profile($parent_id,"");
 
 //			SO_sonos_content( $parent_id);
 	   }
