@@ -60,12 +60,13 @@
 				{
 					$player_data_id= $value;
 				}
-				if(IPS_GetName($value) == "Sonos_Master_IP")
+				if(IPS_GetName($value) == "SonosAF")
 				{
 					$ID_IP_id= $value;
 				}
 			}
-			$parent_id = IPS_GetObject($ID_IP)['ParentID'];
+			$parent_id = IPS_GetObject($ID_IP);
+			echo $parent_id;
 			SO_define_categories($parent_id);
 
 			SO_read_sonos_data($parent_id);
