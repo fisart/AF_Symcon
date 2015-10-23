@@ -315,6 +315,15 @@
 		{
          global $Var_ID1,$Sonos_Data,$parent_id,$value;
 			//echo $Var_ID1;
+			$ALL_IDS = IPS_GetObjectList ( );
+			$Var_ID1 = 0;
+			foreach ($ALL_IDS as $key => $value)
+			{
+				if(IPS_GetName($value) == "Sonos_Content")
+				{
+					$Var_ID1 = $value;
+				}
+			}
 			$Text = GetValueString($Var_ID1/*[Object #36164 does not exist]*/);
 			// $Text = strip_tags($Text);
 			$result = explode("<",$Text);
