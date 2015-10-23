@@ -116,8 +116,8 @@
 			 			$Sonos_Data[$i][IPS_GetObject($cat_id)['ObjectName']."_ID"] = $Var_ID[array_search($Sonos_Data[$i]['Name'], $Var_Names)];
 					}
 					else
-					{
-						$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']."_ID"] = SO_create_var($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],true);
+					{																														//$Name,$Root,$Type,$Profile,$switch)
+						$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']."_ID"] = SO_create_var($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],false);
 
 					}
 					$i++;
@@ -445,7 +445,7 @@ public function build_or_fix_sonos_controls()
 			 	$Data[$i][IPS_GetObject($cat_id)['ObjectName']] = $Var_ID[array_search($Sonos_Data[$i]['Name'], $Var_Names)];
 			}
 			else
-			{
+			{																													//$Name,$Root,$Type,$Profile,$switch)
 				$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_var($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],true);
 			}
 			$i++;
@@ -560,7 +560,7 @@ public function 	create_profile()
 
 
 
-public function create_var($Name,$Root,$Type,$Profile,$Action)
+public function create_var($Name,$Root,$Type,$Profile,$switch)
 {
   global $script_id;
   $ID = @IPS_GetVariableIDByName ( $Name, $Root );
@@ -572,7 +572,7 @@ public function create_var($Name,$Root,$Type,$Profile,$Action)
   		$ID = IPS_CreateVariable ( $Type );
   		IPS_SetName ( $ID,$Name );
   		IPS_SetParent ( $ID, $Root );
-  		if ($Action) {IPS_SetVariableCustomAction ( $ID, $script_id );}
+  		if ($switch) {IPS_SetVariableCustomAction ( $ID, $script_id );echo " ". $Profile." " ;}
   		IPS_SetVariableCustomProfile ( $ID, $Profile);
   }
 
