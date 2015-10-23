@@ -16,8 +16,8 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 
-			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos Master IP", ""); // Erzeugt die Variable
 			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
+			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos Master IP", ""); // Erzeugt die Variable
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
@@ -40,16 +40,15 @@
 		*/
 		public function Install_framework()
 		{
-			global $parent_id;
+			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
 			$parent_id = IPS_GetObject($ID_IP)['ParentID'];
-
 			SO_sonos_content( $parent_id);
 	   }
 
 
 		public function sonos_content()
 		{
-			global $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
+			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
 			SO_read_sonos_data($parent_id);
 			SO_build_or_fix_sonos_variables($parent_id,"");
 //			print_r($Sonos_Data);
