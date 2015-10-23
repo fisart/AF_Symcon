@@ -65,7 +65,7 @@
 					$ID_IP_id= $value;
 				}
 			}
-			$parent_id = IPS_GetObject($ID_IP);
+			$parent_id = IPS_GetObject($ID_IP)['ObjectID'];
 			echo $parent_id;
 			SO_define_categories($parent_id);
 
