@@ -62,7 +62,7 @@
 				}
 				if(IPS_GetName($value) == "SonosAF")
 				{
-					$ID_IP_id= $value;
+					$ID_IP = $value;
 				}
 			}
 			$parent_id = IPS_GetObject($ID_IP)['ObjectID'];
