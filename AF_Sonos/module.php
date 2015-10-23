@@ -52,29 +52,31 @@
 				{
 					$Var_ID1 = $value;
 				}
-				if(IPS_GetName($value) == $action)
+				elseif(IPS_GetName($value) == $action)
 				{
 					$action_ID = $value;
 				}
-				if(IPS_GetName($value) == $player)
+				elseif(IPS_GetName($value) == $player)
 				{
 					$player_data_id= $value;
 				}
-				if(IPS_GetName($value) == "SonosAF")
+				elseif(IPS_GetName($value) == "SonosAF")
 				{
 					$ID_IP = $value;
+				}
+				else
+				{
 				}
 			}
 			$parent_id = IPS_GetObject($ID_IP)['ObjectID'];
 			SO_define_categories($parent_id);
 			SO_read_sonos_data($parent_id);
 			print_r($Sonos_Data);
-			SO_create_sonos_content_variable($parent_id);
-//			SO_build_or_fix_sonos_variables($parent_id,"");
-//			SO_build_or_fix_sonos_controls($parent_id,"");
-//			SO_populate_variables($parent_id,"");
-//			SO_create_profile($parent_id);
-//			SO_build_or_fix_profile($parent_id,"");
+			SO_build_or_fix_sonos_variables($parent_id,"");
+			SO_build_or_fix_sonos_controls($parent_id,"");
+			SO_populate_variables($parent_id,"");
+			SO_create_profile($parent_id);
+			SO_build_or_fix_profile($parent_id,"");
 
 //			SO_sonos_content( $parent_id);
 	   }
