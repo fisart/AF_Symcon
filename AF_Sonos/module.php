@@ -27,7 +27,6 @@
 			SO_create_sonos_text_parser($parent_id);
 			SO_create_sonos_content_variable($parent_id);
 			SO_define_sonos_text_parser($parent_id);
-			SO_read_sonos_data($parent_id);
 			SO_define_categories($parent_id);
 		}
 
