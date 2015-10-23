@@ -66,10 +66,9 @@
 				}
 			}
 			$parent_id = IPS_GetObject($ID_IP)['ObjectID'];
-			echo $parent_id;
 			SO_define_categories($parent_id);
-
 			SO_read_sonos_data($parent_id);
+			print_r($Sonos_Data);
 			SO_create_sonos_content_variable($parent_id);
 //			SO_build_or_fix_sonos_variables($parent_id,"");
 //			SO_build_or_fix_sonos_controls($parent_id,"");
