@@ -40,6 +40,8 @@
 		{
 			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
 			$parent_id = IPS_GetObject($ID_IP)['ParentID'];
+			SO_read_sonos_data($parent_id);
+			SO_create_sonos_content_variable($parent_id);
 //			SO_sonos_content( $parent_id);
 	   }
 
@@ -47,8 +49,6 @@
 		public function sonos_content()
 		{
 			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
-			SO_create_sonos_content_variable($parent_id);
-			SO_read_sonos_data($parent_id);
 			SO_build_or_fix_sonos_variables($parent_id,"");
 //			print_r($Sonos_Data);
 			SO_build_or_fix_sonos_controls($parent_id,"");
