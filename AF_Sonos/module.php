@@ -40,8 +40,7 @@
 		public function Install_framework()
 		{
 			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$action,$content_var ;
-			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
-			$parent_id = IPS_GetObject($ID_IP)['ParentID'];
+			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$ALL_IDS = IPS_GetObjectList ( );
 			$Var_ID1 = 0;
 			$action = "Sonos_Action";
@@ -61,13 +60,18 @@
 				{
 					$player_data_id= $value;
 				}
+				if(IPS_GetName($value) == "Sonos_Master_IP")
+				{
+					$ID_IP_id= $value;
+				}
 			}
+			$parent_id = IPS_GetObject($ID_IP)['ParentID'];
 			SO_define_categories($parent_id);
 
 			SO_read_sonos_data($parent_id);
 			SO_create_sonos_content_variable($parent_id);
 			SO_build_or_fix_sonos_variables($parent_id,"");
-			SO_build_or_fix_sonos_controls($parent_id,"");
+//			SO_build_or_fix_sonos_controls($parent_id,"");
 //			SO_populate_variables($parent_id,"");
 //			SO_create_profile($parent_id);
 //			SO_build_or_fix_profile($parent_id,"");
