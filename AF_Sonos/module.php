@@ -52,7 +52,7 @@
 		public function sonos_content()
 		{
 			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
-/			print_r($Sonos_Data);
+//			print_r($Sonos_Data);
 			SO_build_or_fix_sonos_controls($parent_id,"");
 			SO_populate_variables($parent_id,"");
 			SO_create_profile($parent_id);
