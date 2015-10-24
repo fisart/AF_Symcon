@@ -93,7 +93,7 @@
 				}
 				else
 				{
-				}$module_name_string
+				}
 			}
 			SO_define_categories($parent_id);
 			SO_read_sonos_data($parent_id);
