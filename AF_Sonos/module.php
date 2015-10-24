@@ -16,23 +16,15 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 
-			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$content_var,
-					 $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string;
+			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_id,$Sonos_Data,$list,$script_id,$content_var,
+					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string;
 
-			$action_string 		= "Sonos_Action";
-			$volume_string 		= "Volume";
-			$mute_string 			= "Mute";
-			$player_data_string 	= "Player_Data";
-			$sonos_master_string = "Sonos_Master";
-			$content_var 			= "Sonos_Content";
-			$module_name_string  = "SonosAF";
-		
 			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos Master IP", ""); // Erzeugt die Variable
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
-			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
-			SetValue($ID_IP, $Sonos_Master_IP); //Beschreibt die Variable
-			$parent_id = IPS_GetObject($ID_IP)['ParentID'];
+			$master_IP_id = $this->GetIDForIdent($master_ip_name_string);
+			SetValue($master_IP_id, $Sonos_Master_IP); //Beschreibt die Variable
+			$parent_id = IPS_GetObject($master_IP_id)['ParentID'];
 			SO_define_names($parent_id);
 			SO_create_sonos_reader_socket($parent_id);
 			SO_create_sonos_text_parser($parent_id);
@@ -51,15 +43,17 @@
 		
 		public function define_names()
 		{
-			global  $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string;
+			global
+					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string;
 
-			$action_string 		= "Sonos_Action";
-			$volume_string 		= "Volume";
-			$mute_string 			= "Mute";
-			$player_data_string 	= "Player_Data";
-			$sonos_master_string = "Sonos_Master";
-			$content_var 			= "Sonos_Content";
-			$module_name_string  = "SonosAF";
+			$action_string 			= "Sonos_Action";
+			$volume_string 			= "Volume";
+			$mute_string 				= "Mute";
+			$player_data_string 		= "Player_Data";
+			$sonos_master_string 	= "Sonos_Master";
+			$content_var 				= "Sonos_Content";
+			$module_name_string  	= "SonosAF";
+			$master_ip_name_string	= "Sonos_Master_IP";
 
 		
 		}
@@ -67,20 +61,19 @@
 		
 		public function Install_framework()
 		{
-			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$content_var,
-					 $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string;
+			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_id,$Sonos_Data,$list,$script_id,$content_var,
+					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string;
 
 			SO_define_names($parent_id);
 
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
-			print_r ($_IPS['SENDER']);
 			$ALL_IDS = IPS_GetObjectList ( );
-			$Var_ID1 = 0;
+			$content_var_id = 0;
 			foreach ($ALL_IDS as $key => $value)
 			{
 				if(IPS_GetName($value) == $content_var)
 				{
-					$Var_ID1 = $value;
+					$content_var_id = $value;
 				}
 				elseif(IPS_GetName($value) == $action_string)
 				{
@@ -92,13 +85,16 @@
 				}
 				elseif(IPS_GetName($value) == $module_name_string)
 				{
-					$ID_IP = $value;
+					$parent_id = $value;
+				}
+				elseif(IPS_GetName($value) == $master_ip_name_string)
+				{
+					$master_IP_id = $value;
 				}
 				else
 				{
-				}
+				}$module_name_string
 			}
-/*			$parent_id = IPS_GetObject($ID_IP)['ObjectID'];
 			SO_define_categories($parent_id);
 			SO_read_sonos_data($parent_id);
 			print_r($Sonos_Data);
@@ -107,14 +103,14 @@
 			SO_create_profile($parent_id);
 			SO_build_or_fix_profile($parent_id,"");
 			SO_build_or_fix_sonos_controls($parent_id,"");
-*/
+
 //			SO_sonos_content( $parent_id);
 	   }
 
 
 		public function sonos_content()
 		{
-			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
+			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_id,$Sonos_Data,$list,$script_id ;
 //			print_r($Sonos_Data);
 
 			return $Sonos_Data;
@@ -258,13 +254,13 @@
 		public function define_sonos_text_parser()
 		{
 
-			global  $text_parser_id,$Var_ID1,$sonos_reader_id;
+			global  $text_parser_id,$content_var_id,$sonos_reader_id;
 			if(@IPS_DisconnectInstance (  $text_parser_id ))
 			{
 			}
 			else
 			{
-				$Rule = '[{"Variable":'.$Var_ID1.',"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
+				$Rule = '[{"Variable":'.$content_var_id.',"TagTwo":"<MediaServers>","TagOne":"ZPSupportInfo","ParseType":4}]';
 				IPS_SetProperty ( $text_parser_id,"Rules", $Rule);
 				IPS_ApplyChanges($text_parser_id);
 			}
@@ -275,7 +271,7 @@
 
  		public function create_sonos_content_variable()
 		{
-			global $Var_ID1,$parent_id, $ID_IP,$text_parser_id,$content_var ;
+			global $content_var_id,$parent_id, $master_IP_id,$text_parser_id,$content_var ;
 			$name_content_var = $content_var ;//"Sonos_Content";
 			$ALL_IDS = IPS_GetChildrenIDs($text_parser_id);
 			$InstanzID = 0;
@@ -289,13 +285,13 @@
 			}
 			if ($InstanzID == 0)
 			{
-				$Var_ID1 = IPS_CreateVariable (3);
-				IPS_SetName ( $Var_ID1, $name_content_var );
-				IPS_SetParent ( $Var_ID1, $text_parser_id );
+				$content_var_id = IPS_CreateVariable (3);
+				IPS_SetName ( $content_var_id, $name_content_var );
+				IPS_SetParent ( $content_var_id, $text_parser_id );
 			}
 			else
 			{
-				$Var_ID1 = $InstanzID;
+				$content_var_id = $InstanzID;
 			}
 
 		}
@@ -303,7 +299,7 @@
 
 		public function create_sonos_text_parser()
 		{
-			global $Var_ID1, $text_parser_id,$parent_id;
+			global $content_var_id, $text_parser_id,$parent_id;
 			$parser_name = "Sonos_Text_Parser" ;
 			$ALL_IDS = IPS_GetObjectList ( );
 			$InstanzID = 0;
@@ -331,9 +327,9 @@
 
 		public function create_sonos_reader_socket()
 		{
-			global $sonos_reader_id,$ID_IP;
+			global $sonos_reader_id,$master_IP_id;
 			$socket_name = "Sonos_Reader_Socket" ;
-			$Sonos_Master_IP = GetValueString($ID_IP);
+			$Sonos_Master_IP = GetValueString($master_IP_id);
 			$ALL_IDS = IPS_GetObjectList ( );
 			$InstanzID = 0;
 			foreach ($ALL_IDS as $key => $value)
@@ -374,9 +370,9 @@
 
 		public function read_sonos_data()
 		{
-         global $Var_ID1,$Sonos_Data,$parent_id,$value;
-			//echo $Var_ID1;
-			$Text = GetValueString($Var_ID1/*[Object #36164 does not exist]*/);
+         global $content_var_id,$Sonos_Data,$parent_id,$value;
+			//echo $content_var_id;
+			$Text = GetValueString($content_var_id/*[Object #36164 does not exist]*/);
 			// $Text = strip_tags($Text);
 			$result = explode("<",$Text);
 			$list[0][0] = NULL;
