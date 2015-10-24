@@ -30,7 +30,7 @@
 			SO_create_sonos_text_parser($parent_id);
 			SO_create_sonos_content_variable($parent_id);
 			SO_define_sonos_text_parser($parent_id);
-			SO_define_categories($parent_id);
+			SO_define_categories_and_profiles($parent_id);
 		}
 
 		/**
@@ -95,7 +95,7 @@
 				{
 				}
 			}
-			SO_define_categories($parent_id);
+			SO_define_categories_and_profiles($parent_id);
 			SO_read_sonos_data($parent_id);
 			print_r($Sonos_Data);
 			SO_build_or_fix_sonos_variables($parent_id,"");
@@ -154,7 +154,7 @@
 
 
 
-		public function define_categories()
+		public function define_categories_and_profiles()
 		{
 
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
@@ -557,28 +557,44 @@ public function populate_master($Sonos_Data,$i)
 
 public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master definiert
 {
-	global $Sonos_Data;
+	global $Sonos_Data,
+	       $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string;
+
 	$key = 0;
 	$Color = [0x15EB4A,0xF21344,0x1833DE,0xE8DA10,0xF21BB9,0x1BCEF2,0x1BF2C0,0x1A694C,0xF2981B,0x48508A,0x912A41,0x15EB4A,0xF21344,0x1833DE,0xE8DA10,0xF21BB9,0x1BCEF2,0x1BF2C0,0x1A694C,0xF2981B,0x48508A,0x912A41];
 	foreach($Sonos_Data as $i)
 	{
-	 	IPS_SetVariableProfileAssociation ('Sonos_Master',$key,$Sonos_Data[$key]['Name'],"",  $Color[$key]);
+	 	IPS_SetVariableProfileAssociation ($sonos_master_string,$key,$Sonos_Data[$key]['Name'],"",  $Color[$key]);
 	 	$key++;
 	}
+	 	IPS_SetVariableProfileAssociation ($mute_string,0,"ON","",  $Color[0]);
+	 	IPS_SetVariableProfileAssociation ($mute_string,1,"Mute","",  $Color[1]);
+	 	IPS_SetVariableProfileAssociation ($mute_string,0,"ON","",  $Color[0]);
+	 	IPS_SetVariableProfileAssociation ($volume_string,0,"AUS","",  $Color[1]);
+	 	IPS_SetVariableProfileAssociation ($volume_string,1,"Leise","",  $Color[3]);
+	 	IPS_SetVariableProfileAssociation ($volume_string,26,"Normal","",  $Color[0]);
+	 	IPS_SetVariableProfileAssociation ($volume_string,76,"Laut","",  $Color[4]);
+	 	IPS_SetVariableProfileAssociation ($action_string,0,"+5","HollowArrowUp",  $Color[0]);
+	 	IPS_SetVariableProfileAssociation ($action_string,1,"-5","HollowArrowDown",  $Color[1]);
+	 	IPS_SetVariableProfileAssociation ($action_string,2,"Make me Master","Network",  $Color[2]);
+	 	IPS_SetVariableProfileAssociation ($action_string,3,"Add me as member","Notebook",  $Color[3]);
+	 	IPS_SetVariableProfileAssociation ($action_string,4,"Remove me as member","Cross",  $Color[4]);
+	 	IPS_SetVariableProfileAssociation ($action_string,5,"Mute","Cross",  $Color[5]);
+	 	IPS_SetVariableProfileAssociation ($action_string,6,"Unmute","Speaker",  $Color[6]);
+
 
 }
 
 
 public function 	create_profile() //Hier wird das Sonos Master Profil angelegt
 {
-	if(IPS_VariableProfileExists ( 'Sonos_Master' ))
-	{
-//      IPS_DeleteVariableProfile ( 'Sonos_Master' );
-	}
-	else
-	{
-		IPS_CreateVariableProfile ( 'Sonos_Master', 1 );
-	}
+	global $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string;
+
+
+	if(!IPS_VariableProfileExists ( $sonos_master_string )) IPS_CreateVariableProfile( $sonos_master_string, 1 );
+	if(!IPS_VariableProfileExists ($mute_string ))	IPS_CreateVariableProfile ( $mute_string, 1 );
+	if(!IPS_VariableProfileExists ($volume_string ))	IPS_CreateVariableProfile ( $volume_string, 1 );
+	if(!IPS_VariableProfileExists ($action_string ))	IPS_CreateVariableProfile ( $action_string, 1 );
 
 }
 
