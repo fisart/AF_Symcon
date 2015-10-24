@@ -18,7 +18,7 @@
 
 			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$content_var
 					 $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string;
-;
+
 			$action_string 		= "Sonos_Action";
 			$volume_string 		= "Volume";
 			$mute_string 			= "Mute";
