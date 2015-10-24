@@ -16,7 +16,7 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 
-			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id ;
+			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$content_var ;
 			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos Master IP", ""); // Erzeugt die Variable
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
@@ -39,28 +39,35 @@
 		*/
 		public function Install_framework()
 		{
-			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$action,$content_var ;
+			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$content_var,
+					 $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string;
+
+			$action_string 		= "Sonos_Action";
+			$volume_string 		= "Volume";
+			$mute_string 			= "Mute";
+			$player_data_string 	= "Player_Data";
+			$sonos_master_string = "Sonos_Master";
+			$content_var 			= "Sonos_Content";
+			$module_name_string  = "SonosAF";
+
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$ALL_IDS = IPS_GetObjectList ( );
 			$Var_ID1 = 0;
-			$action = "Sonos_Action";
-			$content_var = "Sonos_Content";
-			$player = "Player_Data";
 			foreach ($ALL_IDS as $key => $value)
 			{
 				if(IPS_GetName($value) == $content_var)
 				{
 					$Var_ID1 = $value;
 				}
-				elseif(IPS_GetName($value) == $action)
+				elseif(IPS_GetName($value) == $action_string)
 				{
 					$action_ID = $value;
 				}
-				elseif(IPS_GetName($value) == $player)
+				elseif(IPS_GetName($value) == $player_data_string)
 				{
 					$player_data_id= $value;
 				}
-				elseif(IPS_GetName($value) == "SonosAF")
+				elseif(IPS_GetName($value) == $module_name_string)
 				{
 					$ID_IP = $value;
 				}
@@ -131,13 +138,14 @@
 		public function define_categories()
 		{
 
-			global $parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,$action;
-			$action = "Sonos_Action";
+			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
+						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string;
+			
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
 			$InstanzID = 0;
 			foreach ($ALL_IDS as $key => $value)
 			{
-				if(IPS_GetName($value) ==$action)
+				if(IPS_GetName($value) == $action_string)
 				{
 					$InstanzID = $value;
 				}
@@ -145,19 +153,19 @@
 			if ($InstanzID == 0)
 			{
 				$action_ID = IPS_CreateCategory();       // Kategorie anlegen
-				IPS_SetName($action_ID, $action); // Kategorie benennen
+				IPS_SetName($action_ID, $action_string); // Kategorie benennen
 				IPS_SetParent($action_ID, $parent_id);
 			}
 			else
 			{
 				$action_ID = $InstanzID;
 			}
-			$player = "Player_Data";
+
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
 			$InstanzID = 0;
 			foreach ($ALL_IDS as $key => $value)
 			{
-				if(IPS_GetName($value) == $player)
+				if(IPS_GetName($value) == $player_data_string)
 				{
 					$InstanzID = $value;
 				}
@@ -165,16 +173,16 @@
 			if ($InstanzID == 0)
 			{
 				$player_data_id = IPS_CreateCategory();       // Kategorie anlegen
-				IPS_SetName($player_data_id, $player); // Kategorie benennen
+				IPS_SetName($player_data_id,$player_data_string; // Kategorie benennen
 				IPS_SetParent($player_data_id, $parent_id);
 				$Mute_id = IPS_CreateCategory();       // Kategorie anlegen
-				IPS_SetName($Mute_id, "Mute"); // Kategorie benennen
+				IPS_SetName($Mute_id, $mute_string); // Kategorie benennen
 				IPS_SetParent($Mute_id, $player_data_id);
 				$Volume_id = IPS_CreateCategory();       // Kategorie anlegen
-				IPS_SetName($Volume_id, "Volume"); // Kategorie benennen
+				IPS_SetName($Volume_id, $volume_string); // Kategorie benennen
 				IPS_SetParent($Volume_id,$player_data_id);
 				$Sonos_Master_id = IPS_CreateCategory();       // Kategorie anlegen
-				IPS_SetName($Sonos_Master_id,"Sonos_Master"); // Kategorie benennen
+				IPS_SetName($Sonos_Master_id,$sonos_master_string); // Kategorie benennen
 				IPS_SetParent($Sonos_Master_id,$player_data_id);
 
 			}
@@ -186,15 +194,15 @@
 				$Sonos_Master_id = 0;
 				foreach (IPS_GetChildrenIDs($player_data_id)as $key => $value)
 				{
-					if(IPS_GetName($value) == "Mute")
+					if(IPS_GetName($value) == $mute_string)
 					{
 						$Mute_id = $value;
 					}
-					elseif (IPS_GetName($value) == "Volume")
+					elseif (IPS_GetName($value) == $volume_string)
 					{
 						$Volume_id = $value;
 					}
-					elseif(IPS_GetName($value) == "Sonos_Master")
+					elseif(IPS_GetName($value) == $sonos_master_string)
 					{
 						$Sonos_Master_id = $value;
 					}
@@ -205,19 +213,19 @@
 				if ($Mute_id == 0)
 				{
 					$Mute_id = IPS_CreateCategory();       // Kategorie anlegen
-					IPS_SetName($Mute_id, "Mute"); // Kategorie benennen
+					IPS_SetName($Mute_id, $mute_string); // Kategorie benennen
 					IPS_SetParent($Mute_id, $player_data_id);
 				}
 				if ($Volume_id == 0)
 				{
 					$Volume_id = IPS_CreateCategory();       // Kategorie anlegen
-					IPS_SetName($Volume_id, "Volume"); // Kategorie benennen
+					IPS_SetName($Volume_id, $volume_string); // Kategorie benennen
 					IPS_SetParent($Volume_id,$player_data_id);
 				}
 				if ($Sonos_Master_id  == 0)
 				{
 					$Sonos_Master_id = IPS_CreateCategory();       // Kategorie anlegen
-					IPS_SetName($Sonos_Master_id,"Sonos_Master"); // Kategorie benennen
+					IPS_SetName($Sonos_Master_id,$sonos_master_string); // Kategorie benennen
 					IPS_SetParent($Sonos_Master_id,$player_data_id);
 				}
 			}
@@ -244,8 +252,8 @@
 
  		public function create_sonos_content_variable()
 		{
-			global $Var_ID1,$parent_id, $ID_IP,$text_parser_id ;
-			$name_content_var = "Sonos_Content";
+			global $Var_ID1,$parent_id, $ID_IP,$text_parser_id,$content_var ;
+			$name_content_var = $content_var ;//"Sonos_Content";
 			$ALL_IDS = IPS_GetChildrenIDs($text_parser_id);
 			$InstanzID = 0;
 			foreach ($ALL_IDS as $key => $value)
@@ -528,22 +536,21 @@ public function populate_master($Sonos_Data,$i)
 
 
 
-public function build_or_fix_profile()
+public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master definiert
 {
 	global $Sonos_Data;
 	$key = 0;
+	$Color = [0x15EB4A,0xF21344,0x1833DE,0xE8DA10,0xF21BB9,0x1BCEF2,0x1BF2C0,0x1A694C,0xF2981B,0x48508A,0x912A41,0x15EB4A,0xF21344,0x1833DE,0xE8DA10,0xF21BB9,0x1BCEF2,0x1BF2C0,0x1A694C,0xF2981B,0x48508A,0x912A41];
 	foreach($Sonos_Data as $i)
 	{
-echo " ".$key." ";
-	 $Color = [0x15EB4A,0xF21344,0x1833DE,0xE8DA10,0xF21BB9,0x1BCEF2,0x1BF2C0,0x1A694C,0xF2981B,0x48508A,0x912A41,0x15EB4A,0xF21344,0x1833DE,0xE8DA10,0xF21BB9,0x1BCEF2,0x1BF2C0,0x1A694C,0xF2981B,0x48508A,0x912A41];
-	 IPS_SetVariableProfileAssociation ('Sonos_Master',$key,$Sonos_Data[$key]['Name'],"",  $Color[$key]);
-	 $key++;
+	 	IPS_SetVariableProfileAssociation ('Sonos_Master',$key,$Sonos_Data[$key]['Name'],"",  $Color[$key]);
+	 	$key++;
 	}
 
 }
 
 
-public function 	create_profile()
+public function 	create_profile() //Hier wird das Sonos Master Profil angelegt
 {
 	if(IPS_VariableProfileExists ( 'Sonos_Master' ))
 	{
