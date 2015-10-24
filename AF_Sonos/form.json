@@ -5,6 +5,6 @@
 	],
 	"actions":
 	[
-		{ "type": "Button", "label": "Update", "onClick": "SO_Install_framework($id);" }
+		{ "type": "Button", "label": "Update", "onClick": "SO_update_sonos_data($id);" }
 	]	
 }
