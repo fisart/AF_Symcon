@@ -73,7 +73,7 @@
 			SO_define_names($parent_id);
 
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
-			echo " ".$_IPS['SENDER']." ";
+			print_r ($_IPS['SENDER']);
 			$ALL_IDS = IPS_GetObjectList ( );
 			$Var_ID1 = 0;
 			foreach ($ALL_IDS as $key => $value)
