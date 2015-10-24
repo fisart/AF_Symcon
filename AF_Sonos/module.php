@@ -173,7 +173,7 @@
 			if ($InstanzID == 0)
 			{
 				$player_data_id = IPS_CreateCategory();       // Kategorie anlegen
-				IPS_SetName($player_data_id,$player_data_string; // Kategorie benennen
+				IPS_SetName($player_data_id,$player_data_string); // Kategorie benennen
 				IPS_SetParent($player_data_id, $parent_id);
 				$Mute_id = IPS_CreateCategory();       // Kategorie anlegen
 				IPS_SetName($Mute_id, $mute_string); // Kategorie benennen
