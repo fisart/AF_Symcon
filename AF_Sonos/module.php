@@ -31,7 +31,7 @@
 			SO_create_sonos_text_parser($parent_id);
 			SO_create_sonos_content_variable($parent_id);
 			SO_define_sonos_text_parser($parent_id);
-			SO_define_categories_and_profiles($parent_id);
+			SO_define_categories_and_links($parent_id);
 			SO_create_scripts($parent_id);
 		}
 
@@ -101,7 +101,7 @@
 				{
 				}
 			}
-			SO_define_categories_and_profiles($parent_id);
+			SO_define_categories_and_links($parent_id);
 			SO_read_sonos_data($parent_id);
 			SO_build_or_fix_sonos_variables($parent_id,"");
 			SO_populate_variables($parent_id,"");
@@ -176,22 +176,27 @@
 
 
 
-		public function define_categories_and_profiles()
+		public function define_categories_and_links()
 		{
 
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string;
 			
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
-			$InstanzID = 0;
+			$action_ID = 0;
+			$player_data_id = 0;
 			foreach ($ALL_IDS as $key => $value)
 			{
 				if(IPS_GetName($value) == $action_string)
 				{
-					$InstanzID = $value;
+					$action_ID = $value;
+				}
+				elseif(IPS_GetName($value) == $player_data_string)
+				{
+					$player_data_id = $value;
 				}
 			}
-			if ($InstanzID == 0)
+			if ($action_ID == 0)
 			{
 				$action_ID = IPS_CreateCategory();       // Kategorie anlegen
 				IPS_SetName($action_ID, $action_string); // Kategorie benennen
@@ -199,19 +204,9 @@
 			}
 			else
 			{
-				$action_ID = $InstanzID;
 			}
 
-			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
-			$InstanzID = 0;
-			foreach ($ALL_IDS as $key => $value)
-			{
-				if(IPS_GetName($value) == $player_data_string)
-				{
-					$InstanzID = $value;
-				}
-			}
-			if ($InstanzID == 0)
+			if ($player_data_id == 0)
 			{
 				$player_data_id = IPS_CreateCategory();       // Kategorie anlegen
 				IPS_SetName($player_data_id,$player_data_string); // Kategorie benennen
@@ -229,7 +224,6 @@
 			}
 			else
 			{
-				$player_data_id = $InstanzID;
 				$Mute_id = 0;
 				$Volume_id = 0;
 				$Sonos_Master_id = 0;
