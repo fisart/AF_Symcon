@@ -18,7 +18,7 @@
 
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					 $update_script_name_string;
+					 $update_script_name_string,$visualisierung_name_string;
 
 			SO_define_names("");
 			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos Master IP", ""); // Erzeugt die Variable
@@ -47,18 +47,19 @@
 		{
 			global
 					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,$content_var_name_string,
-					$update_script_name_string,$event_name_string;
+					$update_script_name_string,$event_name_string,$visualisierung_name_string;
 
-			$action_string 				= "Sonos_Action";
-			$volume_string 				= "Volume";
-			$mute_string 					= "Mute";
-			$player_data_string 			= "Player_Data";
-			$sonos_master_string 		= "Sonos_Master";
-			$content_var_name_string 	= "Sonos_Content";
-			$module_name_string  		= "SonosAF";
-			$master_ip_name_string		= "Sonos_Master_IP";
-			$update_script_name_string = "Sonos_update";
-			$event_name_string         = "Sonos_Content_change";
+			$action_string 					= "Sonos_Action";
+			$volume_string 					= "Volume";
+			$mute_string 						= "Mute";
+			$player_data_string 				= "Player_Data";
+			$sonos_master_string 			= "Sonos_Master";
+			$content_var_name_string 		= "Sonos_Content";
+			$module_name_string  			= "SonosAF";
+			$master_ip_name_string			= "Sonos_Master_IP";
+			$update_script_name_string 	= "Sonos_update";
+			$event_name_string         	= "Sonos_Content_change";
+			$visualisierung_name_string   = "Visualisierung Link collection";
 
 		
 		}
@@ -68,7 +69,7 @@
 		{
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					 $update_script_name_string,$event_name_string;
+					 $update_script_name_string,$event_name_string,$visualisierung_name_string;
 
 			SO_define_names($parent_id);
 
@@ -180,11 +181,12 @@
 		{
 
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
-						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string;
+						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string;
 			
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
 			$action_ID = 0;
 			$player_data_id = 0;
+			$visu_id = 0;
 			foreach ($ALL_IDS as $key => $value)
 			{
 				if(IPS_GetName($value) == $action_string)
@@ -194,6 +196,10 @@
 				elseif(IPS_GetName($value) == $player_data_string)
 				{
 					$player_data_id = $value;
+				}
+				elseif(IPS_GetName($value) == $visualisierung_name_string)
+				{
+					$visu_id  = $value;
 				}
 			}
 			if ($action_ID == 0)
@@ -263,6 +269,19 @@
 					IPS_SetName($Sonos_Master_id,$sonos_master_string); // Kategorie benennen
 					IPS_SetParent($Sonos_Master_id,$player_data_id);
 				}
+			}
+			if ($visu_id == 0)
+			{
+				$visu_id = IPS_CreateCategory();       // Kategorie anlegen
+				IPS_SetName($visu_id, $visualisierung_name_string); // Kategorie benennen
+				IPS_SetParent($visu_id, $parent_id);
+				$LinkID = IPS_CreateLink();             // Link anlegen
+				IPS_SetName($LinkID,  IPS_GetObject ($player_data_id)['ObjectName']); // Link benennen
+				IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
+				IPS_SetLinkTargetID($LinkID, $action_ID);    // Link verknüpfen
+				IPS_SetName($LinkID,  IPS_GetObject ($action_ID)['ObjectName']); // Link benennen
+				IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
+				IPS_SetLinkTargetID($LinkID, $action_ID);    // Link verknüpfen
 			}
 
 		}
