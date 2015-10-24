@@ -26,12 +26,14 @@
 			$sonos_master_string = "Sonos_Master";
 			$content_var 			= "Sonos_Content";
 			$module_name_string  = "SonosAF";
+		
 			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos Master IP", ""); // Erzeugt die Variable
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			$ID_IP = $this->GetIDForIdent("Sonos_Master_IP");
 			SetValue($ID_IP, $Sonos_Master_IP); //Beschreibt die Variable
 			$parent_id = IPS_GetObject($ID_IP)['ParentID'];
+			SO_define_names($parent_id);
 			SO_create_sonos_reader_socket($parent_id);
 			SO_create_sonos_text_parser($parent_id);
 			SO_create_sonos_content_variable($parent_id);
@@ -46,13 +48,32 @@
 		* SO_RequestInfo($id);
 		*
 		*/
+		
+		public function define_names()
+		{
+			global  $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string;
+
+			$action_string 		= "Sonos_Action";
+			$volume_string 		= "Volume";
+			$mute_string 			= "Mute";
+			$player_data_string 	= "Player_Data";
+			$sonos_master_string = "Sonos_Master";
+			$content_var 			= "Sonos_Content";
+			$module_name_string  = "SonosAF";
+
+		
+		}
+		
+		
 		public function Install_framework()
 		{
 			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$content_var,
 					 $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string;
 
+			SO_define_names($parent_id);
 
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
+			echo " ".$_IPS['SENDER']." ";
 			$ALL_IDS = IPS_GetObjectList ( );
 			$Var_ID1 = 0;
 			foreach ($ALL_IDS as $key => $value)
@@ -77,7 +98,7 @@
 				{
 				}
 			}
-			$parent_id = IPS_GetObject($ID_IP)['ObjectID'];
+/*			$parent_id = IPS_GetObject($ID_IP)['ObjectID'];
 			SO_define_categories($parent_id);
 			SO_read_sonos_data($parent_id);
 			print_r($Sonos_Data);
@@ -86,7 +107,7 @@
 			SO_create_profile($parent_id);
 			SO_build_or_fix_profile($parent_id,"");
 			SO_build_or_fix_sonos_controls($parent_id,"");
-
+*/
 //			SO_sonos_content( $parent_id);
 	   }
 
