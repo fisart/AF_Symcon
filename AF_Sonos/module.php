@@ -17,7 +17,7 @@
 			parent::ApplyChanges();
 
 			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$content_var,
-					 $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string;
+					 $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string;
 
 			$action_string 		= "Sonos_Action";
 			$volume_string 		= "Volume";
@@ -49,7 +49,7 @@
 		public function Install_framework()
 		{
 			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$content_var,
-					 $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string;
+					 $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string;
 
 
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
