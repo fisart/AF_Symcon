@@ -18,7 +18,7 @@
 
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					 $update_script_name_string,$visualisierung_name_string;
+					 $update_script_name_string,$visualisierung_name_string,$command_script_name_string;
 
 			SO_define_names("");
 			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos Master IP", ""); // Erzeugt die Variable
@@ -47,7 +47,7 @@
 		{
 			global
 					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,$content_var_name_string,
-					$update_script_name_string,$event_name_string,$visualisierung_name_string;
+					$update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string;
 
 			$action_string 					= "Sonos_Action";
 			$volume_string 					= "Volume";
@@ -60,6 +60,7 @@
 			$update_script_name_string 	= "Sonos_update";
 			$event_name_string         	= "Sonos_Content_change";
 			$visualisierung_name_string   = "Visualisierung Link collection";
+			$command_script_name_string   = "Sonos_Ansteuerung";
 
 		
 		}
@@ -69,10 +70,9 @@
 		{
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					 $update_script_name_string,$event_name_string,$visualisierung_name_string;
+					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string;
 
 			SO_define_names($parent_id);
-
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$ALL_IDS = IPS_GetObjectList ( );
 			$content_var_name_string_id = 0;
@@ -118,16 +118,31 @@
 		{
 		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$script_id,
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					$update_script_name_string,$event_name_string;
+					$update_script_name_string,$event_name_string,$command_script_name_string;
 					$script_id = IPS_CreateScript (0);
-					IPS_SetName($script_id , $update_script_name_string); // Kategorie benennen
+					IPS_SetName($script_id , $update_script_name_string);
 					IPS_SetParent($script_id , $parent_id);
 					IPS_SetScriptContent($script_id,'<? SO_update_sonos_data(1) ?>');
  					$event_id = IPS_CreateEvent (0);
-					IPS_SetName($event_id , $update_script_name_string); // Kategorie benennen
+					IPS_SetName($event_id , $update_script_name_string); 
 					IPS_SetParent( $event_id, $script_id);
  					IPS_SetEventTrigger ($event_id,1,$content_var_name_string_id);
  					IPS_SetEventActive ( $event_id, true );
+ 					$script_id = IPS_CreateScript (0);
+					IPS_SetName($script_id ,$command_script_name_string);
+					IPS_SetParent($script_id , $parent_id);
+					$command_script = SO_get_script_content($parent_id);
+					IPS_SetScriptContent($script_id,$command_script);
+					foreach(IPS_GetObject($action_ID)['ChildrenIDs'] as $key => $id)
+					{
+ 						$event_id = IPS_CreateEvent (0);
+						IPS_SetName($event_id , IPS_GetObject($id)['ObjectName']);
+						IPS_SetParent( $event_id, $script_id);
+ 						IPS_SetEventTrigger ($event_id,0,$id);
+ 						IPS_SetEventActive ( $event_id, true );
+
+
+					}
 		}
 
 
@@ -1894,6 +1909,160 @@ Quelle: http://www.ip-symcon.de/forum/f53/php-sonos-klasse-ansteuern-einzelner-p
 	}
 
 }
+
+public function get_script_content()
+
+{
+
+return
+'<?
+global 	$action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$script_id,
+			$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
+			$update_script_name_string,$event_name_string,$visualisierung_name_string;
+
+
+
+
+SO_update_sonos_data(1);
+
+
+//$Sonos_Player_ID = 23540 /*[Scripte\Sonos Modul\SonosAF\Sonos_Action\Esszimmer]*/; // Fehler Wert
+$befehl = 100;
+$Sonos_Player_ID = 100;
+
+if ($_IPS["SENDER"] == "Variable")
+{
+ 	$event_var = $_IPS["EVENT"];
+ 	$befehl = $_IPS["VALUE"];
+	foreach ($Sonos_Data as $key => $value)
+	{
+		if($Sonos_Data[$key]["Name"] == IPS_GetObject($_IPS["VARIABLE"])["ObjectName"])
+		{
+			$Sonos_Player_ID = $key;
+			echo " Echo ".$Sonos_Data[$key]["Name"];
+		}
+		else
+		{
+		}
+	}
+}
+
+print_r($Sonos_Data);
+if (	$Sonos_Player_ID < 100)
+{
+	switch ($befehl)
+	{
+    case 0: //+5
+				$New_Volume =  increase_volume($Sonos_Player_ID,$Sonos_Data);
+       break;
+    case 1:  // -5
+				$New_Volume =  decrease_volume($Sonos_Player_ID,$Sonos_Data);
+        break;
+    case 2:  //Make me a master
+//				make_me_a_master($Sonos_Player_ID,$Sonos_Data);
+        break;
+    case 3:  // Add me as a Member
+//				add_me_as_a_member($Sonos_Player_ID,$Sonos_Data);
+        break;
+    case 4:  //  Remove me as a member
+//				remove_me_as_a_member($Sonos_Player_ID,$Sonos_Data);
+        break;
+    case 5:  // Mute
+				mute($Sonos_Player_ID,$Sonos_Data);
+        break;
+    case 6:  //Unmute
+				unmute($Sonos_Player_ID,$Sonos_Data);
+        break;
+	 default: break;
+	}
+}
+else
+{
+
+}
+
+
+function increase_volume($Sonos_Player_ID,$Sonos_Data)
+{
+
+	$sonos = new PHPSonos($Sonos_Data[$Sonos_Player_ID]["IP"]); //Sonos ZP IPAdresse
+   $Volume_Plus = ($sonos->GetVolume()+5);
+   $sonos->SetVolume($Volume_Plus);
+	return $sonos->GetVolume();
+}
+
+
+
+
+function decrease_volume($Sonos_Player_ID,$Sonos_Data)
+{
+	$sonos = new PHPSonos($Sonos_Data[$Sonos_Player_ID]["IP"]); //Sonos ZP IPAdresse
+   $Volume_Plus = ($sonos->GetVolume()-5);
+   $sonos->SetVolume($Volume_Plus);
+	return $sonos->GetVolume();
+
+}
+
+function make_me_a_master($Sonos_Player_ID,$Sonos_Data)
+{
+
+	$Old_Master = GetValueInteger(27534 /*[Object #27534 does not exist]*/);
+	foreach ($Sonos_Data  as $key => $value)
+	{
+		if ($key != $Old_Master)
+		{
+			change_player_group($Old_Master,"AddMember",$key,$Sonos_Data);
+		}
+		else
+		{
+		}
+	}
+	foreach ($Sonos_Data  as $key => $value)
+	{
+		if ($key != $Old_Master)
+		{
+			change_player_group($Old_Master,"RemoveMember",$key,$Sonos_Data);
+		}
+		else
+		{
+			$Sonos_Data[$key]["Master"] = false;
+		}
+	}
+//	SetValueInteger(27534 /*[Object #27534 does not exist]*/,$Sonos_Player_ID);
+	$Sonos_Data[$Sonos_Player_ID]["Master"] = true;
+
+}
+
+
+function add_me_as_a_member($Sonos_Player_ID,$Sonos_Data)
+{
+	$Master = GetValueInteger(27534 /*[Object #27534 does not exist]*/);
+	IPSLogger_Inf(c_LogId, " Master ".$Master." Member ".$Sonos_Player_ID." ");
+   if($Sonos_Player_ID != $Master){change_player_group($Master,"AddMember",$Sonos_Player_ID,$Sonos_Data);}
+}
+function remove_me_as_a_member($Sonos_Player_ID,$Sonos_Data)
+{
+	      $Master = GetValueInteger(27534 /*[Object #27534 does not exist]*/);
+			change_player_group($Master,"RemoveMember",$Sonos_Player_ID,$Sonos_Data);
+}
+function mute($Sonos_Player_ID,$Sonos_Data)
+{
+			$sonos = new PHPSonos($Sonos_Data[$Sonos_Player_ID]["IP"]); //Sonos ZP IPAdresse
+			$sonos->SetMute(true);
+}
+function unmute($Sonos_Player_ID,$Sonos_Data)
+{
+			$sonos = new PHPSonos($Sonos_Data[$Sonos_Player_ID]["IP"]); //Sonos ZP IPAdresse
+			$sonos->SetMute(false);
+
+}
+
+
+?>';
+
+}
+
+
 
 
 ?>
