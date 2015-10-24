@@ -16,7 +16,16 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 
-			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$content_var ;
+			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$content_var
+					 $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string;
+;
+			$action_string 		= "Sonos_Action";
+			$volume_string 		= "Volume";
+			$mute_string 			= "Mute";
+			$player_data_string 	= "Player_Data";
+			$sonos_master_string = "Sonos_Master";
+			$content_var 			= "Sonos_Content";
+			$module_name_string  = "SonosAF";
 			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos Master IP", ""); // Erzeugt die Variable
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
@@ -42,13 +51,6 @@
 			global $action_ID, $parent_id, $ID_IP,$player_data_id,$Var_ID1,$Sonos_Data,$list,$script_id,$content_var,
 					 $action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string;
 
-			$action_string 		= "Sonos_Action";
-			$volume_string 		= "Volume";
-			$mute_string 			= "Mute";
-			$player_data_string 	= "Player_Data";
-			$sonos_master_string = "Sonos_Master";
-			$content_var 			= "Sonos_Content";
-			$module_name_string  = "SonosAF";
 
 			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$ALL_IDS = IPS_GetObjectList ( );
