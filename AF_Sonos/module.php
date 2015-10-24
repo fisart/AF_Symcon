@@ -278,7 +278,7 @@
 				$LinkID = IPS_CreateLink();             // Link anlegen
 				IPS_SetName($LinkID,  IPS_GetObject ($player_data_id)['ObjectName']); // Link benennen
 				IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
-				IPS_SetLinkTargetID($LinkID, $action_ID);    // Link verknüpfen
+				IPS_SetLinkTargetID($LinkID, $player_data_id);    // Link verknüpfen
 				$LinkID = IPS_CreateLink();             // Link anlegen
 				IPS_SetName($LinkID,  IPS_GetObject ($action_ID)['ObjectName']); // Link benennen
 				IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
