@@ -108,6 +108,10 @@
 				{
 					$master_IP_id = $value;
 				}
+				elseif(IPS_GetName($value) == $command_script_name_string)
+				{
+					$command_script_id = $value;
+				}
 				else
 				{
 				}
