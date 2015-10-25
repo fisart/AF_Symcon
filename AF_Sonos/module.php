@@ -63,7 +63,7 @@
 			$player_data_string 				= "Player_Data";
 			$sonos_master_string 			= "Sonos_Master";
 			$content_var_name_string 		= "Sonos_Content";
-			$module_name_string  			= "AF SONOS MODUL";
+			$module_name_string  			= "AF SONOS";
 			$master_ip_name_string			= "Sonos_Master_IP";
 			$update_script_name_string 	= "Sonos_update";
 			$event_name_string         	= "Sonos_Content_change";
