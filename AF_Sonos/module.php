@@ -666,7 +666,7 @@ public function create_var($Name,$Root,$Type,$Profile,$switch)
   		$ID = IPS_CreateVariable ( $Type );
   		IPS_SetName ( $ID,$Name );
   		IPS_SetParent ( $ID, $Root );
-  		if ($switch) {IPS_SetVariableCustomAction ( $ID, $var_script_id );echo " ". $Profile." " ;}
+//  		if ($switch) {IPS_SetVariableCustomAction ( $ID, $var_script_id );echo " ". $Profile." " ;}
   		IPS_SetVariableCustomProfile ( $ID, $Profile);
   }
 
