@@ -25,7 +25,7 @@
 			$master_IP_id = $this->GetIDForIdent($master_ip_name_string);
 			SetValue($master_IP_id, $Sonos_Master_IP); //Beschreibt die Variable
 			$parent_id = IPS_GetObject($master_IP_id)['ParentID'];
-			$top_cat_id = @IPS_GetCategoryIDByName($Sonos_cat_name,0);
+/*			$top_cat_id = @IPS_GetCategoryIDByName($Sonos_cat_name,0);
  			if($top_cat_id == 0)
  			{
 				$top_cat_id = IPS_CreateCategory();       // Kategorie anlegen
@@ -34,6 +34,7 @@
 				IPS_SetName($parent_id ,$module_name_string ); // Kategorie benennen
 				IPS_SetParent($parent_id ,$top_cat_id);
 			}
+*/
 			SO_create_sonos_reader_socket($parent_id);
 			SO_create_sonos_text_parser($parent_id);
 			SO_create_sonos_content_variable($parent_id);
