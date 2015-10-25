@@ -118,7 +118,7 @@
 			SO_create_profile($parent_id);
 			SO_build_or_fix_profile($parent_id,"");
 			SO_build_or_fix_sonos_controls($parent_id,"");
-			SO_build_action_events($parent_id);
+//			SO_build_action_events($parent_id);
 
 //			SO_sonos_content( $parent_id);
 	   }
