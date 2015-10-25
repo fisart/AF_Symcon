@@ -525,7 +525,7 @@ public function build_or_fix_sonos_controls()
 			}
 			else
 			{																													//$Name,$Root,$Type,$Profile,$switch)
-//				$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_var($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],1);
+				$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_variables($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],1);
 			}
 			$i++;
 		}
@@ -656,7 +656,7 @@ public function 	create_profile() //Hier wird das Sonos Master Profil angelegt
 
 public function ccreate_variables($Name,$Root,$Type,$Profile,$switch)
 {
-/*  global $var_script_id;
+  global $var_script_id;
   $ID = @IPS_GetVariableIDByName ( $Name, $Root );
   if ($ID)
   {
@@ -671,7 +671,7 @@ public function ccreate_variables($Name,$Root,$Type,$Profile,$switch)
   }
 
   return $ID;
-`*/
+
 }
 
 public function create_link($Parent,$Name,$Root,$ID)
