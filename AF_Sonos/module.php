@@ -6,10 +6,7 @@
 		{
 			//Never delete this line!
 			parent::Create();
-
-			SO_define_names("");
 			$this->RegisterPropertyString("Sonos_Master_IP", "192.168.0.63");
-
 		}
 
 		public function ApplyChanges()
@@ -28,6 +25,7 @@
 			$master_IP_id = $this->GetIDForIdent($master_ip_name_string);
 			SetValue($master_IP_id, $Sonos_Master_IP); //Beschreibt die Variable
 			$parent_id = IPS_GetObject($master_IP_id)['ParentID'];
+			
 			echo " PPPPP ".$parent_id."    ".$master_IP_id."  ";
 /*			SO_create_sonos_reader_socket($parent_id);
 			SO_create_sonos_text_parser($parent_id);
