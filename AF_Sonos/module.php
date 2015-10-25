@@ -145,6 +145,7 @@
 					echo " !!!!!!!  ".$action_ID." ".$script_id."!!!!!! ";
 					foreach(IPS_GetObject($action_ID)['ChildrenIDs'] as $key => $id)
 					{
+					echo " !!!!!!!  ".$key." ".$id."!!!!!! ";
 					 	$event_id = IPS_CreateEvent (0);
 					 	
 						IPS_SetName($event_id , IPS_GetObject($id)['ObjectName']);
