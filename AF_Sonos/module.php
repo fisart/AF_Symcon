@@ -16,13 +16,13 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 
-			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$script_id,
+			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$visualisierung_name_string,$command_script_name_string;
 
 			SO_define_names("");
 			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos Master IP", ""); // Erzeugt die Variable
-			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
+			$var_script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$Sonos_Master_IP = $this->ReadPropertyString("Sonos_Master_IP"); //Liest die Eigenschaft
 			$master_IP_id = $this->GetIDForIdent($master_ip_name_string);
 			SetValue($master_IP_id, $Sonos_Master_IP); //Beschreibt die Variable
@@ -68,12 +68,12 @@
 		
 		public function update_sonos_data()
 		{
-			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$script_id,
+			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string;
 
 			SO_define_names($parent_id);
-			$script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
+			$var_script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
 			$ALL_IDS = IPS_GetObjectList ( );
 			$content_var_name_string_id = 0;
 			foreach ($ALL_IDS as $key => $value)
@@ -116,7 +116,7 @@
 
 		public function create_scripts()
 		{
-		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$script_id,
+		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					$update_script_name_string,$event_name_string,$command_script_name_string;
 					$script_id = IPS_CreateScript (0);
@@ -149,7 +149,7 @@
 
 		public function sonos_content()
 		{
-			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$script_id ;
+			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id ;
 //			print_r($Sonos_Data);
 
 			return $Sonos_Data;
@@ -656,7 +656,7 @@ public function 	create_profile() //Hier wird das Sonos Master Profil angelegt
 
 public function create_var($Name,$Root,$Type,$Profile,$switch)
 {
-  global $script_id;
+  global $var_script_id;
   $ID = @IPS_GetVariableIDByName ( $Name, $Root );
   if ($ID)
   {
@@ -666,7 +666,7 @@ public function create_var($Name,$Root,$Type,$Profile,$switch)
   		$ID = IPS_CreateVariable ( $Type );
   		IPS_SetName ( $ID,$Name );
   		IPS_SetParent ( $ID, $Root );
-  		if ($switch) {IPS_SetVariableCustomAction ( $ID, $script_id );echo " ". $Profile." " ;}
+  		if ($switch) {IPS_SetVariableCustomAction ( $ID, $var_script_id );echo " ". $Profile." " ;}
   		IPS_SetVariableCustomProfile ( $ID, $Profile);
   }
 
@@ -688,7 +688,7 @@ public function get_script_content()
 
 return
 '<?
-global 	$action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$script_id,
+global 	$action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 			$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 			$update_script_name_string,$event_name_string,$visualisierung_name_string;
 
