@@ -133,11 +133,12 @@ public function build_action_events()
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id;
 
 					$list_event_names[] = NULL;
-					foreach(IPS_GetObject($script_id)['ChildrenIDs'] as $key => $id)
+					foreach(IPS_GetObject( $command_script_id)['ChildrenIDs'] as $key => $id)
 					{
                   	$list_event_names[$key] = IPS_GetObject($id)['ObjectName'];
 					}
-
+					echo " CSID ".$command_script_id."  ";
+					print_r ($list_event_names);
 					foreach(IPS_GetObject($action_ID)['ChildrenIDs'] as $key1 => $id1)
 					{
 
