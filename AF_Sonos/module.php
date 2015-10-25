@@ -142,10 +142,11 @@
 					IPS_SetParent($script_id , $parent_id);
 					$command_script = SO_get_script_content($parent_id);
 					IPS_SetScriptContent($script_id,$command_script);
-					echo " !!!!!!!  ".$action_ID." !!!!!! ";
+					echo " !!!!!!!  ".$action_ID." ".$script_id."!!!!!! ";
 					foreach(IPS_GetObject($action_ID)['ChildrenIDs'] as $key => $id)
 					{
- 						$event_id = IPS_CreateEvent (0);
+					 	$event_id = IPS_CreateEvent (0);
+					 	
 						IPS_SetName($event_id , IPS_GetObject($id)['ObjectName']);
 						IPS_SetParent( $event_id, $script_id);
  						IPS_SetEventTrigger ($event_id,0,$id);
