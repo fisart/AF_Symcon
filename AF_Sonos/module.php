@@ -33,13 +33,13 @@
 
 
 			echo " PPPPP ".$parent_id."    ".$master_IP_id."  ";
-/*			SO_create_sonos_reader_socket($parent_id);
+			SO_create_sonos_reader_socket($parent_id);
 			SO_create_sonos_text_parser($parent_id);
 			SO_create_sonos_content_variable($parent_id);
 			SO_define_sonos_text_parser($parent_id);
 			SO_define_categories_and_links($parent_id);
 			SO_create_scripts($parent_id);
-*/
+
 		}
 
 		/**
