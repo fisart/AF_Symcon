@@ -25,7 +25,7 @@
 			$master_IP_id = $this->GetIDForIdent($master_ip_name_string);
 			SetValue($master_IP_id, $Sonos_Master_IP); //Beschreibt die Variable
 			$parent_id = IPS_GetObject($master_IP_id)['ParentID'];
-			$top_cat_id = IPS_GetCategoryIDByName($Sonos_cat_name,0);
+			$top_cat_id = @IPS_GetCategoryIDByName($Sonos_cat_name,0);
  			if($top_cat_id == 0)
  			{
 				$top_cat_id = IPS_CreateCategory();       // Kategorie anlegen
@@ -142,7 +142,7 @@
 					IPS_SetParent($script_id , $parent_id);
 					$command_script = SO_get_script_content($parent_id);
 					IPS_SetScriptContent($script_id,$command_script);
-//					echo " !!!!!!!  ".$action_ID." !!!!!! ";
+					echo " !!!!!!!  ".$action_ID." !!!!!! ";
 					foreach(IPS_GetObject($action_ID)['ChildrenIDs'] as $key => $id)
 					{
  						$event_id = IPS_CreateEvent (0);
