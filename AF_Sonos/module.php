@@ -16,7 +16,7 @@
 
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					 $update_script_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name;
+					 $update_script_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id;
 
 			SO_define_names("");
 			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos_Master_IP", "",0); // Erzeugt die Variable
@@ -56,7 +56,7 @@
 		{
 			global
 					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,$content_var_name_string,
-					$update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name;
+					$update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id;
 
 			$action_string 					= "Sonos_Action";
 			$volume_string 					= "Volume";
@@ -80,7 +80,7 @@
 		{
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name;
+					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id;
 
 			SO_define_names($parent_id);
 			$var_script_id = 43943 /*[Object #43943 does not exist]*/; //noch dynamisieren
@@ -130,7 +130,7 @@ public function build_action_events()
 {
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name;
+					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id;
 
 					$list_event_names[] = NULL;
 					foreach(IPS_GetObject($script_id)['ChildrenIDs'] as $key => $id)
@@ -146,7 +146,7 @@ public function build_action_events()
 					 		$event_id = IPS_CreateEvent (0);
 
 							IPS_SetName($event_id , IPS_GetObject($id1)['ObjectName']);
-							IPS_SetParent( $event_id, $script_id);
+							IPS_SetParent( $event_id, $command_script_id);
  							IPS_SetEventTrigger ($event_id,0,$id1);
  							IPS_SetEventActive ( $event_id, true );
 						}
@@ -160,7 +160,7 @@ public function build_action_events()
 		{
 		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					$update_script_name_string,$event_name_string,$command_script_name_string;
+					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id;
 					$script_id = IPS_CreateScript (0);
 					IPS_SetName($script_id , $update_script_name_string);
 					IPS_SetParent($script_id , $parent_id);
@@ -170,11 +170,11 @@ public function build_action_events()
 					IPS_SetParent( $event_id, $script_id);
  					IPS_SetEventTrigger ($event_id,1,$content_var_name_string_id);
  					IPS_SetEventActive ( $event_id, true );
- 					$script_id = IPS_CreateScript (0);
-					IPS_SetName($script_id ,$command_script_name_string);
-					IPS_SetParent($script_id , $parent_id);
+ 					$command_script_id = IPS_CreateScript (0);
+					IPS_SetName($command_script_id ,$command_script_name_string);
+					IPS_SetParent($command_script_id , $parent_id);
 					$command_script = SO_get_script_content($parent_id);
-					IPS_SetScriptContent($script_id,$command_script);
+					IPS_SetScriptContent($command_script_id,$command_script);
 		}
 
 
