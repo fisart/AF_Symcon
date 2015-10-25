@@ -24,9 +24,13 @@
 			$Sonos_Master_IP = $this->ReadPropertyString($master_ip_name_string); //Liest die Eigenschaft
 			$master_IP_id = $this->GetIDForIdent($master_ip_name_string);
 			SetValue($master_IP_id, $Sonos_Master_IP); //Beschreibt die Variable
-			$parent_id  = IPS_CreateCategory();       // Kategorie anlegen
-			IPS_SetName($modul_id ,"AF SONOS MODUL"); // Kategorie benennen
+			$parent_id = IPS_GetObject($master_IP_id)['ParentID'];
+			$modul_id = IPS_CreateCategory();       // Kategorie anlegen
+			IPS_SetName($modul_id ,"AF SONOS"); // Kategorie benennen
 			IPS_SetParent($modul_id,0);
+			IPS_SetName($parent_id ,"AF SONOS MODUL"); // Kategorie benennen
+			IPS_SetParent($parent_id ,$modul_id);
+
 
 			echo " PPPPP ".$parent_id."    ".$master_IP_id."  ";
 /*			SO_create_sonos_reader_socket($parent_id);
