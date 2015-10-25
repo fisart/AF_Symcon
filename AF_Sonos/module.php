@@ -6,12 +6,9 @@
 		{
 			//Never delete this line!
 			parent::Create();
-			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
-					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					 $update_script_name_string,$visualisierung_name_string,$command_script_name_string;
 
 			SO_define_names("");
-			$this->RegisterPropertyString($master_ip_name_string, "192.168.0.63");//Erzeugt die Eigenschaft
+			$this->RegisterPropertyString("Sonos_Master_IP", "192.168.0.63");
 
 		}
 
@@ -25,8 +22,8 @@
 					 $update_script_name_string,$visualisierung_name_string,$command_script_name_string;
 
 			SO_define_names("");
-			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos Master IP", ""); // Erzeugt die Variable
-			$var_script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
+			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos_Master_IP", "",0); // Erzeugt die Variable
+			$var_script_id = 57658 /*[Object #43943 does not exist]*/; //noch dynamisieren
 			$Sonos_Master_IP = $this->ReadPropertyString($master_ip_name_string); //Liest die Eigenschaft
 			$master_IP_id = $this->GetIDForIdent($master_ip_name_string);
 			SetValue($master_IP_id, $Sonos_Master_IP); //Beschreibt die Variable
@@ -48,7 +45,7 @@
 		* SO_RequestInfo($id);
 		*
 		*/
-		
+
 		public function define_names()
 		{
 			global
@@ -68,10 +65,10 @@
 			$visualisierung_name_string   = "Visualisierung Link collection";
 			$command_script_name_string   = "Sonos_Ansteuerung";
 
-		
+
 		}
-		
-		
+
+
 		public function update_sonos_data()
 		{
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
@@ -79,7 +76,7 @@
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string;
 
 			SO_define_names($parent_id);
-			$var_script_id = 43943 /*[Scripte\Sonos Modul\Noch dynamisch zu erzeugen]*/; //noch dynamisieren
+			$var_script_id = 43943 /*[Object #43943 does not exist]*/; //noch dynamisieren
 			$ALL_IDS = IPS_GetObjectList ( );
 			$content_var_name_string_id = 0;
 			foreach ($ALL_IDS as $key => $value)
@@ -130,7 +127,7 @@
 					IPS_SetParent($script_id , $parent_id);
 					IPS_SetScriptContent($script_id,'<? SO_update_sonos_data(1) ?>');
  					$event_id = IPS_CreateEvent (0);
-					IPS_SetName($event_id , $update_script_name_string); 
+					IPS_SetName($event_id , $update_script_name_string);
 					IPS_SetParent( $event_id, $script_id);
  					IPS_SetEventTrigger ($event_id,1,$content_var_name_string_id);
  					IPS_SetEventActive ( $event_id, true );
@@ -161,7 +158,7 @@
 			return $Sonos_Data;
 		}
 
-		
+
 		function build_or_fix_sonos_variables()
 		{
 			global $player_data_id,$Sonos_Data,$parent_id,$action_ID;
@@ -204,7 +201,7 @@
 
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string;
-			
+
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
 			$action_ID = 0;
 			$player_data_id = 0;
@@ -704,7 +701,7 @@ global 	$action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_
 SO_update_sonos_data(1);
 
 
-//$Sonos_Player_ID = 23540 /*[Scripte\Sonos Modul\SonosAF\Sonos_Action\Esszimmer]*/; // Fehler Wert
+//$Sonos_Player_ID = 23540 /*[Object #23540 does not exist]*/; // Fehler Wert
 $befehl = 100;
 $Sonos_Player_ID = 100;
 
