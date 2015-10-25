@@ -118,9 +118,41 @@
 			SO_create_profile($parent_id);
 			SO_build_or_fix_profile($parent_id,"");
 			SO_build_or_fix_sonos_controls($parent_id,"");
+			SO_build_action_events($parent_id);
 
 //			SO_sonos_content( $parent_id);
 	   }
+
+
+public function build_action_events()
+
+{
+			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
+					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
+					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name;
+
+					$list_event_names[] = NULL;
+					foreach(IPS_GetObject($script_id)['ChildrenIDs'] as $key => $id)
+					{
+                  	$list_event_names[$key] = IPS_GetObject($id)['ObjectName'];
+					}
+
+					foreach(IPS_GetObject($action_ID)['ChildrenIDs'] as $key1 => $id1)
+					{
+
+						if (!in_array(IPS_GetObject($id1)['ObjectName'],$list_event_names))
+						{
+					 		$event_id = IPS_CreateEvent (0);
+
+							IPS_SetName($event_id , IPS_GetObject($id1)['ObjectName']);
+							IPS_SetParent( $event_id, $script_id);
+ 							IPS_SetEventTrigger ($event_id,0,$id1);
+ 							IPS_SetEventActive ( $event_id, true );
+						}
+
+					}
+}
+
 
 
 		public function create_scripts()
@@ -142,20 +174,6 @@
 					IPS_SetParent($script_id , $parent_id);
 					$command_script = SO_get_script_content($parent_id);
 					IPS_SetScriptContent($script_id,$command_script);
-					echo " !!!!!!!  ".$action_ID." ".$script_id."!!!!!! ";
-print_r (IPS_GetObject($action_ID)['ChildrenIDs']);
-					foreach(IPS_GetObject($action_ID)['ChildrenIDs'] as $key1 => $id1)
-					{
-					echo " !!!!!!!  ".$key1." ".$id1."!!!!!! ";
-					 	$event_id = IPS_CreateEvent (0);
-					 	
-						IPS_SetName($event_id , IPS_GetObject($id1)['ObjectName']);
-						IPS_SetParent( $event_id, $script_id);
- 						IPS_SetEventTrigger ($event_id,0,$id1);
- 						IPS_SetEventActive ( $event_id, true );
-
-
-					}
 		}
 
 
