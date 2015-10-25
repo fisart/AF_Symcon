@@ -20,7 +20,7 @@
 
 			SO_define_names("");
 			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos_Master_IP", "",0); // Erzeugt die Variable
-			$var_script_id = 57658 /*[Object #43943 does not exist]*/; //noch dynamisieren
+			$var_script_id = 57658 /*[Scripte\Variable ändern]*/; //noch dynamisieren
 			$Sonos_Master_IP = $this->ReadPropertyString($master_ip_name_string); //Liest die Eigenschaft
 			$master_IP_id = $this->GetIDForIdent($master_ip_name_string);
 			SetValue($master_IP_id, $Sonos_Master_IP); //Beschreibt die Variable
@@ -143,14 +143,15 @@
 					$command_script = SO_get_script_content($parent_id);
 					IPS_SetScriptContent($script_id,$command_script);
 					echo " !!!!!!!  ".$action_ID." ".$script_id."!!!!!! ";
-					foreach(IPS_GetObject($action_ID)['ChildrenIDs'] as $key => $id)
+print_r (IPS_GetObject($action_ID)['ChildrenIDs']);
+					foreach(IPS_GetObject($action_ID)['ChildrenIDs'] as $key1 => $id1)
 					{
-					echo " !!!!!!!  ".$key." ".$id."!!!!!! ";
+					echo " !!!!!!!  ".$key1." ".$id1."!!!!!! ";
 					 	$event_id = IPS_CreateEvent (0);
 					 	
-						IPS_SetName($event_id , IPS_GetObject($id)['ObjectName']);
+						IPS_SetName($event_id , IPS_GetObject($id1)['ObjectName']);
 						IPS_SetParent( $event_id, $script_id);
- 						IPS_SetEventTrigger ($event_id,0,$id);
+ 						IPS_SetEventTrigger ($event_id,0,$id1);
  						IPS_SetEventActive ( $event_id, true );
 
 
