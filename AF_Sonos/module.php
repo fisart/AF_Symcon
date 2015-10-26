@@ -358,6 +358,7 @@ public function build_action_events()
 				IPS_SetLinkTargetID($LinkID, $zone_id);    // Link verknüpfen
 			}
 			$existing_zone_ids = IPS_GetChildrenIDs($Sonos_Master_id);
+			$existing_zone_names[] = NULL;
          foreach ($existing_zone_ids as $key => $value)
 			{
 			   $existing_zone_names[$key] = IPS_GetVariableProfile($sonos_master_string)['Associations'][GetValueInteger($value)]['Name'];
