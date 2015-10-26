@@ -82,7 +82,7 @@
 		{
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name;
+					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,$zone_id;
 
 			SO_define_names($parent_id);
 			$var_script_id = 43943 /*[Object #43943 does not exist]*/; //noch dynamisieren
@@ -113,6 +113,10 @@
 				elseif(IPS_GetName($value) == $command_script_name_string)
 				{
 					$command_script_id = $value;
+				}
+				elseif(IPS_GetName($value) == $Zone_cat_name)
+				{
+					$zone_id = $value;
 				}
 				else
 				{
@@ -237,6 +241,7 @@ public function build_action_events()
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id;
 
+
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
 			$action_ID = 0;
 			$player_data_id = 0;
@@ -351,6 +356,41 @@ public function build_action_events()
 				IPS_SetName($LinkID,  $Zone_cat_name); // Link benennen
 				IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
 				IPS_SetLinkTargetID($LinkID, $zone_id);    // Link verknüpfen
+			}
+			$existing_zone_ids = IPS_GetChildrenIDs($Sonos_Master_id);
+         foreach ($existing_zone_ids as $key => $value)
+			{
+			   $existing_zone_names[$key] = IPS_GetVariableProfile($sonos_master_string)['Associations'][GetValueInteger($value)]['Name'];
+			}
+         $zone_names = array_unique ( $existing_zone_names );
+
+			$existing_zone_cat_ids = IPS_GetChildrenIDs($zone_id); // Feststellen welche Zonenkategorien bereits existieren
+         foreach ($existing_zone_cat_ids as $key => $value)
+			{
+				echo " V ".IPS_GetName($value) ." ";
+				if(in_array (IPS_GetName($value) , $existing_zone_cat_ids ))
+				{
+					//Existing Zone Cat is also new.... keep
+				}
+				else
+				{
+					// Zone Cat is no more needed, delete
+						$existing_variable_ids = IPS_GetChildrenIDs($value); // Feststellen welche Zonenkategorien bereits existieren
+
+         			foreach (	$existing_variable_ids as $key1 => $value1)
+						{
+								IPS_DeleteVariable($value1);
+						}
+						IPS_DeleteCategory($value);
+				}
+
+			}
+			$zone_cats_to_create = array_diff ($zone_names,$existing_zone_cat_ids );//Feststellen welche Zonen noch fehlen
+         foreach ($zone_cats_to_create as $key2 => $value2)
+			{
+				$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
+				IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
+				IPS_SetParent($zone_name_id, $zone_id);
 			}
 
 		}
