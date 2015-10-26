@@ -147,8 +147,6 @@ public function build_action_events()
 					{
                   	$list_event_names[$key] = IPS_GetObject($id)['ObjectName'];
 					}
-					echo " CSID ".$command_script_id."  ";
-					print_r ($list_event_names);
 					foreach(IPS_GetObject($action_ID)['ChildrenIDs'] as $key1 => $id1)
 					{
 
@@ -368,7 +366,6 @@ public function build_action_events()
 			$existing_zone_cat_ids = IPS_GetChildrenIDs($zone_id); // Feststellen welche Zonenkategorien bereits existieren
          foreach ($existing_zone_cat_ids as $key => $value)
 			{
-				echo " V ".IPS_GetName($value) ." ";
 				if(in_array (IPS_GetName($value) , $existing_zone_cat_ids ))
 				{
 					//Existing Zone Cat is also new.... keep
@@ -389,9 +386,12 @@ public function build_action_events()
 			$zone_cats_to_create = array_diff ($zone_names,$existing_zone_cat_ids );//Feststellen welche Zonen noch fehlen
          foreach ($zone_cats_to_create as $key2 => $value2)
 			{
-				$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
-				IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
-				IPS_SetParent($zone_name_id, $zone_id);
+				if($value2 != "")
+				{
+					$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
+					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
+					IPS_SetParent($zone_name_id, $zone_id);
+				}
 			}
 
 		}
@@ -759,7 +759,7 @@ public function create_variables($Name,$Root,$Type,$Profile,$switch)
   		$ID = IPS_CreateVariable ( $Type );
   		IPS_SetName ( $ID,$Name );
   		IPS_SetParent ( $ID, $Root );
-  		if ($switch) {IPS_SetVariableCustomAction ( $ID, $var_script_id );echo " ". $Profile." " ;}
+  		if ($switch) {IPS_SetVariableCustomAction ( $ID, $var_script_id );}
   		IPS_SetVariableCustomProfile ( $ID, $Profile);
   }
 
