@@ -170,8 +170,9 @@ public function build_action_events()
 		{
 		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_id,$var_change_script_name ;
-					
+					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_id,$var_change_script_name,$script1,$script2 ;
+
+					SO_get_script_content($parent_id);
 					$script_id = IPS_CreateScript (0);
 					IPS_SetName($script_id , $update_script_name_string);
 					IPS_SetParent($script_id , $parent_id);
@@ -183,20 +184,16 @@ public function build_action_events()
  					IPS_SetEventTrigger ($event_id,1,$content_var_name_string_id);
  					IPS_SetEventActive ( $event_id, true );
  					
-/* 					$command_script_id = IPS_CreateScript (0);
+ 					$command_script_id = IPS_CreateScript (0);
 					IPS_SetName($command_script_id ,$command_script_name_string);
 					IPS_SetParent($command_script_id , $parent_id);
-					$selection = 1;
-					$command_script = SO_get_script_content($parent_id,$selection);
-					IPS_SetScriptContent($command_script_id,$command_script);
+					IPS_SetScriptContent($command_script_id,$script1);
 					
 					$var_change_script_id = IPS_CreateScript (0);
 					IPS_SetName($var_change_script_id ,$var_change_script_name);
 					IPS_SetParent($var_change_script_id, $parent_id);
-					$selection = 2;
-					$var_change_script = SO_get_script_content($parent_id,$selection);
-					IPS_SetScriptContent($var_change_script_id,$var_change_script);
-*/
+					IPS_SetScriptContent($var_change_script_id,$script2);
+
 		}
 
 
@@ -788,8 +785,8 @@ public function create_link($Parent,$Name,$Root,$ID)
   IPS_SetLinkTargetID ( $LID, $ID );
 }
 
-public function get_script_content($select)
-
+public function get_script_content()
+global $script1,$script2;
 {
 
 $script1 =
@@ -957,14 +954,6 @@ $script2 =
    
 ?>';
 
-	if($select == 1)
-	{
-		return $script1;
-	}
-	elseif ($select ==2)
-	{
-		return $script2;
-	}
 
 }
 
