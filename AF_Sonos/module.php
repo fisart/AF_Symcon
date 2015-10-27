@@ -171,24 +171,28 @@ public function build_action_events()
 		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_id,$var_change_script_name ;
+					
 					$script_id = IPS_CreateScript (0);
 					IPS_SetName($script_id , $update_script_name_string);
 					IPS_SetParent($script_id , $parent_id);
 					IPS_SetScriptContent($script_id,'<? SO_update_sonos_data(1) ?>');
+					
  					$event_id = IPS_CreateEvent (0);
 					IPS_SetName($event_id , $update_script_name_string);
 					IPS_SetParent( $event_id, $script_id);
  					IPS_SetEventTrigger ($event_id,1,$content_var_name_string_id);
  					IPS_SetEventActive ( $event_id, true );
+ 					
  					$command_script_id = IPS_CreateScript (0);
 					IPS_SetName($command_script_id ,$command_script_name_string);
 					IPS_SetParent($command_script_id , $parent_id);
-					$command_script = SO_get_script_content($parent_id,1);
+					$command_script = SO_get_script_content($parent_id,"",1);
 					IPS_SetScriptContent($command_script_id,$command_script);
+					
 					$var_change_script_id = IPS_CreateScript (0);
 					IPS_SetName($var_change_script_id ,$var_change_script_name);
 					IPS_SetParent($var_change_script_id, $parent_id);
-					$var_change_script = SO_get_script_content($parent_id,2);
+					$var_change_script = SO_get_script_content($parent_id,"",2);
 					IPS_SetScriptContent($var_change_script_id,$var_change_script);
 
 		}
