@@ -186,13 +186,15 @@ public function build_action_events()
  					$command_script_id = IPS_CreateScript (0);
 					IPS_SetName($command_script_id ,$command_script_name_string);
 					IPS_SetParent($command_script_id , $parent_id);
-					$command_script = SO_get_script_content($parent_id,"",1);
+					$selection = 1;
+					$command_script = SO_get_script_content($parent_id,$selection);
 					IPS_SetScriptContent($command_script_id,$command_script);
 					
 					$var_change_script_id = IPS_CreateScript (0);
 					IPS_SetName($var_change_script_id ,$var_change_script_name);
 					IPS_SetParent($var_change_script_id, $parent_id);
-					$var_change_script = SO_get_script_content($parent_id,"",2);
+					$selection = 2;
+					$var_change_script = SO_get_script_content($parent_id,$selection);
 					IPS_SetScriptContent($var_change_script_id,$var_change_script);
 
 		}
