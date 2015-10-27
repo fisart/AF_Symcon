@@ -786,9 +786,8 @@ public function create_link($Parent,$Name,$Root,$ID)
 }
 
 public function get_script_content()
-global $script1,$script2;
 {
-
+global $script1,$script2;
 $script1 =
 '<?
 global 	$action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
