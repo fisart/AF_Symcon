@@ -56,7 +56,7 @@
 		{
 			global
 					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,$content_var_name_string,
-					$update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name;
+					$update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,$var_change_script_name;
 
 			$action_string 					= "Sonos_Action";
 			$volume_string 					= "Volume";
@@ -72,7 +72,7 @@
 			$command_script_name_string   = "Sonos_Ansteuerung";
 			$Sonos_cat_name               = "AF SONOS";
 			$Zone_cat_name                = "Zones";
-			
+			$var_change_script_name       = "Change_Var";
 
 
 		}
@@ -82,10 +82,11 @@
 		{
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,$zone_id;
+					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
+					 $zone_id,$var_change_script_id;
 
 			SO_define_names($parent_id);
-			$var_script_id = 43943 /*[Object #43943 does not exist]*/; //noch dynamisieren
+			$var_script_id = $var_change_script_id;
 			$ALL_IDS = IPS_GetObjectList ( );
 			$content_var_name_string_id = 0;
 			foreach ($ALL_IDS as $key => $value)
@@ -169,7 +170,7 @@ public function build_action_events()
 		{
 		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id;
+					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_id,$var_change_script_name ;
 					$script_id = IPS_CreateScript (0);
 					IPS_SetName($script_id , $update_script_name_string);
 					IPS_SetParent($script_id , $parent_id);
@@ -182,8 +183,14 @@ public function build_action_events()
  					$command_script_id = IPS_CreateScript (0);
 					IPS_SetName($command_script_id ,$command_script_name_string);
 					IPS_SetParent($command_script_id , $parent_id);
-					$command_script = SO_get_script_content($parent_id);
+					$command_script = SO_get_script_content($parent_id),1;
 					IPS_SetScriptContent($command_script_id,$command_script);
+					$var_change_script_id = IPS_CreateScript (0);
+					IPS_SetName($var_change_script_id ,$var_change_script_name);
+					IPS_SetParent($var_change_script_id, $parent_id);
+					$var_change_script = SO_get_script_content($parent_id,2);
+					IPS_SetScriptContent($var_change_script_id,$var_change_script);
+
 		}
 
 
@@ -775,11 +782,11 @@ public function create_link($Parent,$Name,$Root,$ID)
   IPS_SetLinkTargetID ( $LID, $ID );
 }
 
-public function get_script_content()
+public function get_script_content($select)
 
 {
 
-return
+$script1 =
 '<?
 global 	$action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
 			$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
@@ -924,6 +931,34 @@ function unmute($Sonos_Player_ID,$Sonos_Data)
 
 
 ?>';
+
+$script2 =
+
+
+'<?
+	 $IPS_SENDER = $_IPS["SENDER"];
+    if($IPS_SENDER == "WebFront")
+	 {
+    	$IPS_SELF = $_IPS["SELF"];
+	 	$IPS_VALUE = $_IPS["VALUE"];
+	 	$IPS_VARIABLE = $_IPS["VARIABLE"];
+    	@SetValue($IPS_VARIABLE , $IPS_VALUE);
+//    	@SetValue($IP, $IPS_VALUE); // Variable in Webfront umschalten
+   }
+   else
+   {
+   }
+   
+?>'
+
+	if($select == 1)
+	{
+		return $script1;
+	}
+	elseif ($select ==2)
+	{
+		return $script2;
+	}
 
 }
 
