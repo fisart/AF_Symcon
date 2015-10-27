@@ -131,6 +131,7 @@
 			SO_build_or_fix_profile($parent_id,"");
 			SO_build_or_fix_sonos_controls($parent_id,"");
 			SO_build_action_events($parent_id);
+         SO_define_categories_zone_master($parent_id);
 
 //			SO_sonos_content( $parent_id);
 	   }
@@ -241,6 +242,58 @@ public function build_action_events()
 		}
 
 
+      public function define_categories_zone_master()
+      {
+			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
+						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id;
+
+			$master_list_var_ids = IPS_GetChildrenIDs($Sonos_Master_id);
+			$sonos_zone_names[] = NULL; //SONOS Zonen
+			$existing_zone_cat_name[] = NULL;
+         foreach ($master_list_var_ids as $key => $value)
+			{
+			   $sonos_zone_names[$key] = IPS_GetVariableProfile($sonos_master_string)['Associations'][GetValueInteger($value)]['Name'];
+			}
+         $sonos_zone_names = array_unique ( $sonos_zone_names );//SONOS Zonen (immer nur einmal) feststellen
+//			print_r($zone_names);
+			$existing_zone_cat_ids = IPS_GetChildrenIDs($zone_id); // Feststellen welche Zonenkategorien bereits existieren
+//			print_r($sonos_zone_names);
+         foreach ($existing_zone_cat_ids as $key => $value)
+			{
+				$existing_zone_cat_name[$key] = IPS_GetName($value);
+//				echo "  ".$existing_zone_cat_name[$key];
+				if(in_array ($existing_zone_cat_name[$key] , $sonos_zone_names )) //Zonen Cat Name ist bereits vorhanden und wird auch zukünftig benötigt
+				{
+//					echo "AAAAAAAAAA";
+				}
+				else // Der Zonen Cat Name ist in SONOS nicht mehr vorhanden und kann gelöscht werden
+				{
+					// Zone Cat is no more needed, delete
+						$existing_variable_ids = IPS_GetChildrenIDs($value);
+
+         			foreach (	$existing_variable_ids as $key1 => $value1) //Eventuelle Variablen unterhalb des weggefallenen Zonennamen löschen
+						{
+								IPS_DeleteVariable($value1);
+						}
+						IPS_DeleteCategory($value); // echo " ".$value." ";
+				}
+
+			}
+			// Jetzt noch Kategorien anlegen für neu hinzugekommene SONOS Zonen
+			$zone_cats_to_create = array_diff ($sonos_zone_names,	$existing_zone_cat_name );//Feststellen welche Zonen hinzugekommen sind
+//			print_r($zone_cats_to_create);
+         foreach ($zone_cats_to_create as $key2 => $value2)
+			{
+				if($value2 != "")
+				{
+					$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
+					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
+					IPS_SetParent($zone_name_id, $zone_id);
+//					echo " NC ".$value2." ";
+				}
+			}
+
+      }
 
 
 		public function define_categories_and_links()
@@ -364,51 +417,6 @@ public function build_action_events()
 				IPS_SetName($LinkID,  $Zone_cat_name); // Link benennen
 				IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
 				IPS_SetLinkTargetID($LinkID, $zone_id);    // Link verknüpfen
-			}
-			$master_list_var_ids = IPS_GetChildrenIDs($Sonos_Master_id);
-			$sonos_zone_names[] = NULL; //SONOS Zonen
-			$existing_zone_cat_name[] = NULL;
-         foreach ($master_list_var_ids as $key => $value)
-			{
-			   $sonos_zone_names[$key] = IPS_GetVariableProfile($sonos_master_string)['Associations'][GetValueInteger($value)]['Name'];
-			}
-         $sonos_zone_names = array_unique ( $sonos_zone_names );//SONOS Zonen (immer nur einmal) feststellen
-//			print_r($zone_names);
-			$existing_zone_cat_ids = IPS_GetChildrenIDs($zone_id); // Feststellen welche Zonenkategorien bereits existieren
-//			print_r($sonos_zone_names);
-         foreach ($existing_zone_cat_ids as $key => $value)
-			{
-				$existing_zone_cat_name[$key] = IPS_GetName($value);
-//				echo "  ".$existing_zone_cat_name[$key];
-				if(in_array ($existing_zone_cat_name[$key] , $sonos_zone_names )) //Zonen Cat Name ist bereits vorhanden und wird auch zukünftig benötigt
-				{
-//					echo "AAAAAAAAAA";
-				}
-				else // Der Zonen Cat Name ist in SONOS nicht mehr vorhanden und kann gelöscht werden
-				{
-					// Zone Cat is no more needed, delete
-						$existing_variable_ids = IPS_GetChildrenIDs($value);
-
-         			foreach (	$existing_variable_ids as $key1 => $value1) //Eventuelle Variablen unterhalb des weggefallenen Zonennamen löschen
-						{
-								IPS_DeleteVariable($value1);
-						}
-						IPS_DeleteCategory($value); // echo " ".$value." ";
-				}
-
-			}
-			// Jetzt noch Kategorien anlegen für neu hinzugekommene SONOS Zonen
-			$zone_cats_to_create = array_diff ($sonos_zone_names,	$existing_zone_cat_name );//Feststellen welche Zonen hinzugekommen sind
-//			print_r($zone_cats_to_create);
-         foreach ($zone_cats_to_create as $key2 => $value2)
-			{
-				if($value2 != "")
-				{
-					$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
-					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
-					IPS_SetParent($zone_name_id, $zone_id);
-//					echo " NC ".$value2." ";
-				}
 			}
 
 
