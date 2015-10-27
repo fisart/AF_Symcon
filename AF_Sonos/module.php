@@ -183,7 +183,7 @@ public function build_action_events()
  					IPS_SetEventTrigger ($event_id,1,$content_var_name_string_id);
  					IPS_SetEventActive ( $event_id, true );
  					
- 					$command_script_id = IPS_CreateScript (0);
+/* 					$command_script_id = IPS_CreateScript (0);
 					IPS_SetName($command_script_id ,$command_script_name_string);
 					IPS_SetParent($command_script_id , $parent_id);
 					$selection = 1;
@@ -196,7 +196,7 @@ public function build_action_events()
 					$selection = 2;
 					$var_change_script = SO_get_script_content($parent_id,$selection);
 					IPS_SetScriptContent($var_change_script_id,$var_change_script);
-
+*/
 		}
 
 
