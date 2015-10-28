@@ -166,7 +166,7 @@ public function build_action_events()
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_id,$var_change_script_name,$script1,$script2 ;
 
-					if(!IPS_GetObjectIDByName ($update_script_name_string, $parent_id ))
+					if(@IPS_GetObjectIDByName ($update_script_name_string, $parent_id) == false)
 					{
 						SO_get_script_content($parent_id);
 						$script_id = IPS_CreateScript (0);
@@ -175,7 +175,7 @@ public function build_action_events()
 						IPS_SetScriptContent($script_id,'<? SO_update_sonos_data(1) ?>');
 					}
 					
-					if(!IPS_GetObjectIDByName ($update_script_name_string, $parent_id ))
+					if(@IPS_GetObjectIDByName ($update_script_name_string, $parent_id ) == false)
 					{
  						$event_id = IPS_CreateEvent (0);
 						IPS_SetName($event_id , $update_script_name_string);
@@ -184,7 +184,7 @@ public function build_action_events()
  						IPS_SetEventActive ( $event_id, true );
 					}
  					
-					if(!IPS_GetObjectIDByName ($command_script_name_string, $parent_id ))
+					if(@IPS_GetObjectIDByName ($command_script_name_string, $parent_id )== false)
 					{
  						$command_script_id = IPS_CreateScript (0);
 						IPS_SetName($command_script_id ,$command_script_name_string);
@@ -192,7 +192,7 @@ public function build_action_events()
 						IPS_SetScriptContent($command_script_id,$script1);
 					}
 					
-					if(!IPS_GetObjectIDByName ($var_change_script_name, $parent_id ))
+					if(@IPS_GetObjectIDByName ($var_change_script_name, $parent_id )== false)
 					{
 						$var_change_script_id = IPS_CreateScript (0);
 						IPS_SetName($var_change_script_id ,$var_change_script_name);
