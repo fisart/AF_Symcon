@@ -25,16 +25,6 @@
 			$master_IP_id = $this->GetIDForIdent($master_ip_name_string);
 			SetValue($master_IP_id, $Sonos_Master_IP); //Beschreibt die Variable
 			$parent_id = IPS_GetObject($master_IP_id)['ParentID'];
-/*			$top_cat_id = @IPS_GetCategoryIDByName($Sonos_cat_name,0);
- 			if($top_cat_id == 0)
- 			{
-				$top_cat_id = IPS_CreateCategory();       // Kategorie anlegen
-				IPS_SetName($top_cat_id ,$Sonos_cat_name); // Kategorie benennen
-				IPS_SetParent($top_cat_id,0);
-				IPS_SetName($parent_id ,$module_name_string ); // Kategorie benennen
-				IPS_SetParent($parent_id ,$top_cat_id);
-			}
-*/
 			SO_create_sonos_reader_socket($parent_id);
 			SO_create_sonos_text_parser($parent_id);
 			SO_create_sonos_content_variable($parent_id);
@@ -234,7 +224,7 @@ public function build_action_events()
 					}
 					else
 					{																														//$Name,$Root,$Type,$Profile,$switch)
-						$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']."_ID"] = SO_create_variables($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],0);
+						$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']."_ID"] = SO_create_variables($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],false);
 
 					}
 					$i++;
@@ -667,7 +657,7 @@ public function build_or_fix_sonos_controls()
 			}
 			else
 			{																													//$Name,$Root,$Type,$Profile,$switch)
-				$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_variables($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],1);
+				$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_variables($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],true);
 			}
 			$i++;
 		}
@@ -808,7 +798,14 @@ public function create_variables($Name,$Root,$Type,$Profile,$switch)
   		$ID = IPS_CreateVariable ( $Type );
   		IPS_SetName ( $ID,$Name );
   		IPS_SetParent ( $ID, $Root );
-  		if ($switch) {IPS_SetVariableCustomAction ( $ID, $var_script_id );}
+  		if ($switch)
+		{
+			IPS_SetVariableCustomAction ( $ID, $var_script_id );
+		}
+		else
+		{
+		
+		}
   		IPS_SetVariableCustomProfile ( $ID, $Profile);
   }
 
