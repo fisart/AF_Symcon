@@ -38,8 +38,8 @@
 			SO_create_sonos_reader_socket($parent_id);
 			SO_create_sonos_text_parser($parent_id);
 			SO_create_sonos_content_variable($parent_id);
-			SO_define_sonos_text_parser($parent_id);
-			SO_define_categories($parent_id);
+			SO_create_sonos_text_parser($parent_id);
+			SO_create_categories($parent_id);
 			SO_create_scripts($parent_id);
 			SO_create_links($parent_id);
 
@@ -124,7 +124,7 @@
 				{
 				}
 			}
-			SO_define_categories_and_links($parent_id);
+			SO_create_categories($parent_id);
 			SO_read_sonos_data($parent_id);
 			SO_build_or_fix_sonos_variables($parent_id,"");
 			SO_populate_variables($parent_id,"");
@@ -132,7 +132,7 @@
 			SO_build_or_fix_profile($parent_id,"");
 			SO_build_or_fix_sonos_controls($parent_id,"");
 			SO_build_action_events($parent_id);
-         SO_define_categories_zone_master($parent_id);
+         SO_create_categories_zone_master($parent_id);
          SO_create_links($parent_id);
 //			SO_sonos_content( $parent_id);
 	   }
@@ -243,7 +243,7 @@ public function build_action_events()
 		}
 
 
-      public function define_categories_zone_master()
+      public function create_categories_zone_master()
       {
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id;
@@ -297,7 +297,7 @@ public function build_action_events()
       }
 
 
-		public function define_categories()
+		public function create_categories()
 		{
 
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
@@ -441,7 +441,7 @@ public function build_action_events()
 
 
 
-		public function define_sonos_text_parser()
+		public function create_sonos_text_parser()
 		{
 
 			global  $text_parser_id,$content_var_name_string_id,$sonos_reader_id;
