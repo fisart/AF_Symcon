@@ -425,23 +425,27 @@ public function build_action_events()
 						$zone_id,$visu_id;
 
 
-
-				$link_ids = IPS_GetObject($visu_id)['ChildrenIDs'];
-				if(!is_array($link_ids))
-				{
-					$LinkID = IPS_CreateLink();             // Link anlegen
-					IPS_SetName($LinkID,  IPS_GetObject ($player_data_id)['ObjectName']); // Link benennen
-					IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
-					IPS_SetLinkTargetID($LinkID, $player_data_id);    // Link verknüpfen
-					$LinkID = IPS_CreateLink();             // Link anlegen
-					IPS_SetName($LinkID,  IPS_GetObject ($action_ID)['ObjectName']); // Link benennen
-					IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
-					IPS_SetLinkTargetID($LinkID, $action_ID);    // Link verknüpfen
-					$LinkID = IPS_CreateLink();             // Link anlegen
-					IPS_SetName($LinkID,  $Zone_cat_name); // Link benennen
-					IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
-					IPS_SetLinkTargetID($LinkID, $zone_id);    // Link verknüpfen
-				}
+					if(@IPS_GetObjectIDByName (IPS_GetObject ($player_data_id)['ObjectName'], $visu_id )== false)
+					{
+						$LinkID = IPS_CreateLink();             // Link anlegen
+						IPS_SetName($LinkID,  IPS_GetObject ($player_data_id)['ObjectName']); // Link benennen
+						IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
+						IPS_SetLinkTargetID($LinkID, $player_data_id);    // Link verknüpfen
+					}
+					if(@IPS_GetObjectIDByName (IPS_GetObject ($action_ID)['ObjectName'], $visu_id )== false)
+					{
+						$LinkID = IPS_CreateLink();             // Link anlegen
+						IPS_SetName($LinkID,  IPS_GetObject ($action_ID)['ObjectName']); // Link benennen
+						IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
+						IPS_SetLinkTargetID($LinkID, $action_ID);    // Link verknüpfen
+					}
+					if(@IPS_GetObjectIDByName (IPS_GetObject ($Zone_cat_name)['ObjectName'], $visu_id )== false)
+					{
+						$LinkID = IPS_CreateLink();             // Link anlegen
+						IPS_SetName($LinkID,  $Zone_cat_name); // Link benennen
+						IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
+						IPS_SetLinkTargetID($LinkID, $zone_id);    // Link verknüpfen
+					}
 
 		
 		}
