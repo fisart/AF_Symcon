@@ -173,10 +173,6 @@ public function build_action_events()
 						IPS_SetName($script_id , $update_script_name_string);
 						IPS_SetParent($script_id , $parent_id);
 						IPS_SetScriptContent($script_id,'<? SO_update_sonos_data(1) ?>');
-					}
-					
-					if(@IPS_GetObjectIDByName ($update_script_name_string, $parent_id ) == false)
-					{
  						$event_id = IPS_CreateEvent (0);
 						IPS_SetName($event_id , $update_script_name_string);
 						IPS_SetParent( $event_id, $script_id);
