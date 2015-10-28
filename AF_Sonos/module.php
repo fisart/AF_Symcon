@@ -224,7 +224,7 @@ public function build_action_events()
 					}
 					else
 					{																														//$Name,$Root,$Type,$Profile,$switch)
-						$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']."_ID"] = SO_create_variables($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],false);
+						$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']."_ID"] = SO_create_variables($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName']);
 
 					}
 					$i++;
@@ -657,7 +657,7 @@ public function build_or_fix_sonos_controls()
 			}
 			else
 			{																													//$Name,$Root,$Type,$Profile,$switch)
-				$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_variables($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],true);
+				$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_variables_with_action($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName']);
 			}
 			$i++;
 		}
@@ -783,10 +783,7 @@ public function 	create_profile() //Hier wird das Sonos Master Profil angelegt
 }
 
 
-
-
-
-public function create_variables($Name,$Root,$Type,$Profile,$switch)
+public function create_variables_with_action($Name,$Root,$Type,$Profile)
 {
   global $var_script_id;
   $ID = @IPS_GetVariableIDByName ( $Name, $Root );
@@ -798,14 +795,27 @@ public function create_variables($Name,$Root,$Type,$Profile,$switch)
   		$ID = IPS_CreateVariable ( $Type );
   		IPS_SetName ( $ID,$Name );
   		IPS_SetParent ( $ID, $Root );
-  		if ($switch)
-		{
-			IPS_SetVariableCustomAction ( $ID, $var_script_id );
-		}
-		else
-		{
-		
-		}
+		IPS_SetVariableCustomAction ( $ID, $var_script_id );
+  		IPS_SetVariableCustomProfile ( $ID, $Profile);
+  }
+
+  return $ID;
+
+}
+
+
+public function create_variables($Name,$Root,$Type,$Profile)
+{
+  global $var_script_id;
+  $ID = @IPS_GetVariableIDByName ( $Name, $Root );
+  if ($ID)
+  {
+  }
+  else
+  {
+  		$ID = IPS_CreateVariable ( $Type );
+  		IPS_SetName ( $ID,$Name );
+  		IPS_SetParent ( $ID, $Root );
   		IPS_SetVariableCustomProfile ( $ID, $Profile);
   }
 
