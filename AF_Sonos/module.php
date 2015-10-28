@@ -166,27 +166,39 @@ public function build_action_events()
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_id,$var_change_script_name,$script1,$script2 ;
 
-					SO_get_script_content($parent_id);
-					$script_id = IPS_CreateScript (0);
-					IPS_SetName($script_id , $update_script_name_string);
-					IPS_SetParent($script_id , $parent_id);
-					IPS_SetScriptContent($script_id,'<? SO_update_sonos_data(1) ?>');
+					if(!IPS_GetObjectIDByName ($update_script_name_string, $parent_id ))
+					{
+						SO_get_script_content($parent_id);
+						$script_id = IPS_CreateScript (0);
+						IPS_SetName($script_id , $update_script_name_string);
+						IPS_SetParent($script_id , $parent_id);
+						IPS_SetScriptContent($script_id,'<? SO_update_sonos_data(1) ?>');
+					}
 					
- 					$event_id = IPS_CreateEvent (0);
-					IPS_SetName($event_id , $update_script_name_string);
-					IPS_SetParent( $event_id, $script_id);
- 					IPS_SetEventTrigger ($event_id,1,$content_var_name_string_id);
- 					IPS_SetEventActive ( $event_id, true );
+					if(!IPS_GetObjectIDByName ($update_script_name_string, $parent_id ))
+					{
+ 						$event_id = IPS_CreateEvent (0);
+						IPS_SetName($event_id , $update_script_name_string);
+						IPS_SetParent( $event_id, $script_id);
+ 						IPS_SetEventTrigger ($event_id,1,$content_var_name_string_id);
+ 						IPS_SetEventActive ( $event_id, true );
+					}
  					
- 					$command_script_id = IPS_CreateScript (0);
-					IPS_SetName($command_script_id ,$command_script_name_string);
-					IPS_SetParent($command_script_id , $parent_id);
-					IPS_SetScriptContent($command_script_id,$script1);
+					if(!IPS_GetObjectIDByName ($command_script_name_string, $parent_id ))
+					{
+ 						$command_script_id = IPS_CreateScript (0);
+						IPS_SetName($command_script_id ,$command_script_name_string);
+						IPS_SetParent($command_script_id , $parent_id);
+						IPS_SetScriptContent($command_script_id,$script1);
+					}
 					
-					$var_change_script_id = IPS_CreateScript (0);
-					IPS_SetName($var_change_script_id ,$var_change_script_name);
-					IPS_SetParent($var_change_script_id, $parent_id);
-					IPS_SetScriptContent($var_change_script_id,$script2);
+					if(!IPS_GetObjectIDByName ($var_change_script_name, $parent_id ))
+					{
+						$var_change_script_id = IPS_CreateScript (0);
+						IPS_SetName($var_change_script_id ,$var_change_script_name);
+						IPS_SetParent($var_change_script_id, $parent_id);
+						IPS_SetScriptContent($var_change_script_id,$script2);
+					}
 
 		}
 
@@ -415,7 +427,7 @@ public function build_action_events()
 
 
 				$link_ids = IPS_GetObject($visu_id)['ChildrenIDs'];
-				if(is_array($link_ids))
+				if(!is_array($link_ids))
 				{
 					$LinkID = IPS_CreateLink();             // Link anlegen
 					IPS_SetName($LinkID,  IPS_GetObject ($player_data_id)['ObjectName']); // Link benennen
