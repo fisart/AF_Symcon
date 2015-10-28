@@ -14,13 +14,12 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 
-			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
+			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name;
 
 			SO_define_names("");
 			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos_Master_IP", "",0); // Erzeugt die Variable
-			$var_script_id = 57658 /*[Scripte\Variable ändern]*/; //noch dynamisieren
 			$Sonos_Master_IP = $this->ReadPropertyString($master_ip_name_string); //Liest die Eigenschaft
 			$master_IP_id = $this->GetIDForIdent($master_ip_name_string);
 			SetValue($master_IP_id, $Sonos_Master_IP); //Beschreibt die Variable
@@ -71,13 +70,12 @@
 
 		public function update_sonos_data()
 		{
-			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
+			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
 					 $zone_id,$var_change_script_id;
 
 			SO_define_names($parent_id);
-			$var_script_id = $var_change_script_id;
 			$ALL_IDS = IPS_GetObjectList ( );
 			$content_var_name_string_id = 0;
 			foreach ($ALL_IDS as $key => $value)
@@ -110,6 +108,10 @@
 				{
 					$zone_id = $value;
 				}
+				elseif(IPS_GetName($value) == $var_change_script_name)
+				{
+					$var_change_script_id = $value;
+				}
 				else
 				{
 				}
@@ -131,7 +133,7 @@
 public function build_action_events()
 
 {
-			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
+			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id;
 
@@ -160,7 +162,7 @@ public function build_action_events()
 
 		public function create_scripts()
 		{
-		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
+		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_id,$var_change_script_name,$script1,$script2 ;
 
@@ -191,7 +193,7 @@ public function build_action_events()
 
 		public function sonos_content()
 		{
-			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id ;
+			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id ;
 //			print_r($Sonos_Data);
 
 			return $Sonos_Data;
@@ -785,7 +787,7 @@ public function 	create_profile() //Hier wird das Sonos Master Profil angelegt
 
 public function create_variables_with_action($Name,$Root,$Type,$Profile)
 {
-  global $var_script_id;
+  global $var_change_script_id;
   $ID = @IPS_GetVariableIDByName ( $Name, $Root );
   if ($ID)
   {
@@ -795,7 +797,7 @@ public function create_variables_with_action($Name,$Root,$Type,$Profile)
   		$ID = IPS_CreateVariable ( $Type );
   		IPS_SetName ( $ID,$Name );
   		IPS_SetParent ( $ID, $Root );
-		IPS_SetVariableCustomAction ( $ID, $var_script_id );
+		IPS_SetVariableCustomAction ( $ID, $var_change_script_id );
   		IPS_SetVariableCustomProfile ( $ID, $Profile);
   }
 
@@ -806,7 +808,7 @@ public function create_variables_with_action($Name,$Root,$Type,$Profile)
 
 public function create_variables($Name,$Root,$Type,$Profile)
 {
-  global $var_script_id;
+  global $var_change_script_id;
   $ID = @IPS_GetVariableIDByName ( $Name, $Root );
   if ($ID)
   {
@@ -836,7 +838,7 @@ public function get_script_content()
 global $script1,$script2;
 $script1 =
 '<?
-global 	$action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_script_id,
+global 	$action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
 			$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 			$update_script_name_string,$event_name_string,$visualisierung_name_string;
 
