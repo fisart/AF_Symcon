@@ -38,7 +38,7 @@
 			SO_create_sonos_reader_socket($parent_id);
 			SO_create_sonos_text_parser($parent_id);
 			SO_create_sonos_content_variable($parent_id);
-			SO_create_sonos_text_parser($parent_id);
+			SO_set_rule_sonos_text_parser($parent_id);
 			SO_create_categories($parent_id);
 			SO_create_scripts($parent_id);
 			SO_create_links($parent_id);
@@ -441,7 +441,7 @@ public function build_action_events()
 
 
 
-		public function create_sonos_text_parser()
+		public function set_rule_sonos_text_parser()
 		{
 
 			global  $text_parser_id,$content_var_name_string_id,$sonos_reader_id;
