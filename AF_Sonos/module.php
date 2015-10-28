@@ -39,8 +39,9 @@
 			SO_create_sonos_text_parser($parent_id);
 			SO_create_sonos_content_variable($parent_id);
 			SO_define_sonos_text_parser($parent_id);
-			SO_define_categories_and_links($parent_id);
+			SO_define_categories($parent_id);
 			SO_create_scripts($parent_id);
+			SO_create_links($parent_id);
 
 		}
 
@@ -132,7 +133,7 @@
 			SO_build_or_fix_sonos_controls($parent_id,"");
 			SO_build_action_events($parent_id);
          SO_define_categories_zone_master($parent_id);
-
+         SO_create_links($parent_id);
 //			SO_sonos_content( $parent_id);
 	   }
 
@@ -296,11 +297,12 @@ public function build_action_events()
       }
 
 
-		public function define_categories_and_links()
+		public function define_categories()
 		{
 
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
-						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id;
+						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,
+						$visu_id,$zone_id;
 
 
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
@@ -405,6 +407,21 @@ public function build_action_events()
 				$visu_id = IPS_CreateCategory();       // Kategorie anlegen
 				IPS_SetName($visu_id, $visualisierung_name_string); // Kategorie benennen
 				IPS_SetParent($visu_id, $parent_id);
+			}
+
+
+		}
+
+
+
+		public function create_links()
+		{
+			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
+						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,
+						$zone_id,$visu_id;
+
+
+
 				$LinkID = IPS_CreateLink();             // Link anlegen
 				IPS_SetName($LinkID,  IPS_GetObject ($player_data_id)['ObjectName']); // Link benennen
 				IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
@@ -417,10 +434,12 @@ public function build_action_events()
 				IPS_SetName($LinkID,  $Zone_cat_name); // Link benennen
 				IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
 				IPS_SetLinkTargetID($LinkID, $zone_id);    // Link verknüpfen
-			}
 
-
+		
 		}
+
+
+
 
 		public function define_sonos_text_parser()
 		{
