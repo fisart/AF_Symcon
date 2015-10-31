@@ -173,6 +173,7 @@ global $content_var_name_string_id,$sonos_data_with_php_class_name,$sonos_data_v
 			}
 
 			$alt = GetValueString($sonos_data_via_php_class_id);
+			echo " A ".$alt." SD ".$alt." ";
 			SetValueString($sonos_data_via_php_class_id,$sonos_data);
 			if (strcmp($alt,$sonos_data) != 0)
 			{
