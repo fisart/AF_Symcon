@@ -65,7 +65,7 @@
 			$Zone_cat_name                	= "Zones";
 			$var_change_script_name       	= "Change_Var";
 			$content_var_php_class_name_string 	= "sonos_data_with_php_class_name";
-			$content_var_php_script_name_string = "Get Sonos changes via PHP Classe";
+			$content_var_php_script_name_string = "Get_Sonos_changes_via_PHP_Classe";
 
 
 		}
@@ -215,7 +215,7 @@ public function build_action_events()
 		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_id,$var_change_script_name,$script1,
-					$script2,$script3,$content_var_php_class_name_string,$sonos_data_via_php_class_id ;
+					$script2,$script3,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_name_string ;
 
 					if(@IPS_GetObjectIDByName ($update_script_name_string, $parent_id) == false)
 					{
