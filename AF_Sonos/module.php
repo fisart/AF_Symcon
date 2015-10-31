@@ -249,13 +249,13 @@ public function build_action_events()
 					if(@IPS_GetObjectIDByName ($$content_var_php_script_name_string, $parent_id )== false)
 					{
 						$content_var_php_script_id= IPS_CreateScript (0);
-						IPS_SetName($content_var_php_script_id ,$$content_var_php_script_name_string);
+						IPS_SetName($content_var_php_script_id ,$content_var_php_script_name_string);
 						IPS_SetParent($content_var_php_script_id, $parent_id);
 						IPS_SetScriptContent($content_var_php_script_id,$script3);
 						$sonos_data_via_php_class_id = IPS_CreateVariable (3);
 						IPS_SetName($sonos_data_via_php_class_id ,$content_var_php_class_name_string);
 						IPS_SetParent($sonos_data_via_php_class_id, $content_var_php_script_id);
-						$eid = IPS_CreateEvent(0);
+						$eid = IPS_CreateEvent(1);
 						IPS_SetParent($eid,$sonos_data_via_php_class_id);
 						IPS_SetName($eid ," Poll SONOS PHP");
 						IPS_SetEventCyclic($eid, 0 , 0 , 0, 0, 1,0);
