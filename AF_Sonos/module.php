@@ -868,13 +868,13 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 	 	IPS_SetVariableProfileAssociation ($action_string,6,"Unmute","Speaker",  $Color[6]);
 	 	
 	 	IPS_SetVariableProfileAssociation ($group_action_string."1",0,"Play","Speaker",  $Color[0]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."1",1,"Mute","Cross",  $Color[5]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."2",0,"Stop","Cross",  $Color[5]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."2",1,"Mute","Cross",  $Color[5]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."1",1,"Mute","Cross",  $Color[1]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."2",0,"Stop","Cross",  $Color[4]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."2",1,"Mute","Cross",  $Color[1]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."3",0,"Play","Speaker",  $Color[0]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."3",1,"Unmute","Speaker",  $Color[0]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."4",0,"Stop","Cross",  $Color[5]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."4",1,"Unmute","Speaker",  $Color[0]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."3",1,"Unmute","Speaker",  $Color[7]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."4",0,"Stop","Cross",  $Color[4]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."4",1,"Unmute","Speaker",  $Color[7]);
 
 
 }
