@@ -66,9 +66,9 @@
 			$var_change_script_name       	= "Change_Var";
 			$content_var_php_class_name_string 	= "sonos_data_with_php_class_name";
 			$content_var_php_script_name_string = "Get_Sonos_changes_via_PHP_Classe";
-			$group_action_string                ="Group Action";
-			$group_add_string                   ="Group Add";
-			$group_remove_string                ="Group Remove";
+			$group_action_string                ="Group_Action";
+			$group_add_string                   ="Group_Add";
+			$group_remove_string                ="Group_Remove";
 
 
 		}
