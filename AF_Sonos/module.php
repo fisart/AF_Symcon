@@ -47,7 +47,7 @@
 			global
 					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,$content_var_name_string,
 					$update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
-					$var_change_script_name,$content_var_php_class_name_string,	$content_var_php_script_name_string;
+					$var_change_script_name,$content_var_php_class_name_string,	$content_var_php_script_name_string,$group_action_string,$group_add_string,$group_remove_string;
 
 			$action_string 						= "Sonos_Action";
 			$volume_string 						= "Volume";
@@ -66,6 +66,9 @@
 			$var_change_script_name       	= "Change_Var";
 			$content_var_php_class_name_string 	= "sonos_data_with_php_class_name";
 			$content_var_php_script_name_string = "Get_Sonos_changes_via_PHP_Classe";
+			$group_action_string                ="Group Action";
+			$group_add_string                   ="Group Add";
+			$group_remove_string                ="Group Remove";
 
 
 		}
@@ -836,11 +839,11 @@ public function populate_master($Sonos_Data,$i)
 }
 
 
-
 public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master definiert
 {
 	global $Sonos_Data,
-	       $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string;
+	       $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string
+			 ,$group_action_string,$group_add_string,$group_remove_string;
 
 	$key = 0;
 	$Color = [0x15EB4A,0xF21344,0x1833DE,0xE8DA10,0xF21BB9,0x1BCEF2,0x1BF2C0,0x1A694C,0xF2981B,0x48508A,0x912A41,0x15EB4A,0xF21344,0x1833DE,0xE8DA10,0xF21BB9,0x1BCEF2,0x1BF2C0,0x1A694C,0xF2981B,0x48508A,0x912A41];
@@ -863,6 +866,15 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 	 	IPS_SetVariableProfileAssociation ($action_string,4,"Remove me as member","Cross",  $Color[4]);
 	 	IPS_SetVariableProfileAssociation ($action_string,5,"Mute","Cross",  $Color[5]);
 	 	IPS_SetVariableProfileAssociation ($action_string,6,"Unmute","Speaker",  $Color[6]);
+	 	
+	 	IPS_SetVariableProfileAssociation ($group_action_string."1",0,"Play","Speaker",  $Color[0]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."1",1,"Mute","Cross",  $Color[5]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."2",0,"Stop","Cross",  $Color[5]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."2",1,"Mute","Cross",  $Color[5]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."3",0,"Play","Speaker",  $Color[0]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."3",1,"Unmute","Speaker",  $Color[0]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."4",0,"Stop","Cross",  $Color[5]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."4",1,"Unmute","Speaker",  $Color[0]);
 
 
 }
@@ -870,13 +882,20 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 
 public function 	create_profile() //Hier wird das Sonos Master Profil angelegt
 {
-	global $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string;
+	global $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string
+	,$group_action_string,$group_add_string,$group_remove_string;
 
 
 	if(!IPS_VariableProfileExists ( $sonos_master_string )) IPS_CreateVariableProfile( $sonos_master_string, 1 );
 	if(!IPS_VariableProfileExists ($mute_string ))	IPS_CreateVariableProfile ( $mute_string, 1 );
 	if(!IPS_VariableProfileExists ($volume_string ))	IPS_CreateVariableProfile ( $volume_string, 1 );
 	if(!IPS_VariableProfileExists ($action_string ))	IPS_CreateVariableProfile ( $action_string, 1 );
+
+	if(!IPS_VariableProfileExists ($group_action_string."1" ))	IPS_CreateVariableProfile ( $group_action_string."1", 1 );
+	if(!IPS_VariableProfileExists ($group_action_string."2" ))	IPS_CreateVariableProfile ( $group_action_string."2", 1 );
+	if(!IPS_VariableProfileExists ($group_action_string."3" ))	IPS_CreateVariableProfile ( $group_action_string."3", 1 );
+	if(!IPS_VariableProfileExists ($group_action_string."4" ))	IPS_CreateVariableProfile ( $group_action_string."4", 1 );
+
 
 }
 
