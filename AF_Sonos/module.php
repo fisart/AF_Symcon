@@ -333,7 +333,8 @@ public function build_action_events()
       public function create_categories_zone_master()
       {
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
-						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id;
+						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
+						$group_action_string;
 
 			$master_list_var_ids = IPS_GetChildrenIDs($Sonos_Master_id);
 			$sonos_zone_names[] = NULL; //SONOS Zonen
@@ -377,6 +378,7 @@ public function build_action_events()
 					$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
 					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
 					IPS_SetParent($zone_name_id, $zone_id);
+					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$group_action_string."1");
 //					echo " NC ".$value2." ";
 				}
 			}
