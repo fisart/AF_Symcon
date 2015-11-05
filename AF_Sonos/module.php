@@ -378,12 +378,53 @@ public function build_action_events()
 					$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
 					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
 					IPS_SetParent($zone_name_id, $zone_id);
-					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$group_action_string."1");
+					foreach($Sonos_Data as $key3 => $value3)
+					{
+						if($Sonos_Data[$key3]['Name'] == $value2 )
+						{
+                     $sonos = new PHPSonos($Sonos_Data[$key3]['IP'] ); //Sonos ZP IPAdresse
+							$status = $sonos->GetTransportInfo(); // gibt den aktuellen Status
+							// des Sonos-Players als Integer zurück, 1: PLAYING, 2: PAUSED, 3: STOPPED
+							// status as integer; see above
+
+						   if($Sonos_Data[$key3]['Mute'] == true)
+						   {
+						      if($status == 1)
+						      {
+									$profil = $group_action_string."4"; //Stop + Unmute
+						      }
+						      else
+						      {
+									$profil = $group_action_string."3"; //Play + Unmute
+
+						      }
+						   }
+						   else
+						   {
+						      if($status == 1)
+						      {
+									$profil = $group_action_string."2"; //Stop + Mute
+						      }
+						      else
+						      {
+									$profil = $group_action_string."1"; //Play + Mute
+
+						      }
+
+						   }
+						
+						}
+					}
+
+					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profil);
 //					echo " NC ".$value2." ";
 				}
 			}
 
       }
+
+
+
 
 
 		public function create_categories()
