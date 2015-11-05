@@ -378,6 +378,23 @@ public function build_action_events()
 					$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
 					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
 					IPS_SetParent($zone_name_id, $zone_id);
+					$profile = SO_find_zone_profile($parent_id);
+					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profil);
+//					echo " NC ".$value2." ";
+				}
+			}
+
+      }
+
+
+				public function find_zone_profile()
+				{
+						global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
+									$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
+									$group_action_string;
+
+
+
 					foreach($Sonos_Data as $key3 => $value3)
 					{
 						if($Sonos_Data[$key3]['Name'] == $value2 )
@@ -412,18 +429,10 @@ public function build_action_events()
 						      }
 
 						   }
-						
+
 						}
+						return $profil;
 					}
-
-					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profil);
-//					echo " NC ".$value2." ";
-				}
-			}
-
-      }
-
-
 
 
 
