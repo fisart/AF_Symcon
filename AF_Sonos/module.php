@@ -379,11 +379,12 @@ public function build_action_events()
 					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
 					IPS_SetParent($zone_name_id, $zone_id);
 //					$profile = SO_find_zone_profile($parent_id,$value2);
-					foreach($Sonos_Data[] as $key3 => $value3)
+					foreach($Sonos_Data as $key3 => $value3)
 					{
 						if($Sonos_Data[$key3]['Name'] == $value2 )
 						{
 							$Player_IP = $Sonos_Data[$key3]['IP'];
+							echo " IP ".$Player_IP." ".$value2;
                   	SO_find_zone_profile($parent_id,$Player_IP);
 						}
 						else
