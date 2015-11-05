@@ -423,13 +423,12 @@ public function build_action_events()
 									$profile = $group_action_string."1"; //Play + Mute
 						      }
 						   }
-							return $profile;
 						}
 						else
 						{
 						}
 					}
-				
+					return $profile;
 				}
 
 
