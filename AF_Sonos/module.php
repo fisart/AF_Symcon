@@ -334,7 +334,7 @@ public function build_action_events()
       {
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
-						$group_action_string;
+						$group_action_string,$profile;
 
 			$master_list_var_ids = IPS_GetChildrenIDs($Sonos_Master_id);
 			$sonos_zone_names[] = NULL; //SONOS Zonen
@@ -384,7 +384,7 @@ public function build_action_events()
 						if($Sonos_Data[$key3]['Name'] == $value2 )
 						{
 							$Player_IP = $Sonos_Data[$key3]['IP'];
-                  	$profile = SO_find_zone_profile($parent_id,$Player_IP,"");
+                  	SO_find_zone_profile($parent_id,$Player_IP);
 						}
 						else
 						{
@@ -433,7 +433,7 @@ public function build_action_events()
 
 				public function find_zone_profile($player)
 				{
-
+							global $profile;
                      $sonos = new PHPSonos($player ); //Sonos ZP IPAdresse
 							$status = $sonos->GetTransportInfo(); // gibt den aktuellen Status
 							$mute = $sonos->GetMute();
@@ -462,7 +462,7 @@ public function build_action_events()
 									$profile = $group_action_string."1"; //Play + Mute
 						      }
 						   }
-					return $profile;
+//					return $profile;
 				}
 
 
