@@ -385,7 +385,7 @@ public function build_action_events()
 						{
 							$Player_IP = $Sonos_Data[$key3]['IP'];
 							echo " IP ".$Player_IP." ".$value2;
-                  	SO_find_zone_profile($parent_id,$Player_IP);
+                  	$profile = SO_find_zone_profile($parent_id,$Player_IP);
 						}
 						else
 						{
@@ -434,6 +434,8 @@ public function build_action_events()
 
 				public function find_zone_profile($player)
 				{
+
+							global $group_action_string;
                      $sonos = new PHPSonos($player ); //Sonos ZP IPAdresse
 							$status = $sonos->GetTransportInfo(); // gibt den aktuellen Status
 							$mute = $sonos->GetMute();
