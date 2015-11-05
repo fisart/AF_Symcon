@@ -379,7 +379,7 @@ public function build_action_events()
 					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
 					IPS_SetParent($zone_name_id, $zone_id);
 					$profile = SO_find_zone_profile($parent_id,$value2);
-					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profil);
+					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile);
 //					echo " NC ".$value2." ";
 				}
 			}
@@ -405,30 +405,31 @@ public function build_action_events()
 						   {
 						      if($status == 1)
 						      {
-									$profil = $group_action_string."4"; //Stop + Unmute
+									$profile = $group_action_string."4"; //Stop + Unmute
 						      }
 						      else
 						      {
-									$profil = $group_action_string."3"; //Play + Unmute
+									$profile = $group_action_string."3"; //Play + Unmute
 						      }
 						   }
 						   else
 						   {
 						      if($status == 1)
 						      {
-									$profil = $group_action_string."2"; //Stop + Mute
+									$profile = $group_action_string."2"; //Stop + Mute
 						      }
 						      else
 						      {
-									$profil = $group_action_string."1"; //Play + Mute
+									$profile = $group_action_string."1"; //Play + Mute
 						      }
 						   }
+							return $profile;
 						}
 						else
 						{
 						}
 					}
-					return $profil;
+				
 				}
 
 
