@@ -384,7 +384,7 @@ public function build_action_events()
 						if($Sonos_Data[$key3]['Name'] == $value2 )
 						{
 							$Player_IP = $Sonos_Data[$key3]['IP'];
-                  	$profile = SO_find_zone_profile($parent_id,$Player_IP);
+                  	$profile = SO_find_zone_profile($parent_id,$Player_IP,"");
 						}
 						else
 						{
