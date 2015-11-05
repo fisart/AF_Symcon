@@ -381,40 +381,46 @@ public function build_action_events()
 //					$profile = SO_find_zone_profile($parent_id,$value2);
 					foreach($Sonos_Data as $key3 => $value3)
 					{
-
 						if($Sonos_Data[$key3]['Name'] == $value2 )
 						{
-                     $sonos = new PHPSonos($Sonos_Data[$key3]['IP'] ); //Sonos ZP IPAdresse
-							$status = $sonos->GetTransportInfo(); // gibt den aktuellen Status
-							// des Sonos-Players als Integer zurück, 1: PLAYING, 2: PAUSED, 3: STOPPED
-							// status as integer; see above
+                  	$profile = SO_find_zone_profile($parent_id,$Sonos_Data[$key3]['IP']);
+						}
+						else
+						{
+						}
+/*
+						if($Sonos_Data[$key3]['Name'] == $value2 )
+						{
+                     $sonos = new PHPSonos($Sonos_Data[$key3]['IP'] ); 
+							$status = $sonos->GetTransportInfo(); 
 
 						   if($Sonos_Data[$key3]['Mute'] == true)
 						   {
 						      if($status == 1)
 						      {
-									$profile = $group_action_string."4"; //Stop + Unmute
+									$profile = $group_action_string."4"; 
 						      }
 						      else
 						      {
-									$profile = $group_action_string."3"; //Play + Unmute
+									$profile = $group_action_string."3"; 
 						      }
 						   }
 						   else
 						   {
 						      if($status == 1)
 						      {
-									$profile = $group_action_string."2"; //Stop + Mute
+									$profile = $group_action_string."2"; 
 						      }
 						      else
 						      {
-									$profile = $group_action_string."1"; //Play + Mute
+									$profile = $group_action_string."1"; 
 						      }
 						   }
 						}
 						else
 						{
 						}
+*/
 					}
 					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile);
 //					echo " NC ".$value2." ";
@@ -424,21 +430,16 @@ public function build_action_events()
       }
 
 
-				public function find_zone_profile($value2)
+				public function find_zone_profile($player)
 				{
-						global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
-									$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
-									$group_action_string;
-					foreach($Sonos_Data as $key3 => $value3)
-					{
-						if($Sonos_Data[$key3]['Name'] == $value2 )
-						{
-                     $sonos = new PHPSonos($Sonos_Data[$key3]['IP'] ); //Sonos ZP IPAdresse
+
+                     $sonos = new PHPSonos($player ); //Sonos ZP IPAdresse
 							$status = $sonos->GetTransportInfo(); // gibt den aktuellen Status
+							$mute = $sonos->GetMute();
 							// des Sonos-Players als Integer zurück, 1: PLAYING, 2: PAUSED, 3: STOPPED
 							// status as integer; see above
 
-						   if($Sonos_Data[$key3]['Mute'] == true)
+						   if($mute == true)
 						   {
 						      if($status == 1)
 						      {
@@ -460,11 +461,6 @@ public function build_action_events()
 									$profile = $group_action_string."1"; //Play + Mute
 						      }
 						   }
-						}
-						else
-						{
-						}
-					}
 					return $profile;
 				}
 
