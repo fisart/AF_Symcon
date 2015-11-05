@@ -378,7 +378,7 @@ public function build_action_events()
 					$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
 					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
 					IPS_SetParent($zone_name_id, $zone_id);
-					$profile = SO_find_zone_profile($parent_id,$value2);
+					SO_find_zone_profile($parent_id,$value2);
 					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile);
 //					echo " NC ".$value2." ";
 				}
