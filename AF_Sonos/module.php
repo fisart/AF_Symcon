@@ -334,7 +334,7 @@ public function build_action_events()
       {
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
-						$group_action_string;
+						$group_action_string,$profile;
 
 			$master_list_var_ids = IPS_GetChildrenIDs($Sonos_Master_id);
 			$sonos_zone_names[] = NULL; //SONOS Zonen
@@ -391,7 +391,7 @@ public function build_action_events()
 				{
 						global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 									$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
-									$group_action_string;
+									$group_action_string,$profile;
 					foreach($Sonos_Data as $key3 => $value3)
 					{
 						if($Sonos_Data[$key3]['Name'] == $value2 )
@@ -428,7 +428,7 @@ public function build_action_events()
 						{
 						}
 					}
-					return $profile;
+//					return $profile;
 				}
 
 
