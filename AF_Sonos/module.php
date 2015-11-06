@@ -353,7 +353,23 @@ public function build_action_events()
 //				echo "  ".$existing_zone_cat_name[$key];
 				if(in_array ($existing_zone_cat_name[$key] , $sonos_zone_names )) //Zonen Cat Name ist bereits vorhanden und wird auch zukünftig benötigt
 				{
-//					echo "AAAAAAAAAA";
+
+					$existing_variable_ids = IPS_GetChildrenIDs($value);
+					foreach($Sonos_Data as $i => $x)
+					{
+						if($Sonos_Data[$i]['Name'] == $existing_zone_cat_name[$key] )
+						{
+							$Player_IP = $Sonos_Data[$i]['IP'];
+         				foreach ($existing_variable_ids as $key0 => $value0) //Eventuelle Variablen unterhalb des weggefallenen Zonennamen löschen
+							{
+               			$profile = SO_find_zone_profile($parent_id,$Player_IP);
+  								IPS_SetVariableCustomProfile ( $value0, $Profile);
+							}
+						}
+						else
+						{
+						}
+					}
 				}
 				else // Der Zonen Cat Name ist in SONOS nicht mehr vorhanden und kann gelöscht werden
 				{
@@ -378,54 +394,18 @@ public function build_action_events()
 					$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
 					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
 					IPS_SetParent($zone_name_id, $zone_id);
-//					$profile = SO_find_zone_profile($parent_id,$value2);
 					foreach($Sonos_Data as $key3 => $value3)
 					{
 						if($Sonos_Data[$key3]['Name'] == $value2 )
 						{
 							$Player_IP = $Sonos_Data[$key3]['IP'];
-							echo " IP ".$Player_IP." ".$value2;
-                  	$profile = SO_find_zone_profile($parent_id,$Player_IP);
+                 		$profile = SO_find_zone_profile($parent_id,$Player_IP);
 						}
 						else
 						{
 						}
-/*
-						if($Sonos_Data[$key3]['Name'] == $value2 )
-						{
-                     $sonos = new PHPSonos($Sonos_Data[$key3]['IP'] ); 
-							$status = $sonos->GetTransportInfo(); 
-
-						   if($Sonos_Data[$key3]['Mute'] == true)
-						   {
-						      if($status == 1)
-						      {
-									$profile = $group_action_string."4"; 
-						      }
-						      else
-						      {
-									$profile = $group_action_string."3"; 
-						      }
-						   }
-						   else
-						   {
-						      if($status == 1)
-						      {
-									$profile = $group_action_string."2"; 
-						      }
-						      else
-						      {
-									$profile = $group_action_string."1"; 
-						      }
-						   }
-						}
-						else
-						{
-						}
-*/
 					}
 					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile);
-//					echo " NC ".$value2." ";
 				}
 			}
 
