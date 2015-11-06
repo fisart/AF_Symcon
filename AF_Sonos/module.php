@@ -363,7 +363,7 @@ public function build_action_events()
          				foreach ($existing_variable_ids as $key0 => $value0) //Eventuelle Variablen unterhalb des weggefallenen Zonennamen löschen
 							{
                			$profile = SO_find_zone_profile($parent_id,$Player_IP);
-  								IPS_SetVariableCustomProfile ( $value0, $Profile);
+  								IPS_SetVariableCustomProfile ( $value0, $profile);
 							}
 						}
 						else
