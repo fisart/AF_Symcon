@@ -168,9 +168,9 @@ public function get_static_data()
 public function status_zone_mute($zone)
 {
 	global $parent_id,$Sonos_Data;
-   $members_id = SO_find_zone_members($parent_id,$zone);
+ 	SO_read_sonos_php_data($parent_id);
+  	$members_id = SO_find_zone_members($parent_id,$zone);
    $mute = true;
-	SO_read_sonos_php_data($parent_id);
 //print_r ($Sonos_Data);
 	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
 	{
@@ -186,7 +186,7 @@ public function status_zone_mute($zone)
    		if($Sonos_Data[$ii]["Name"] == IPS_GetObject($id)['ObjectName'] )
 			{
 				$sonos = new PHPSonos($Sonos_Data[$ii]["IP"]); //Sonos ZP IPAdresse
-			   if ($sonos->GetMute() == 0)
+			   if ($sonos->GetMute() == true)
 			   {
 			   
 			   }
