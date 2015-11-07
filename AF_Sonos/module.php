@@ -418,11 +418,12 @@ public function build_action_events()
          foreach ($existing_zone_cat_ids as $key => $value)
 			{
 				$existing_zone_cat_name[$key] = IPS_GetName($value);
-//				echo "  ".$existing_zone_cat_name[$key];
+				echo " AAA ".$existing_zone_cat_name[$key]." ";
 				if(in_array ($existing_zone_cat_name[$key] , $sonos_zone_names )) //Zonen Cat Name ist bereits vorhanden und wird auch zukünftig benötigt
 				{
 
 					$existing_variable_ids = IPS_GetChildrenIDs($value);
+					
 					foreach($Sonos_Data as $i => $x)
 					{
 						if($Sonos_Data[$i]['Name'] == $existing_zone_cat_name[$key] )
@@ -430,8 +431,8 @@ public function build_action_events()
 							$Player_IP = $Sonos_Data[$i]['IP'];
          				foreach ($existing_variable_ids as $key0 => $value0) //Eventuelle Variablen unterhalb des weggefallenen Zonennamen löschen
 							{
-               			$profile = SO_find_zone_profile($parent_id,$Player_IP,$Sonos_Data[$i]['Name']);
-  								IPS_SetVariableCustomProfile ( $value0, $profile);
+//               			$profile = SO_find_zone_profile($parent_id,$Player_IP,$Sonos_Data[$i]['Name']);
+//  								IPS_SetVariableCustomProfile ( $value0, $profile);
 							}
 						}
 						else
