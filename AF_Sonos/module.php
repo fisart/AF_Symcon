@@ -418,7 +418,7 @@ public function build_action_events()
 							$Player_IP = $Sonos_Data[$i]['IP'];
          				foreach ($existing_variable_ids as $key0 => $value0) //Eventuelle Variablen unterhalb des weggefallenen Zonennamen löschen
 							{
-               			$profile = SO_find_zone_profile($parent_id,$Player_IP);
+               			$profile = SO_find_zone_profile($parent_id,$Player_IP,$Sonos_Data[$i]['Name']);
   								IPS_SetVariableCustomProfile ( $value0, $profile);
 							}
 						}
