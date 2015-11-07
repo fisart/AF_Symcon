@@ -220,7 +220,7 @@ public function find_zone_members($zone)
 
 public  function read_sonos_php_data()
 {
-global $content_var_name_string_id,$sonos_data_with_php_class_name,$sonos_data_via_php_class_id;
+global $content_var_name_string_id,$sonos_data_with_php_class_name,$sonos_data_via_php_class_id,$parent_id;
 
 			SO_define_names($parent_id);
 			SO_get_static_data($parent_id);
