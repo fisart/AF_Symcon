@@ -174,17 +174,17 @@ public function status_zone_mute($zone)
 //print_r ($Sonos_Data);
 	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
 	{
+		$ii = 0;
       foreach($Sonos_Data as $key2)
       {
  //        echo " A ".$Sonos_Data[$key2]["Name"]." ";
  //        echo " B ".IPS_GetObject($id)['ObjectName']." ";
  
-echo " K ".$key2." ";
-print_r ($Sonos_Data[$key2]);
+//echo " Key ".$key2." ";
+print_r ($Sonos_Data[$ii]);
+$ii++;
 
-
-
-			if($Sonos_Data[$key2]["Name"] == IPS_GetObject($id)['ObjectName'] )
+/*    	if($Sonos_Data[$key2]["Name"] == IPS_GetObject($id)['ObjectName'] )
 			{
 				$sonos = new PHPSonos($Sonos_Data[$key2]["IP"]); //Sonos ZP IPAdresse
 			   if ($sonos->GetMute() == 0)
@@ -196,6 +196,7 @@ print_r ($Sonos_Data[$key2]);
 			   	$mute = false;
 			   }
 			}
+*/
       }
 	}
 	return $mute;
