@@ -259,7 +259,7 @@ global $content_var_name_string_id,$sonos_data_with_php_class_name,$sonos_data_v
 			}
 
 			$alt = GetValueString($sonos_data_via_php_class_id);
-			echo " A ".$alt." SD ".$alt." ";
+//			echo " A ".$alt." SD ".$alt." ";
 			SetValueString($sonos_data_via_php_class_id,$sonos_data);
 			if (strcmp($alt,$sonos_data) != 0)
 			{
@@ -1108,7 +1108,7 @@ if ($_IPS["SENDER"] == "Variable")
 		if($Sonos_Data[$key]["Name"] == IPS_GetObject($_IPS["VARIABLE"])["ObjectName"])
 		{
 			$Sonos_Player_ID = $key;
-			echo " Echo ".$Sonos_Data[$key]["Name"];
+//			echo " Echo ".$Sonos_Data[$key]["Name"];
 		}
 		else
 		{
@@ -1116,7 +1116,7 @@ if ($_IPS["SENDER"] == "Variable")
 	}
 }
 
-print_r($Sonos_Data);
+//print_r($Sonos_Data);
 if (	$Sonos_Player_ID < 100)
 {
 	switch ($befehl)
@@ -1576,7 +1576,7 @@ Content-Length: '. strlen($xml) .'
 
 '. $xml;
 
-	echo $this->sendPacket($content);
+//	echo $this->sendPacket($content);
 
 		// set AVtransporturi ist für STOP notwendig
  	}
