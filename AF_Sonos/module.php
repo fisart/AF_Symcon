@@ -174,7 +174,7 @@ public function status_zone_mute($zone)
 	{
       foreach($Sonos_Data as $key2)
       {
-			if($Sonos_Data[$key2]["Name"] == $value)
+			if($Sonos_Data[$key2]["Name"] == IPS_GetObject($value)['ObjectName'] )
 			{
 				$sonos = new PHPSonos($Sonos_Data[$key2]["IP"]); //Sonos ZP IPAdresse
 			   if ($sonos->GetMute() == 0)
