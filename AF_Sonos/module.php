@@ -413,16 +413,17 @@ public function build_action_events()
 			}
          $sonos_zone_names = array_unique ( $sonos_zone_names );//SONOS Zonen (immer nur einmal) feststellen
 //			print_r($zone_names);
+echo " AAAAAAAAAAAAAAAA ".$zone_id." BBBBBBBBBB";
 			$existing_zone_cat_ids = IPS_GetChildrenIDs($zone_id); // Feststellen welche Zonenkategorien bereits existieren
-print_r($existing_zone_cat_ids);
-			print_r($sonos_zone_names);//  namen nur einmal vorhanden
+//print_r($existing_zone_cat_ids);
+//			print_r($sonos_zone_names);//  namen nur einmal vorhanden
          foreach ($existing_zone_cat_ids as $key => $value)
 			{
 				$existing_zone_cat_name[$key] = IPS_GetName($value);
 				echo " >> ".$existing_zone_cat_name[$key]." << ";
 				if(in_array ($existing_zone_cat_name[$key] , $sonos_zone_names )) //Zonen Cat Name ist bereits vorhanden und wird auch zukünftig benötigt
 				{
-echo "XXXXXXXXXXX";
+//echo "XXXXXXXXXXX";
 					$existing_variable_ids = IPS_GetChildrenIDs($value);
 					
 					foreach($Sonos_Data as $i => $x)
