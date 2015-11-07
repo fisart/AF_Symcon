@@ -168,13 +168,14 @@ public function get_static_data()
 public function status_zone_mute($zone)
 {
 	global $parent_id,$Sonos_Data;
-   $members = SO_find_zone_members($parent_id,$zone);
+   $members_id = SO_find_zone_members($parent_id,$zone);
    $mute = true;
-	foreach($members as $key1  => $value ) // Looped durch SONOS Array
+	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
 	{
       foreach($Sonos_Data as $key2)
       {
-			if($Sonos_Data[$key2]["Name"] == IPS_GetObject($value)['ObjectName'] )
+      
+			if($Sonos_Data[$key2]["Name"] == IPS_GetObject($id)['ObjectName'] )
 			{
 				$sonos = new PHPSonos($Sonos_Data[$key2]["IP"]); //Sonos ZP IPAdresse
 			   if ($sonos->GetMute() == 0)
