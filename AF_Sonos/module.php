@@ -415,6 +415,8 @@ public function build_action_events()
 //			print_r($zone_names);
 echo " AAAAAAAAAAAAAAAA ".$zone_id." BBBBBBBBBB";
 			$existing_zone_cat_ids = IPS_GetChildrenIDs($zone_id); // Feststellen welche Zonenkategorien bereits existieren
+echo " existing zone cat ids ";
+
 print_r($existing_zone_cat_ids);
 //			print_r($sonos_zone_names);//  namen nur einmal vorhanden
          foreach ($existing_zone_cat_ids as $key => $value)
@@ -458,7 +460,8 @@ print_r($existing_zone_cat_ids);
 			// Jetzt noch Kategorien anlegen für neu hinzugekommene SONOS Zonen
 			$zone_cats_to_create = array_diff ($sonos_zone_names,	$existing_zone_cat_name );//Feststellen welche Zonen hinzugekommen sind
 			$zone_cats_to_create = array_unique($zone_cats_to_create);
-//			print_r($zone_cats_to_create);
+			echo " Cats to create ";
+			print_r($zone_cats_to_create);
          foreach ($zone_cats_to_create as $key2 => $value2)
 			{
 				if($value2 != "")
