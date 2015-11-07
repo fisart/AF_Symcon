@@ -457,6 +457,7 @@ print_r($existing_zone_cat_ids);
 			}
 			// Jetzt noch Kategorien anlegen für neu hinzugekommene SONOS Zonen
 			$zone_cats_to_create = array_diff ($sonos_zone_names,	$existing_zone_cat_name );//Feststellen welche Zonen hinzugekommen sind
+			$zone_cats_to_create = array_unique($zone_cats_to_create);
 //			print_r($zone_cats_to_create);
          foreach ($zone_cats_to_create as $key2 => $value2)
 			{
