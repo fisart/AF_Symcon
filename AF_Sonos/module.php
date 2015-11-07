@@ -170,6 +170,7 @@ public function status_zone_mute($zone)
 	global $parent_id,$Sonos_Data;
    $members_id = SO_find_zone_members($parent_id,$zone);
    $mute = true;
+	SO_read_sonos_php_data($parent_id);
 	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
 	{
       foreach($Sonos_Data as $key2)
