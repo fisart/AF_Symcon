@@ -415,7 +415,7 @@ public function build_action_events()
 //			print_r($zone_names);
 echo " AAAAAAAAAAAAAAAA ".$zone_id." BBBBBBBBBB";
 			$existing_zone_cat_ids = IPS_GetChildrenIDs($zone_id); // Feststellen welche Zonenkategorien bereits existieren
-//print_r($existing_zone_cat_ids);
+print_r($existing_zone_cat_ids);
 //			print_r($sonos_zone_names);//  namen nur einmal vorhanden
          foreach ($existing_zone_cat_ids as $key => $value)
 			{
