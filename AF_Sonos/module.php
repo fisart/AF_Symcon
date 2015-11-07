@@ -171,12 +171,16 @@ public function status_zone_mute($zone)
    $members_id = SO_find_zone_members($parent_id,$zone);
    $mute = true;
 	SO_read_sonos_php_data($parent_id);
+print_r ($Sonos_Data);
 	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
 	{
       foreach($Sonos_Data as $key2)
       {
-         echo " A ".$Sonos_Data[$key2]["Name"]." ";
-         echo " B ".IPS_GetObject($id)['ObjectName']." ";
+ //        echo " A ".$Sonos_Data[$key2]["Name"]." ";
+ //        echo " B ".IPS_GetObject($id)['ObjectName']." ";
+
+
+
 			if($Sonos_Data[$key2]["Name"] == IPS_GetObject($id)['ObjectName'] )
 			{
 				$sonos = new PHPSonos($Sonos_Data[$key2]["IP"]); //Sonos ZP IPAdresse
