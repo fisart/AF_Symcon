@@ -303,7 +303,7 @@ public function build_action_events()
 		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,$zone_var_change_script_id,
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_name,$script1,
-					$script2,$script3,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_name_string,$zone_var_change_script_name ;
+					$script2,$script3,$script4,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_name_string,$zone_var_change_script_name ;
 
 					if(@IPS_GetObjectIDByName ($update_script_name_string, $parent_id) == false)
 					{
@@ -1114,7 +1114,7 @@ public function create_link($Parent,$Name,$Root,$ID)
 
 public function get_script_content()
 {
-global $script1,$script2,$script3;
+global $script1,$script2,$script3,$script4;
 $script1 =
 '<?
 global 	$action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
