@@ -464,7 +464,7 @@ public function build_action_events()
 						{
 						}
 					}
-					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile,$var_change_script_id);
+//					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile,$var_change_script_id);
 				}
 			}
 			IPS_SemaphoreLeave("Create_ZM_Cats");
@@ -887,7 +887,7 @@ public function build_or_fix_sonos_controls()
 			}
 			else
 			{																													//$Name,$Root,$Type,$Profile,$switch)
-				$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_variables_with_action($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],$var_change_script_id);
+//				$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_variables_with_action($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],$var_change_script_id);
 			}
 			$i++;
 		}
