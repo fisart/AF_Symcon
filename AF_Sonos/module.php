@@ -404,6 +404,8 @@ public function build_action_events()
 						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
 						$group_action_string;
 
+if (IPS_SemaphoreEnter("KritischerPunkt", 1000))
+{
 			$master_list_var_ids = IPS_GetChildrenIDs($Sonos_Master_id);
 			$sonos_zone_names[] = NULL; //SONOS Zonen
 			$existing_zone_cat_name[] = NULL;
@@ -483,6 +485,7 @@ print_r($existing_zone_cat_ids);
 					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile);
 				}
 			}
+  }
 
       }
 
