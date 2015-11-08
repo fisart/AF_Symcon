@@ -170,6 +170,28 @@ public function get_static_data()
 
 }
 
+public function switch_zone_mute($zone,$status)
+{
+	global $parent_id,$Sonos_Data;
+ 	SO_read_sonos_php_data($parent_id);
+  	$members_id = SO_find_zone_members($parent_id,$zone);
+	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
+	{
+		$ii = 0;
+      foreach($Sonos_Data as $key2)
+      {
+   		if($Sonos_Data[$ii]["Name"] == IPS_GetObject($id)['ObjectName'] )
+			{
+				$sonos = new PHPSonos($Sonos_Data[$ii]["IP"]); //Sonos ZP IPAdresse
+			   $sonos->SetMute($status);
+			}
+
+			$ii++;
+
+      }
+	}
+}
+
 
 public function status_zone_mute($zone)
 {
@@ -1305,7 +1327,33 @@ $script4 =
 	 	$IPS_VALUE = $_IPS["VALUE"];
 	 	$IPS_VARIABLE = $_IPS["VARIABLE"];
     	@SetValue($IPS_VARIABLE , $IPS_VALUE);
-//    	@SetValue($IP, $IPS_VALUE); // Variable in Webfront umschalten
+    	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE));
+    	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
+		$status = IPS_GetVariableProfile($profile_name)['Associations'][$IPS_VALUE]["Name"];
+      switch ($status)
+		{
+    		case "Mute":
+					SO_switch_zone_mute(1,$zone,true);
+        			break;
+    		case "Play":
+
+        			break;
+
+    		case "Unmute":
+					SO_switch_zone_mute(1,$zone,false);
+
+        			break;
+
+    		case "Stop":
+
+        			break;
+    		default:
+
+        			break;
+
+
+
+    	}
    }
    else
    {
