@@ -1349,7 +1349,7 @@ $script4 =
         			break;
 
     		case "Stop";
-					$sonos = new PHPSonos($Sonos_Data[$zone]["IP"]); //Sonos ZP IPAdresse
+					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
 			   	$sonos->Stop();
        			break;
     		default:
