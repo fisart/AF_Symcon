@@ -838,6 +838,7 @@ public function build_action_events()
 					$list[$i]['Mute'] = $sonos->GetMute();
 					$ZoneAttributes = $sonos->GetZoneAttributes();
 					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
+					$list[$ZoneAttributes['CurrentZoneName']] = $list[$i]['IP'];
 					$i = $i+1;
 					//echo $value;
  				}
@@ -1330,6 +1331,8 @@ $script4 =
     	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE));
     	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
 		$status = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
+		SO_update_sonos_data(1);
+//		echo $zone;
       switch ($status)
 		{
     		case "Mute":
@@ -1344,9 +1347,10 @@ $script4 =
 
         			break;
 
-    		case "Stop":
-
-        			break;
+    		case "Stop";
+					$sonos = new PHPSonos($Sonos_Data[$zone]["IP"]); //Sonos ZP IPAdresse
+			   	$sonos->Stop();
+       			break;
     		default:
 
         			break;
