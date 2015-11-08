@@ -269,7 +269,14 @@ global $content_var_name_string_id,$sonos_data_with_php_class_name,$sonos_data_v
 					$list[$i]['Mute'] = $sonos->GetMute();
 					$ZoneAttributes = $sonos->GetZoneAttributes();
 					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
-					$sonos_data = $sonos_data." IP ".$list[$i]['IP']." V ".$list[$i]['Volume']." M ".$list[$i]['Mute']." N ".$list[$i]['Name'];
+					
+					$status = $sonos->GetTransportInfo(); // gibt den aktuellen Status
+	            $list[$i]['Status'] = $status;
+							// des Sonos-Players als Integer zurück, 1: PLAYING, 2: PAUSED, 3: STOPPED
+							// status as integer; see above
+
+					
+					$sonos_data = $sonos_data." IP ".$list[$i]['IP']." V ".$list[$i]['Volume']." M ".$list[$i]['Mute']." N ".$list[$i]['Name']." S ".$list[$i]['Status'];
 //					print_r ($sonos->GetZoneInfo());
 //					print_r ($sonos->GetMediaInfo());
 //             print_r ($sonos->GetCurrentPlaylist());
