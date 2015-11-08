@@ -1329,7 +1329,7 @@ $script4 =
     	@SetValue($IPS_VARIABLE , $IPS_VALUE);
     	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE));
     	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
-		$status = IPS_GetVariableProfile($profile_name)['Associations'][$IPS_VALUE]["Name"];
+		$status = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
       switch ($status)
 		{
     		case "Mute":
