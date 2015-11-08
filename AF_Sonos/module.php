@@ -395,7 +395,7 @@ public function build_action_events()
    {
 		global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
-					$group_action_string,,$var_change_script_id;
+					$group_action_string,$var_change_script_id;
 
 		if (IPS_SemaphoreEnter("Create_ZM_Cats", 1000))
 		{
