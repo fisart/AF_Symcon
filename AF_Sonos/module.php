@@ -268,7 +268,6 @@ global $content_var_name_string_id,$sonos_data_with_php_class_name,$sonos_data_v
 					$list[$i]['Volume'] = $sonos->GetVolume();
 					$list[$i]['Mute'] = $sonos->GetMute();
 					$ZoneAttributes = $sonos->GetZoneAttributes();
-					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
 					$sonos_data = $sonos_data." IP ".$list[$i]['IP']." V ".$list[$i]['Volume']." M ".$list[$i]['Mute']." N ".$list[$i]['Name'];
 //					print_r ($sonos->GetZoneInfo());
 //					print_r ($sonos->GetMediaInfo());
@@ -819,7 +818,7 @@ public function build_action_events()
 
 		public function read_sonos_data()
 		{
-         global $content_var_name_string_id,$Sonos_Data,$parent_id,$value;
+         global $content_var_name_string_id,$Sonos_Data,$parent_id,$value,$name_and_ip;
 			//echo $content_var_name_string_id;
 			$Text = GetValueString($content_var_name_string_id/*[Object #36164 does not exist]*/);
 			// $Text = strip_tags($Text);
@@ -838,7 +837,8 @@ public function build_action_events()
 					$list[$i]['Mute'] = $sonos->GetMute();
 					$ZoneAttributes = $sonos->GetZoneAttributes();
 					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
-					$list[$ZoneAttributes['CurrentZoneName']] = $list[$i]['IP'];
+					$list[$i][$ZoneAttributes['CurrentZoneName']] = $list[$i]['IP'];
+					$name_and_ip[$list[$i]['Name']] = $list[$i]['IP'];
 					$i = $i+1;
 					//echo $value;
  				}
