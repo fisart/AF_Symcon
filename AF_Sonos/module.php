@@ -1040,29 +1040,29 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 	 	IPS_SetVariableProfileAssociation ($sonos_master_string,$key,$Sonos_Data[$key]['Name'],"",  $Color[$key]);
 	 	$key++;
 	}
-	 	IPS_SetVariableProfileAssociation ($mute_string,0,"ON","",  $Color[0]);
-	 	IPS_SetVariableProfileAssociation ($mute_string,1,"Mute","",  $Color[1]);
-	 	IPS_SetVariableProfileAssociation ($mute_string,0,"ON","",  $Color[0]);
-	 	IPS_SetVariableProfileAssociation ($volume_string,0,"AUS","",  $Color[1]);
-	 	IPS_SetVariableProfileAssociation ($volume_string,1,"Leise","",  $Color[3]);
-	 	IPS_SetVariableProfileAssociation ($volume_string,26,"Normal","",  $Color[0]);
-	 	IPS_SetVariableProfileAssociation ($volume_string,76,"Laut","",  $Color[4]);
-	 	IPS_SetVariableProfileAssociation ($action_string,0,"+5","HollowArrowUp",  $Color[0]);
-	 	IPS_SetVariableProfileAssociation ($action_string,1,"-5","HollowArrowDown",  $Color[1]);
-	 	IPS_SetVariableProfileAssociation ($action_string,2,"Make me Master","Network",  $Color[2]);
-	 	IPS_SetVariableProfileAssociation ($action_string,3,"Add me as member","Notebook",  $Color[3]);
-	 	IPS_SetVariableProfileAssociation ($action_string,4,"Remove me as member","Cross",  $Color[4]);
+	 	IPS_SetVariableProfileAssociation ($mute_string,0,"ON","",  $Color[14]);
+	 	IPS_SetVariableProfileAssociation ($mute_string,1,"Mute","",  $Color[12]);
+	 	IPS_SetVariableProfileAssociation ($mute_string,0,"ON","",  $Color[14]);
+	 	IPS_SetVariableProfileAssociation ($volume_string,0,"AUS","",  $Color[12]);
+	 	IPS_SetVariableProfileAssociation ($volume_string,1,"Leise","",  $Color[19]);
+	 	IPS_SetVariableProfileAssociation ($volume_string,26,"Normal","",  $Color[14]);
+	 	IPS_SetVariableProfileAssociation ($volume_string,76,"Laut","",  $Color[18]);
+	 	IPS_SetVariableProfileAssociation ($action_string,0,"+5","HollowArrowUp",  $Color[14]);
+	 	IPS_SetVariableProfileAssociation ($action_string,1,"-5","HollowArrowDown",  $Color[12]);
+	 	IPS_SetVariableProfileAssociation ($action_string,2,"Make me Master","Network",  $Color[13]);
+	 	IPS_SetVariableProfileAssociation ($action_string,3,"Add me as member","Notebook",  $Color[19]);
+	 	IPS_SetVariableProfileAssociation ($action_string,4,"Remove me as member","Cross",  $Color[18]);
 	 	IPS_SetVariableProfileAssociation ($action_string,5,"Mute","Cross",  $Color[5]);
 	 	IPS_SetVariableProfileAssociation ($action_string,6,"Unmute","Speaker",  $Color[6]);
 	 	
-	 	IPS_SetVariableProfileAssociation ($group_action_string."1",0,"Play","Speaker",  $Color[0]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."1",1,"Mute","Cross",  $Color[1]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."2",0,"Stop","Cross",  $Color[4]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."2",1,"Mute","Cross",  $Color[1]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."3",0,"Play","Speaker",  $Color[0]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."3",1,"Unmute","Speaker",  $Color[7]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."4",0,"Stop","Cross",  $Color[4]);
-	 	IPS_SetVariableProfileAssociation ($group_action_string."4",1,"Unmute","Speaker",  $Color[7]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."1",0,"Play","Speaker",  $Color[14]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."1",1,"Mute","Cross",  $Color[12]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."2",0,"Stop","Cross",  $Color[18]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."2",1,"Mute","Cross",  $Color[12]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."3",0,"Play","Speaker",  $Color[14]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."3",1,"Unmute","Speaker",  $Color[11]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."4",0,"Stop","Cross",  $Color[18]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."4",1,"Unmute","Speaker",  $Color[11]);
 
 
 }
