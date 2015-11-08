@@ -1053,7 +1053,7 @@ public function 	create_profile() //Hier wird das Sonos Master Profil angelegt
 
 public function create_variables_with_action($Name,$Root,$Type,$Profile,$var_change_script_id)
 {
-  global $var_change_script_id;
+//  global $var_change_script_id;
   $ID = @IPS_GetVariableIDByName ( $Name, $Root );
   if ($ID)
   {
