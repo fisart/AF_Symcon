@@ -395,7 +395,7 @@ public function build_action_events()
    {
 		global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
-					$group_action_string;
+					$group_action_string,,$var_change_script_id;
 
 		if (IPS_SemaphoreEnter("Create_ZM_Cats", 1000))
 		{
@@ -464,7 +464,7 @@ public function build_action_events()
 						{
 						}
 					}
-					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile);
+					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile,$var_change_script_id);
 				}
 			}
 			IPS_SemaphoreLeave("Create_ZM_Cats");
@@ -864,7 +864,7 @@ public function build_action_events()
 public function build_or_fix_sonos_controls()
 {
 
-		global $action_ID,$parent_id,$Sonos_Data;
+		global $action_ID,$parent_id,$Sonos_Data,$var_change_script_id;
 
 		$cat_id = $action_ID;
    	$ii = 0;
@@ -887,7 +887,7 @@ public function build_or_fix_sonos_controls()
 			}
 			else
 			{																													//$Name,$Root,$Type,$Profile,$switch)
-				$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_variables_with_action($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName']);
+				$Sonos_Data[$i][IPS_GetObject ($cat_id)['ObjectName']] = SO_create_variables_with_action($parent_id,$Sonos_Data[$i]['Name'],$cat_id,1,IPS_GetObject($cat_id)['ObjectName'],$var_change_script_id);
 			}
 			$i++;
 		}
@@ -975,7 +975,29 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 			 ,$group_action_string,$group_add_string,$group_remove_string;
 
 	$key = 0;
-	$Color = [0x15EB4A,0xF21344,0x1833DE,0xE8DA10,0xF21BB9,0x1BCEF2,0x1BF2C0,0x1A694C,0xF2981B,0x48508A,0x912A41,0x15EB4A,0xF21344,0x1833DE,0xE8DA10,0xF21BB9,0x1BCEF2,0x1BF2C0,0x1A694C,0xF2981B,0x48508A,0x912A41];
+	$Color = [	0x15EB4A,//0 Grün
+					0xF21344,//1 Rot
+					0x1833DE,//2 Blau
+					0xE8DA10,//3 Gelb
+					0xF21BB9,//4 Violet
+					0x1BCEF2,//5 Türkis
+					0x1BF2C0,//6 Mint
+					0x1A694C,//7 Dunkelgrün
+					0xF2981B,//8 Orange
+					0x48508A,//9 Purpur
+					0x912A41,//10 Dunkelrot
+					0x15EB4A,//11 Gift Grün
+					0xF21344,//12 Kamin Rot
+					0x1833DE,//13 Kobalt Blau
+				 	0xA1EFB4,//14 Light Mint
+					0xFFA07A,//15 Ocker
+					0x808080,//16 Grau
+					0x383C42,//17 Schwarz
+					0xee2edd,//18 Leucht Violett
+					0xFFF200,//19 Leucht Gelb
+					0xe34444,//20 Ocker Rot
+					0xfaeefb //21 Weiß
+				];
 	foreach($Sonos_Data as $i)
 	{
 	 	IPS_SetVariableProfileAssociation ($sonos_master_string,$key,$Sonos_Data[$key]['Name'],"",  $Color[$key]);
@@ -1029,9 +1051,9 @@ public function 	create_profile() //Hier wird das Sonos Master Profil angelegt
 }
 
 
-public function create_variables_with_action($Name,$Root,$Type,$Profile)
+public function create_variables_with_action($Name,$Root,$Type,$Profile,$var_change_script_id)
 {
-  global $var_change_script_id;
+//  global $var_change_script_id;
   $ID = @IPS_GetVariableIDByName ( $Name, $Root );
   if ($ID)
   {
