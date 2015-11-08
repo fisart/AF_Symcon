@@ -429,7 +429,7 @@ public function build_action_events()
    {
 		global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
-					$group_action_string,$var_change_script_id;
+					$group_action_string,$var_change_script_id,$zone_var_change_script_id;
 
 		if (IPS_SemaphoreEnter("Create_ZM_Cats", 1000))
 		{
@@ -498,7 +498,7 @@ public function build_action_events()
 						{
 						}
 					}
-					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile,$var_change_script_id);
+					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile,$zone_var_change_script_id);
 				}
 			}
 			IPS_SemaphoreLeave("Create_ZM_Cats");
@@ -819,13 +819,9 @@ public function build_action_events()
 		public function read_sonos_data()
 		{
          global $content_var_name_string_id,$Sonos_Data,$parent_id,$value,$name_and_ip;
-			//echo $content_var_name_string_id;
 			$Text = GetValueString($content_var_name_string_id/*[Object #36164 does not exist]*/);
-			// $Text = strip_tags($Text);
 			$result = explode("<",$Text);
 			$list[0][0] = NULL;
-			//echo $Text;
-			//	print_r( $result);
 			$i = 0;
 			foreach ($result as$key => $value)
 			{
@@ -837,10 +833,8 @@ public function build_action_events()
 					$list[$i]['Mute'] = $sonos->GetMute();
 					$ZoneAttributes = $sonos->GetZoneAttributes();
 					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
-					$list[$i][$ZoneAttributes['CurrentZoneName']] = $list[$i]['IP'];
 					$name_and_ip[$list[$i]['Name']] = $list[$i]['IP'];
 					$i = $i+1;
-					//echo $value;
  				}
  				else
  				{
@@ -848,7 +842,6 @@ public function build_action_events()
 			}
 			$Sonos_Data = $list;
 		}
-
 
 
 
