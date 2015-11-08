@@ -171,18 +171,11 @@ public function status_zone_mute($zone)
  	SO_read_sonos_php_data($parent_id);
   	$members_id = SO_find_zone_members($parent_id,$zone);
    $mute = true;
-//print_r ($Sonos_Data);
 	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
 	{
 		$ii = 0;
       foreach($Sonos_Data as $key2)
       {
-//        echo " A ".$Sonos_Data[$ii]["Name"]." ";
-//        echo " B ".IPS_GetObject($id)['ObjectName']." ";
- 
-//echo " Key ".$key2." ";
-//print_r ($Sonos_Data[$ii]);
-
    		if($Sonos_Data[$ii]["Name"] == IPS_GetObject($id)['ObjectName'] )
 			{
 				$sonos = new PHPSonos($Sonos_Data[$ii]["IP"]); //Sonos ZP IPAdresse
@@ -398,14 +391,14 @@ public function build_action_events()
 		}
 
 
-      public function create_categories_zone_master()
-      {
-			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
-						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
-						$group_action_string;
+   public function create_categories_zone_master()
+   {
+		global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
+					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
+					$group_action_string;
 
-	if (IPS_SemaphoreEnter("Create_ZM_Cats", 1000))
-	{
+		if (IPS_SemaphoreEnter("Create_ZM_Cats", 1000))
+		{
 			$master_list_var_ids = IPS_GetChildrenIDs($Sonos_Master_id);
 			$sonos_zone_names[] = NULL; //SONOS Zonen
 			$existing_zone_cat_name[] = NULL;
@@ -414,28 +407,19 @@ public function build_action_events()
 			   $sonos_zone_names[$key] = IPS_GetVariableProfile($sonos_master_string)['Associations'][GetValueInteger($value)]['Name'];
 			}
          $sonos_zone_names = array_unique ( $sonos_zone_names );//SONOS Zonen (immer nur einmal) feststellen
-//			print_r($zone_names);
-echo " AAAAAAAAAAAAAAAA ".$zone_id." BBBBBBBBBB";
 			$existing_zone_cat_ids = IPS_GetChildrenIDs($zone_id); // Feststellen welche Zonenkategorien bereits existieren
-echo " existing zone cat ids ";
-
-print_r($existing_zone_cat_ids);
-//			print_r($sonos_zone_names);//  namen nur einmal vorhanden
          foreach ($existing_zone_cat_ids as $key => $value)
 			{
 				$existing_zone_cat_name[$key] = IPS_GetName($value);
-				echo " >> ".$existing_zone_cat_name[$key]." << ";
 				if(in_array ($existing_zone_cat_name[$key] , $sonos_zone_names )) //Zonen Cat Name ist bereits vorhanden und wird auch zukünftig benötigt
 				{
-//echo "XXXXXXXXXXX";
-					$existing_variable_ids = IPS_GetChildrenIDs($value);
-					
-					foreach($Sonos_Data as $i => $x)
+					$existing_variable_ids = IPS_GetChildrenIDs($value);// Status der exisitierenden Zonen aktualisieren
+					foreach($Sonos_Data as $i => $x)// Loop alle Player
 					{
-						if($Sonos_Data[$i]['Name'] == $existing_zone_cat_name[$key] )
+						if($Sonos_Data[$i]['Name'] == $existing_zone_cat_name[$key] ) // Diese Zone gibt es bereits
 						{
 							$Player_IP = $Sonos_Data[$i]['IP'];
-         				foreach ($existing_variable_ids as $key0 => $value0) //Eventuelle Variablen unterhalb des weggefallenen Zonennamen löschen
+         				foreach ($existing_variable_ids as $key0 => $value0) //Update Profil der Variablen unterhalb der existierenden Zonen
 							{
                			$profile = SO_find_zone_profile($parent_id,$Player_IP,$Sonos_Data[$i]['Name']);
   								IPS_SetVariableCustomProfile ( $value0, $profile);
@@ -455,14 +439,13 @@ print_r($existing_zone_cat_ids);
 						{
 								IPS_DeleteVariable($value1);
 						}
-						IPS_DeleteCategory($value); // echo " ".$value." ";
+						IPS_DeleteCategory($value); 
 				}
 
 			}
 			// Jetzt noch Kategorien anlegen für neu hinzugekommene SONOS Zonen
 			$zone_cats_to_create = array_diff ($sonos_zone_names,	$existing_zone_cat_name );//Feststellen welche Zonen hinzugekommen sind
 			$zone_cats_to_create = array_unique($zone_cats_to_create);
-			echo " Cats to create ";
 			print_r($zone_cats_to_create);
          foreach ($zone_cats_to_create as $key2 => $value2)
 			{
