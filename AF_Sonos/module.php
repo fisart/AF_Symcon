@@ -106,7 +106,7 @@ public function get_static_data()
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
 					 $zone_id,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_id,$var_change_script_name,
-					 $content_var_php_script_name_string,$Sonos_Master_id,$zone_var_change_script_name,$zone_var_change_script_id;
+					 $content_var_php_script_name_string,$Sonos_Master_id,$zone_var_change_script_name,$zone_var_change_script_id,$zone_cat_id;
 
 			$ALL_IDS = IPS_GetObjectList ( );
 			$content_var_name_string_id = 0;
@@ -138,7 +138,7 @@ public function get_static_data()
 				}
 				elseif(IPS_GetName($value) == $Zone_cat_name)
 				{
-					$zone_id = $value;
+					$zone_cat_id = $value;
 				}
 				elseif(IPS_GetName($value) == $var_change_script_name)
 				{
@@ -560,7 +560,7 @@ public function build_action_events()
 
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,
-						$visu_id,$zone_id;
+						$visu_id,$zone_id,$zone_cat_id;
 
 
 			$ALL_IDS = IPS_GetChildrenIDs($parent_id);
@@ -584,7 +584,7 @@ public function build_action_events()
 				}
 				elseif(IPS_GetName($value) == $Zone_cat_name)
 				{
-					$zone_id  = $value;
+					$zone_cat_id  = $value;
 				}
 			}
 			if ($action_ID == 0)
@@ -658,8 +658,8 @@ public function build_action_events()
 			if ($zone_id ==0)
 			{
 				$zone_id = IPS_CreateCategory();       // Kategorie anlegen
-				IPS_SetName($zone_id, $Zone_cat_name); // Kategorie benennen
-				IPS_SetParent($zone_id, $parent_id);
+				IPS_SetName($zone_cat_id, $Zone_cat_name); // Kategorie benennen
+				IPS_SetParent($zone_cat_id, $parent_id);
 			}
 			if ($visu_id == 0)
 			{
@@ -677,7 +677,7 @@ public function build_action_events()
 		{
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,
-						$zone_id,$visu_id;
+						$zone_id,$visu_id,$zone_cat_id;
 
 					$Diff = " View";
 					if(@IPS_GetObjectIDByName (IPS_GetObject ($player_data_id)['ObjectName'].$Diff, $visu_id )== false)
@@ -694,12 +694,12 @@ public function build_action_events()
 						IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
 						IPS_SetLinkTargetID($LinkID, $action_ID);    // Link verknüpfen
 					}
-					if(@IPS_GetObjectIDByName (IPS_GetObject ($Zone_cat_name)['ObjectName'].$Diff, $visu_id )== false)
+					if(@IPS_GetObjectIDByName (IPS_GetObject ($zone_cat_id)['ObjectName'].$Diff, $visu_id )== false)
 					{
 						$LinkID = IPS_CreateLink();             // Link anlegen
-						IPS_SetName($LinkID,  $Zone_cat_name.$Diff); // Link benennen
+						IPS_SetName($LinkID,  IPS_GetObject ($zone_cat_id)['ObjectName'].$Diff); // Link benennen
 						IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
-						IPS_SetLinkTargetID($LinkID, $zone_id);    // Link verknüpfen
+						IPS_SetLinkTargetID($LinkID, $zone_cat_id);    // Link verknüpfen
 					}
 
 		
