@@ -82,7 +82,7 @@
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
 					 $zone_id,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_id,$var_change_script_name,
-					 $content_var_php_script_name_string;
+					 $content_var_php_script_name_string,$zone_cat_id;
 
 			SO_define_names($parent_id);
 			SO_get_static_data($parent_id);
@@ -437,7 +437,7 @@ public function build_action_events()
    {
 		global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
-					$group_action_string,$var_change_script_id,$zone_var_change_script_id;
+					$group_action_string,$var_change_script_id,$zone_var_change_script_id,$zone_cat_id;
 
 		if (IPS_SemaphoreEnter("Create_ZM_Cats", 1000))
 		{
@@ -449,7 +449,7 @@ public function build_action_events()
 			   $sonos_zone_names[$key] = IPS_GetVariableProfile($sonos_master_string)['Associations'][GetValueInteger($value)]['Name'];
 			}
          $sonos_zone_names = array_unique ( $sonos_zone_names );//SONOS Zonen (immer nur einmal) feststellen
-			$existing_zone_cat_ids = IPS_GetChildrenIDs($zone_id); // Feststellen welche Zonenkategorien bereits existieren
+			$existing_zone_cat_ids = IPS_GetChildrenIDs($zone_cat_id); // Feststellen welche Zonenkategorien bereits existieren
          foreach ($existing_zone_cat_ids as $key => $value)
 			{
 				$existing_zone_cat_name[$key] = IPS_GetName($value);
@@ -494,7 +494,7 @@ public function build_action_events()
 				{
 					$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
 					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
-					IPS_SetParent($zone_name_id, $zone_id);
+					IPS_SetParent($zone_name_id, $zone_cat_id);
 					foreach($Sonos_Data as $key3 => $value3)
 					{
 						if($Sonos_Data[$key3]['Name'] == $value2 )
@@ -567,7 +567,7 @@ public function build_action_events()
 			$action_ID = 0;
 			$player_data_id = 0;
 			$visu_id = 0;
-			$zone_id = 0;
+			$zone_cat_id = 0;
 			foreach ($ALL_IDS as $key => $value)
 			{
 				if(IPS_GetName($value) == $action_string)
@@ -655,9 +655,9 @@ public function build_action_events()
 					IPS_SetParent($Sonos_Master_id,$player_data_id);
 				}
 			}
-			if ($zone_id ==0)
+			if ($zone_cat_id ==0)
 			{
-				$zone_id = IPS_CreateCategory();       // Kategorie anlegen
+				$zone_cat_id = IPS_CreateCategory();       // Kategorie anlegen
 				IPS_SetName($zone_cat_id, $Zone_cat_name); // Kategorie benennen
 				IPS_SetParent($zone_cat_id, $parent_id);
 			}
