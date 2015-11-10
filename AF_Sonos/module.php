@@ -567,6 +567,7 @@ public function build_action_events()
 			$action_ID = 0;
 			$player_data_id = 0;
 			$visu_id = 0;
+			$zone_id = 0;
 			foreach ($ALL_IDS as $key => $value)
 			{
 				if(IPS_GetName($value) == $action_string)
