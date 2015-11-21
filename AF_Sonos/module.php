@@ -209,7 +209,7 @@ public function status_zone_mute($zone)
 				$sonos = new PHPSonos($Sonos_Data[$ii]["IP"]); //Sonos ZP IPAdresse
 			   if ($sonos->GetMute() == true)
 			   {
-			   
+
 			   }
 			   else
 			   {
@@ -227,7 +227,7 @@ public function status_zone_mute($zone)
 public function find_zone_members($zone)
 {
 	global $Sonos_Master_id;
-	
+
 	$zone_members[] = NULL;
 	$i = 0;
 	foreach(IPS_GetObject($Sonos_Master_id)['ChildrenIDs'] as $key => $id)
@@ -269,13 +269,13 @@ global $content_var_name_string_id,$sonos_data_with_php_class_name,$sonos_data_v
 					$list[$i]['Mute'] = $sonos->GetMute();
 					$ZoneAttributes = $sonos->GetZoneAttributes();
 					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
-					
+
 					$status = $sonos->GetTransportInfo(); // gibt den aktuellen Status
 	            $list[$i]['Status'] = $status;
 							// des Sonos-Players als Integer zurück, 1: PLAYING, 2: PAUSED, 3: STOPPED
 							// status as integer; see above
 
-					
+
 					$sonos_data = $sonos_data." IP ".$list[$i]['IP']." V ".$list[$i]['Volume']." M ".$list[$i]['Mute']." N ".$list[$i]['Name']." S ".$list[$i]['Status'];
 //					print_r ($sonos->GetZoneInfo());
 //					print_r ($sonos->GetMediaInfo());
@@ -347,7 +347,7 @@ public function build_action_events()
  						IPS_SetEventTrigger ($event_id,1,$content_var_name_string_id);
  						IPS_SetEventActive ( $event_id, true );
 					}
- 					
+
 					if(@IPS_GetObjectIDByName ($command_script_name_string, $parent_id )== false)
 					{
  						$command_script_id = IPS_CreateScript (0);
@@ -355,7 +355,7 @@ public function build_action_events()
 						IPS_SetParent($command_script_id , $parent_id);
 						IPS_SetScriptContent($command_script_id,$script1);
 					}
-					
+
 					if(@IPS_GetObjectIDByName ($var_change_script_name, $parent_id )== false)
 					{
 						$var_change_script_id = IPS_CreateScript (0);
@@ -481,7 +481,7 @@ public function build_action_events()
 						{
 								IPS_DeleteVariable($value1);
 						}
-						IPS_DeleteCategory($value); 
+						IPS_DeleteCategory($value);
 				}
 
 			}
@@ -702,7 +702,7 @@ public function build_action_events()
 						IPS_SetLinkTargetID($LinkID, $zone_cat_id);    // Link verknüpfen
 					}
 
-		
+
 		}
 
 
@@ -1055,7 +1055,7 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 	 	IPS_SetVariableProfileAssociation ($action_string,4,"Remove me as member","Cross",  $Color[18]);
 	 	IPS_SetVariableProfileAssociation ($action_string,5,"Mute","Cross",  $Color[5]);
 	 	IPS_SetVariableProfileAssociation ($action_string,6,"Unmute","Speaker",  $Color[6]);
-	 	
+
 	 	IPS_SetVariableProfileAssociation ($group_action_string."1",0,"Play","Speaker",  $Color[14]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."1",1,"Mute","Cross",  $Color[12]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."2",0,"Stop","Cross",  $Color[18]);
@@ -1302,7 +1302,7 @@ $script2 =
    else
    {
    }
-   
+
 ?>';
 
 
@@ -1821,20 +1821,17 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#Pause"
 		$this->sendPacket($content);
 	}
 
-	public function Play()
-	{
-
+   public function Play()
+    {
 $content='POST /MediaRenderer/AVTransport/Control HTTP/1.1
 CONNECTION: close
 HOST: '.$this->address.':1400
 CONTENT-LENGTH: 266
 CONTENT-TYPE: text/xml; charset="utf-8"
 SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#Play"
-
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:Play xmlns:u="urn:schemas-upnp-org:service:AVTransport:1"><InstanceID>0</InstanceID><Speed>1</Speed></u:Play></s:Body></s:Envelope>';
-
-		$this->sendPacket($content);
-	}
+        $this->sendPacket($content);
+    }
 
 	public function Next()
 	{
