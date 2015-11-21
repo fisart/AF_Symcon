@@ -331,7 +331,7 @@ public function build_action_events()
 		{
 		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,$zone_var_change_script_id,
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_name,$script1,
+					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_name,$script0,$script1,
 					$script2,$script3,$script4,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_name_string,$zone_var_change_script_name ;
 
 					if(@IPS_GetObjectIDByName ($update_script_name_string, $parent_id) == false)
@@ -340,7 +340,7 @@ public function build_action_events()
 						$script_id = IPS_CreateScript (0);
 						IPS_SetName($script_id , $update_script_name_string);
 						IPS_SetParent($script_id , $parent_id);
-						IPS_SetScriptContent($script_id,'<? SO_update_sonos_data(1) ?>');
+						IPS_SetScriptContent($script_id,$script0);
  						$event_id = IPS_CreateEvent (0);
 						IPS_SetName($event_id , $update_script_name_string);
 						IPS_SetParent( $event_id, $script_id);
@@ -1139,7 +1139,22 @@ public function create_link($Parent,$Name,$Root,$ID)
 
 public function get_script_content()
 {
-global $script1,$script2,$script3,$script4;
+global $script0,$script1,$script2,$script3,$script4;
+
+$script0 =
+'<?
+if (IPS_SemaphoreEnter("SU", 1000))
+{
+	SO_update_sonos_data(1);
+   IPS_SemaphoreLeave("SU");
+}
+else
+{
+
+}
+
+?>';
+
 $script1 =
 '<?
 global 	$action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
@@ -1312,8 +1327,15 @@ $script3 =
 
 '
 <?
-
+if (IPS_SemaphoreEnter("GSCVPC", 1000))
+{
 	SO_read_sonos_php_data(1);
+   IPS_SemaphoreLeave("GSCVPC");
+}
+else
+{
+
+}
 
 ?>
 
