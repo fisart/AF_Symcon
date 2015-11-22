@@ -1843,17 +1843,21 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#Pause"
 		$this->sendPacket($content);
 	}
 
-   public function Play()
-    {
+	public function Play()
+	{
+
 $content='POST /MediaRenderer/AVTransport/Control HTTP/1.1
 CONNECTION: close
 HOST: '.$this->address.':1400
 CONTENT-LENGTH: 266
 CONTENT-TYPE: text/xml; charset="utf-8"
 SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#Play"
+
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:Play xmlns:u="urn:schemas-upnp-org:service:AVTransport:1"><InstanceID>0</InstanceID><Speed>1</Speed></u:Play></s:Body></s:Envelope>';
-        $this->sendPacket($content);
-    }
+
+		$this->sendPacket($content);
+	}
+
 
 	public function Next()
 	{
