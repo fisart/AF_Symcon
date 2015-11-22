@@ -1363,6 +1363,8 @@ $script4 =
 					SO_switch_zone_mute(1,$zone,true);
         			break;
     		case "Play":
+					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
+					$sonos-> Play();
 
         			break;
 
