@@ -1058,12 +1058,20 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 
 	 	IPS_SetVariableProfileAssociation ($group_action_string."1",0,"Play","Speaker",  $Color[14]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."1",1,"Mute","Cross",  $Color[12]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."1",2,"+5","HollowArrowUp",  $Color[7]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."1",3,"-5","HollowArrowDown",  $Color[8]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."2",0,"Stop","Cross",  $Color[18]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."2",1,"Mute","Cross",  $Color[12]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."2",2,"+5","HollowArrowUp",  $Color[7]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."2",3,"-5","HollowArrowDown",  $Color[8]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."3",0,"Play","Speaker",  $Color[14]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."3",1,"Unmute","Speaker",  $Color[11]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."3",2,"+5","HollowArrowUp",  $Color[7]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."3",3,"-5","HollowArrowDown",  $Color[8]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."4",0,"Stop","Cross",  $Color[18]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."4",1,"Unmute","Speaker",  $Color[11]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."4",2,"+5","HollowArrowUp",  $Color[7]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."4",3,"-5","HollowArrowDown",  $Color[8]);
 
 
 }
@@ -1376,6 +1384,10 @@ $script4 =
     		case "Stop";
 					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
 			   	$sonos->Stop();
+       			break;
+    		case "-5";
+       			break;
+    		case "+5";
        			break;
     		default:
 
