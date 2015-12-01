@@ -587,23 +587,23 @@ public function build_action_events()
 				}
 			}
 			SO_create_zone_member_profiles($parent_id);
-			$zones = IPS_GetObject($zone_cat_id)['ChildrenIDs'];
+			$zones = IPS_GetObject($zone_cat_id)['ChildrenIDs']; // IDS Zone Categories
 
-			foreach($zones as $key => $value)
+			foreach($zones as $key => $zone_cat_id)// Loop IDS Zone Categories
 			{
-			   $zone_name = IPS_GetName($value);
+			   $zone_name = IPS_GetName($zone_cat_id);
    			$zone_name_profil = str_replace (" " , "_" , 	$zone_name );
    			$zone_member_var_ids = SO_find_zone_members($parent_id,$zone_name);
 				$zone_member_profile_name = "zone_members_".$zone_name_profil;
-				$var_id = IPS_GetVariableIDByName ( $zone_member_profile_name, $value );// Variablen Name = Profilname
-				if($var_id !=0)
+				$var_id = @IPS_GetVariableIDByName ( $zone_member_profile_name, $zone_cat_id );// Variablen Name = Profilname
+				if($var_id == 0)
 				{
-					SO_create_variables_with_action($parent_id,$zone_member_profile_name,$value,1,$zone_member_profile_name,$zone_var_change_script_id); // create the variable to control the zone
+					SO_create_variables_with_action($parent_id,$zone_member_profile_name,$zone_cat_id,1,$zone_member_profile_name,$zone_var_change_script_id); // create the variable to control the zone
 				}
-				$var_id = IPS_GetVariableIDByName ("Free_Player", $value );// Variablen Name = Profilname
-				if($var_id !=0)
+				$var_id = @IPS_GetVariableIDByName ("Free_Player", $zone_cat_id);// Variablen Name = Profilname
+				if($var_id ==0)
 				{
-					SO_create_variables_with_action($parent_id,"Free_Player",$value,1,"Free_Player",$zone_var_change_script_id); // create the variable to control the zone
+					SO_create_variables_with_action($parent_id,"Free_Player",$$zone_cat_id,1,"Free_Player",$zone_var_change_script_id); // create the variable to control the zone
 				}
 
 			}
