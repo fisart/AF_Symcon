@@ -1050,11 +1050,11 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 	 	IPS_SetVariableProfileAssociation ($volume_string,76,"Laut","",  $Color[18]);
 	 	IPS_SetVariableProfileAssociation ($action_string,0,"+5","HollowArrowUp",  $Color[14]);
 	 	IPS_SetVariableProfileAssociation ($action_string,1,"-5","HollowArrowDown",  $Color[12]);
-	 	IPS_SetVariableProfileAssociation ($action_string,2,"Make me Master","Network",  $Color[13]);
-	 	IPS_SetVariableProfileAssociation ($action_string,3,"Add me as member","Notebook",  $Color[19]);
-	 	IPS_SetVariableProfileAssociation ($action_string,4,"Remove me as member","Cross",  $Color[18]);
-	 	IPS_SetVariableProfileAssociation ($action_string,5,"Mute","Cross",  $Color[5]);
-	 	IPS_SetVariableProfileAssociation ($action_string,6,"Unmute","Speaker",  $Color[6]);
+//	 	IPS_SetVariableProfileAssociation ($action_string,5,"Make me Master","Network",  $Color[13]);
+//	 	IPS_SetVariableProfileAssociation ($action_string,6,"Add me as member","Notebook",  $Color[19]);
+//	 	IPS_SetVariableProfileAssociation ($action_string,4,"Remove me as member","Cross",  $Color[18]);
+	 	IPS_SetVariableProfileAssociation ($action_string,2,"Mute","Cross",  $Color[5]);
+	 	IPS_SetVariableProfileAssociation ($action_string,3,"Unmute","Speaker",  $Color[6]);
 
 	 	IPS_SetVariableProfileAssociation ($group_action_string."1",0,"Play","Speaker",  $Color[14]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."1",1,"Mute","Cross",  $Color[12]);
@@ -1386,20 +1386,43 @@ $script4 =
 			   	$sonos->Stop();
        			break;
     		case "-5";
+					change_zone_volume($zone,-5);
        			break;
     		case "+5";
-       			break;
+					change_zone_volume($zone,+5);
+					break;
     		default:
 
         			break;
-
-
 
     	}
    }
    else
    {
    }
+
+function change_zone_volume($zone,$delta)
+{
+	global $parent_id,$Sonos_Data;
+ 	SO_read_sonos_php_data($parent_id);
+  	$members_id = SO_find_zone_members($parent_id,$zone);
+	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
+	{
+		$ii = 0;
+      foreach($Sonos_Data as $key2)
+      {
+   		if($Sonos_Data[$ii]["Name"] == IPS_GetObject($id)["ObjectName"] )
+			{
+				$sonos = new PHPSonos($Sonos_Data[$ii]["IP"]); //Sonos ZP IPAdresse
+   			$Sonos_Data[$ii]["Volume"] = ($Sonos_Data[$ii]["Volume"]+$delta);
+   			$sonos->SetVolume($Sonos_Data[$ii]["Volume"]);
+			}
+
+			$ii++;
+
+      }
+	}
+}
 
 ?>';
 
