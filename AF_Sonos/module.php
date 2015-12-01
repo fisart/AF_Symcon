@@ -511,7 +511,6 @@ public function build_action_events()
 
 		if (IPS_SemaphoreEnter("Create_ZM_Cats", 1000))
 		{
-			$no_change = true;
 			$master_list_var_ids = IPS_GetChildrenIDs($Sonos_Master_id);
 			$sonos_zone_names[] = NULL; //SONOS Zonen
 			$existing_zone_cat_name[] = NULL;
@@ -553,7 +552,6 @@ public function build_action_events()
 								IPS_DeleteVariable($value1);
 						}
 						IPS_DeleteCategory($value);
-						$no_change = false;
 				}
 
 			}
@@ -586,12 +584,28 @@ public function build_action_events()
 						}
 					}
 					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile,$zone_var_change_script_id); // create the variable to control the zone
-					$no_change = false;
 				}
 			}
-			if($no_change == false)
+			SO_create_zone_member_profiles($parent_id);
+			$zones = IPS_GetObject($zone_cat_id)['ChildrenIDs'];
+
+			foreach($zones as $key => $value)
 			{
-				SO_create_zone_member_profiles($parent_id);
+			   $zone_name = IPS_GetName($value);
+   			$zone_name_profil = str_replace (" " , "_" , 	$zone_name );
+   			$zone_member_var_ids = SO_find_zone_members($parent_id,$zone_name);
+				$zone_member_profile_name = "zone_members_".$zone_name_profil;
+				$var_id = IPS_GetVariableIDByName ( $zone_member_profile_name, $value );// Variablen Name = Profilname
+				if($var_id !=0)
+				{
+					SO_create_variables_with_action($parent_id,$zone_member_profile_name,$value,1,$zone_member_profile_name,$zone_var_change_script_id); // create the variable to control the zone
+				}
+				$var_id = IPS_GetVariableIDByName ("Free_Player", $value );// Variablen Name = Profilname
+				if($var_id !=0)
+				{
+					SO_create_variables_with_action($parent_id,"Free_Player",$value,1,"Free_Player",$zone_var_change_script_id); // create the variable to control the zone
+				}
+
 			}
 			IPS_SemaphoreLeave("Create_ZM_Cats");
   		}
