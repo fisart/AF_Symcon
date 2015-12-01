@@ -170,6 +170,76 @@ public function get_static_data()
 
 }
 
+
+public function create_zone_member_profiles()
+
+{
+	Global 	$zone_cat_id;
+
+
+	$Color = [	0x15EB4A,//0 Grün
+					0xF21344,//1 Rot
+					0x1833DE,//2 Blau
+					0xE8DA10,//3 Gelb
+					0xF21BB9,//4 Violet
+					0x1BCEF2,//5 Türkis
+					0x1BF2C0,//6 Mint
+					0x1A694C,//7 Dunkelgrün
+					0xF2981B,//8 Orange
+					0x48508A,//9 Purpur
+					0x912A41,//10 Dunkelrot
+					0x15EB4A,//11 Gift Grün
+					0xF21344,//12 Kamin Rot
+					0x1833DE,//13 Kobalt Blau
+				 	0xA1EFB4,//14 Light Mint
+					0xFFA07A,//15 Ocker
+					0x808080,//16 Grau
+					0x383C42,//17 Schwarz
+					0xee2edd,//18 Leucht Violett
+					0xFFF200,//19 Leucht Gelb
+					0xe34444,//20 Ocker Rot
+					0xfaeefb //21 Weiß
+				];
+
+	$free_players = "Free_Player";
+	$zones = IPS_GetObject($zone_cat_id)['ChildrenIDs'];
+	if(IPS_VariableProfileExists ($free_players))
+	{
+	   IPS_DeleteVariableProfile($free_players);
+	}
+	IPS_CreateVariableProfile( 	$free_players, 1 );
+	$iii = 0;
+	foreach($zones as $key => $value )
+	{
+   	$zone_name = IPS_GetName($value);
+   	$zone_name_profil = str_replace (" " , "_" , 	$zone_name );
+   	$zone_member_var_ids = SO_find_zone_members(1,$zone_name);
+		$zone_member_profile_name = "zone_members_".$zone_name_profil;
+		if(IPS_VariableProfileExists ($zone_member_profile_name))
+		{
+	   	IPS_DeleteVariableProfile($zone_member_profile_name);
+		}
+		IPS_CreateVariableProfile( 	$zone_member_profile_name, 1 );
+
+		$ii = 0;
+		if(count($zone_member_var_ids) == 1)
+		{
+      		IPS_SetVariableProfileAssociation ($free_players,$iii,IPS_GetName($zone_member_var_ids[0]),"",  $Color[$iii]);
+      		$iii++;
+		}
+		foreach($zone_member_var_ids as $i)
+		{
+			if(IPS_GetName($i) != $zone_name)
+			{
+      		IPS_SetVariableProfileAssociation ($zone_member_profile_name,$ii,IPS_GetName($i),"",  $Color[$ii]);
+   			$ii++;
+			}
+		}
+	}
+}
+
+
+
 public function switch_zone_mute($zone,$status)
 {
 	global $parent_id,$Sonos_Data;
@@ -441,6 +511,7 @@ public function build_action_events()
 
 		if (IPS_SemaphoreEnter("Create_ZM_Cats", 1000))
 		{
+			$no_change = true;
 			$master_list_var_ids = IPS_GetChildrenIDs($Sonos_Master_id);
 			$sonos_zone_names[] = NULL; //SONOS Zonen
 			$existing_zone_cat_name[] = NULL;
@@ -482,32 +553,45 @@ public function build_action_events()
 								IPS_DeleteVariable($value1);
 						}
 						IPS_DeleteCategory($value);
+						$no_change = false;
 				}
 
 			}
 			// Jetzt noch Kategorien anlegen für neu hinzugekommene SONOS Zonen
 			$zone_cats_to_create = array_diff ($sonos_zone_names,	$existing_zone_cat_name );//Feststellen welche Zonen hinzugekommen sind
 			$zone_cats_to_create = array_unique($zone_cats_to_create);
-         foreach ($zone_cats_to_create as $key2 => $value2)
+         foreach ($zone_cats_to_create as $key2 => $value2) //Loop all new Zone Names to create
 			{
-				if($value2 != "")
+				if($value2 != "")  //Exclude empty Names
 				{
 					$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
 					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
 					IPS_SetParent($zone_name_id, $zone_cat_id);
-					foreach($Sonos_Data as $key3 => $value3)
+					foreach($Sonos_Data as $key3 => $value3)  //Loop through the Sonos Data Array
 					{
-						if($Sonos_Data[$key3]['Name'] == $value2 )
+						if($Sonos_Data[$key3]['Name'] == $value2 ) // Find the new zone player
 						{
 							$Player_IP = $Sonos_Data[$key3]['IP'];
-                 		$profile = SO_find_zone_profile($parent_id,$Player_IP,$value2);
+                 		$profile = SO_find_zone_profile($parent_id,$Player_IP,$value2); // find the group status of the zone and create profile
+						}
+						else
+						{
+						}
+						if(1)
+						{
+						
 						}
 						else
 						{
 						}
 					}
-					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile,$zone_var_change_script_id);
+					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile,$zone_var_change_script_id); // create the variable to control the zone
+					$no_change = false;
 				}
+			}
+			if($no_change == false)
+			{
+				SO_create_zone_member_profiles($parent_id);
 			}
 			IPS_SemaphoreLeave("Create_ZM_Cats");
   		}
@@ -1010,7 +1094,7 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 {
 	global $Sonos_Data,
 	       $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string
-			 ,$group_action_string,$group_add_string,$group_remove_string;
+			 ,$group_action_string,$group_add_string,$group_remove_string,$Color;
 
 	$key = 0;
 	$Color = [	0x15EB4A,//0 Grün
