@@ -229,11 +229,11 @@ public function create_zone_member_profiles()
 		}
 		foreach($zone_member_var_ids as $i)
 		{
-			if(IPS_GetName($i) != $zone_name)
-			{
+//			if(IPS_GetName($i) != $zone_name)
+//			{
       		IPS_SetVariableProfileAssociation ($zone_member_profile_name,$ii,IPS_GetName($i),"",  $Color[$ii]);
    			$ii++;
-			}
+//			}
 		}
 	}
 }
@@ -603,7 +603,7 @@ public function build_action_events()
 				$var_id = @IPS_GetVariableIDByName ("Free_Player", $zone_cat_id);// Variablen Name = Profilname
 				if($var_id ==0)
 				{
-					SO_create_variables_with_action($parent_id,"Free_Player",$$zone_cat_id,1,"Free_Player",$zone_var_change_script_id); // create the variable to control the zone
+					SO_create_variables_with_action($parent_id,"Free_Player",$zone_cat_id,1,"Free_Player",$zone_var_change_script_id); // create the variable to control the zone
 				}
 
 			}
