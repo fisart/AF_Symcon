@@ -455,7 +455,7 @@ public function build_action_events()
 						$eid = IPS_CreateEvent(1);
 						IPS_SetParent($eid,$content_var_php_script_id);
 						IPS_SetName($eid ," Poll SONOS PHP");
-						IPS_SetEventCyclic($eid, 0 , 0 , 0, 0, 1,0);
+						IPS_SetEventCyclic($eid, 0 , 0 , 0, 0, 1,10);
 						IPS_SetEventActive($eid, true);
 
 					}
@@ -612,8 +612,13 @@ public function build_action_events()
 				$var_id = @IPS_GetVariableIDByName ("Add_Player_to_this_Zone", $zone_cat_id);// Variablen Name = Profilname
 				if($var_id ==0)
 				{
-               if(!in_array ( $zone_name , $free_player_list ))
+              if(!in_array ( $zone_name , $free_player_list ))
                {
+						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,"Add_Player_to_this_Zone",$zone_var_change_script_id); // create the variable to control the zone
+					}
+					else
+					{
+						SO_adjust_profile($parent_id);
 						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,"Add_Player_to_this_Zone",$zone_var_change_script_id); // create the variable to control the zone
 					}
 				}
@@ -627,6 +632,12 @@ public function build_action_events()
 
    }
 
+
+
+public function adjust_profile()
+{
+
+}
 
 				public function find_zone_profile($player,$zone)
 				{
