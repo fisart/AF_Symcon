@@ -229,11 +229,11 @@ public function create_zone_member_profiles()
 		}
 		foreach($zone_member_var_ids as $i)
 		{
-//			if(IPS_GetName($i) != $zone_name)
-//			{
+			if(IPS_GetName($i) != $zone_name)
+			{
       		IPS_SetVariableProfileAssociation ($zone_member_profile_name,$ii,IPS_GetName($i),"",  $Color[$ii]);
    			$ii++;
-//			}
+			}
 		}
 	}
 }
@@ -533,8 +533,11 @@ public function build_action_events()
 							$Player_IP = $Sonos_Data[$i]['IP'];
          				foreach ($existing_variable_ids as $key0 => $value0) //Update Profil der Variablen unterhalb der existierenden Zonen
 							{
-               			$profile = SO_find_zone_profile($parent_id,$Player_IP,$Sonos_Data[$i]['Name']);
-  								IPS_SetVariableCustomProfile ( $value0, $profile);
+								if(IPS_GetName($value0) == "Group_Action")
+								{
+									$profile = SO_find_zone_profile($parent_id,$Player_IP,$Sonos_Data[$i]['Name']);
+  									IPS_SetVariableCustomProfile ( $value0, $profile);
+								}
 							}
 						}
 						else
