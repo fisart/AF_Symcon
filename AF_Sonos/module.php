@@ -201,7 +201,7 @@ public function create_zone_member_profiles()
 					0xfaeefb //21 Weiﬂ
 				];
 
-	$free_players = "Free_Player";
+	$free_players = "Add_Player_to_this_Zone";
 	$free_players_list[] = NULL;
 	$zones = IPS_GetObject($zone_cat_id)['ChildrenIDs'];
 	if(IPS_VariableProfileExists ($free_players))
@@ -215,7 +215,7 @@ public function create_zone_member_profiles()
    	$zone_name = IPS_GetName($value);
    	$zone_name_profil = str_replace (" " , "_" , 	$zone_name );
    	$zone_member_var_ids = SO_find_zone_members(1,$zone_name);
-		$zone_member_profile_name = "zone_members_".$zone_name_profil;
+		$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_profil;
 		if(IPS_VariableProfileExists ($zone_member_profile_name))
 		{
 	   	IPS_DeleteVariableProfile($zone_member_profile_name);
@@ -600,18 +600,21 @@ public function build_action_events()
 			   $zone_name = IPS_GetName($zone_cat_id);
    			$zone_name_profil = str_replace (" " , "_" , 	$zone_name );
    			$zone_member_var_ids = SO_find_zone_members($parent_id,$zone_name);
-				$zone_member_profile_name = "zone_members_".$zone_name_profil;
+				$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_profil;
 				$var_id = @IPS_GetVariableIDByName ( $zone_member_profile_name, $zone_cat_id );// Variablen Name = Profilname
 				if($var_id == 0)
 				{
-					SO_create_variables_with_action($parent_id,$zone_member_profile_name,$zone_cat_id,1,$zone_member_profile_name,$zone_var_change_script_id); // create the variable to control the zone
+               if(!in_array ( $zone_name , $free_player_list ))
+               {
+						SO_create_variables_with_action($parent_id,$zone_member_profile_name,$zone_cat_id,1,$zone_member_profile_name,$zone_var_change_script_id); // create the variable to control the zone
+					}
 				}
-				$var_id = @IPS_GetVariableIDByName ("Free_Player", $zone_cat_id);// Variablen Name = Profilname
+				$var_id = @IPS_GetVariableIDByName ("Add_Player_to_this_Zone", $zone_cat_id);// Variablen Name = Profilname
 				if($var_id ==0)
 				{
                if(!in_array ( $zone_name , $free_player_list ))
                {
-						SO_create_variables_with_action($parent_id,"Free_Player",$zone_cat_id,1,"Free_Player",$zone_var_change_script_id); // create the variable to control the zone
+						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,"Add_Player_to_this_Zone",$zone_var_change_script_id); // create the variable to control the zone
 					}
 				}
 
