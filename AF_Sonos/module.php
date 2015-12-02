@@ -608,6 +608,20 @@ public function build_action_events()
                {
 						SO_create_variables_with_action($parent_id,$zone_member_profile_name,$zone_cat_id,1,$zone_member_profile_name,$zone_var_change_script_id); // create the variable to control the zone
 					}
+					else
+					{
+					}
+				}
+				else
+				{
+              	if(!in_array ( $zone_name , $free_player_list ))
+               {
+				     	IPS_SetVariableCustomProfile ( $var_id, $zone_member_profile_name);
+					}
+					else
+					{
+					}
+
 				}
 				$var_id = @IPS_GetVariableIDByName ("Add_Player_to_this_Zone", $zone_cat_id);// Variablen Name = Profilname
 				if($var_id ==0)
@@ -620,6 +634,18 @@ public function build_action_events()
 					{//($Name,$Root,$Type,$Profile,$var_change_script_id)
 						$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone");
 						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,$profile,$zone_var_change_script_id); // create the variable to control the zone
+					}
+				}
+				else
+				{
+              if(!in_array ( $zone_name , $free_player_list ))
+               {
+				     	IPS_SetVariableCustomProfile ( $var_id, "Add_Player_to_this_Zone");
+					}
+					else
+					{//($Name,$Root,$Type,$Profile,$var_change_script_id)
+						$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone");
+				     	IPS_SetVariableCustomProfile ( $var_id, 	$profile);
 					}
 				}
 
