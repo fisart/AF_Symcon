@@ -617,9 +617,9 @@ public function build_action_events()
 						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,"Add_Player_to_this_Zone",$zone_var_change_script_id); // create the variable to control the zone
 					}
 					else
-					{
-						SO_adjust_profile($parent_id);
-						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,"Add_Player_to_this_Zone",$zone_var_change_script_id); // create the variable to control the zone
+					{//($Name,$Root,$Type,$Profile,$var_change_script_id)
+						$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone");
+						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,$profile,$zone_var_change_script_id); // create the variable to control the zone
 					}
 				}
 
@@ -634,9 +634,28 @@ public function build_action_events()
 
 
 
-public function adjust_profile()
+public function adjust_profile($zone_name,$old_profile_name)
 {
 
+	$newprofile = $zone_name."_Single_Player";
+	$newprofile = str_replace (" " , "_" ,$newprofile  );
+	$associations = IPS_GetVariableProfile ($old_profile_name)["Associations"];
+	if(IPS_VariableProfileExists($newprofile))
+	{
+		IPS_DeleteVariableProfile ($newprofile);
+	}
+	IPS_CreateVariableProfile ($newprofile, 2 );
+	$i = 0;
+	foreach($associations  as $key => $value)
+	{
+		if($value['Name'] != $zone_name)
+		{
+			IPS_SetVariableProfileAssociation ($newprofile,$i,$value['Name'],$value['Icon'],$value['Color']);
+			$i++;
+		}
+	}
+
+	return $newprofile;
 }
 
 				public function find_zone_profile($player,$zone)
