@@ -644,7 +644,7 @@ public function adjust_profile($zone_name,$old_profile_name)
 	{
 		IPS_DeleteVariableProfile ($newprofile);
 	}
-	IPS_CreateVariableProfile ($newprofile, 2 );
+	IPS_CreateVariableProfile ($newprofile, 1 );
 	$i = 0;
 	foreach($associations  as $key => $value)
 	{
