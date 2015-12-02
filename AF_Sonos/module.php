@@ -620,29 +620,30 @@ public function build_action_events()
 					}
 					else
 					{
+						IPS_DeleteVariable($var_id );
 					}
 
 				}
 				$var_id = @IPS_GetVariableIDByName ("Add_Player_to_this_Zone", $zone_cat_id);// Variablen Name = Profilname
-				if($var_id ==0)
+				if($var_id ==0)//Keine Variable gefunden
 				{
-              if(!in_array ( $zone_name , $free_player_list ))
+              if(!in_array ( $zone_name , $free_player_list )) // Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
                {
 						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,"Add_Player_to_this_Zone",$zone_var_change_script_id); // create the variable to control the zone
 					}
-					else
+					else //Es handelt sich um einen einzigen PLayer in der Zone : Zone == Player
 					{//($Name,$Root,$Type,$Profile,$var_change_script_id)
-						$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone");
+						$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone"); // der einzelne Player darf nicht in der Liste der verfügbaren player stehen
 						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,$profile,$zone_var_change_script_id); // create the variable to control the zone
 					}
 				}
-				else
+				else // Die Variable existiert
 				{
-              if(!in_array ( $zone_name , $free_player_list ))
+              if(!in_array ( $zone_name , $free_player_list )) //Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
                {
-				     	IPS_SetVariableCustomProfile ( $var_id, "Add_Player_to_this_Zone");
+				     	IPS_DeleteVariable($var_id );
 					}
-					else
+					else// der einzelne Player darf nicht in der Liste der verfügbaren player stehen
 					{//($Name,$Root,$Type,$Profile,$var_change_script_id)
 						$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone");
 				     	IPS_SetVariableCustomProfile ( $var_id, 	$profile);
