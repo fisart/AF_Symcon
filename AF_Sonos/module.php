@@ -48,7 +48,8 @@
 					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,$content_var_name_string,
 					$update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
 					$var_change_script_name,$content_var_php_class_name_string,	$content_var_php_script_name_string,$group_action_string,$group_add_string,$group_remove_string,
-					$zone_var_change_script_name;
+					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
+					$zone_var_change_script_name,$add_var_change_script_name,$remove_var_change_script_name;
 
 			$action_string 						= "Sonos_Action";
 			$volume_string 						= "Volume";
@@ -65,7 +66,10 @@
 			$Sonos_cat_name               	= "AF SONOS";
 			$Zone_cat_name                	= "Zones";
 			$var_change_script_name       	= "Change_Var";
-			$zone_var_change_script_name       	= "Change_Zone_Var";
+			$zone_var_change_script_name      = "Change_Zone_Var";
+			$add_var_change_script_name       = "ADD_Zone_Player_Var";
+			$remove_var_change_script_name    = "Remove_Zone_Player_Var";
+
 			$content_var_php_class_name_string 	= "sonos_data_with_php_class_name";
 			$content_var_php_script_name_string = "Get_Sonos_changes_via_PHP_Classe";
 			$group_action_string                ="Group_Action";
@@ -81,7 +85,8 @@
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
-					 $zone_id,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_id,$var_change_script_name,
+					 $zone_id,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_id,$var_change_script_name,$add_var_change_script_name,$remove_var_change_script_name,
+					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
 					 $content_var_php_script_name_string,$zone_cat_id;
 
 			SO_define_names($parent_id);
@@ -106,6 +111,7 @@ public function get_static_data()
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
 					 $zone_id,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_id,$var_change_script_name,
+					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
 					 $content_var_php_script_name_string,$Sonos_Master_id,$zone_var_change_script_name,$zone_var_change_script_id,$zone_cat_id;
 
 			$ALL_IDS = IPS_GetObjectList ( );
@@ -143,6 +149,14 @@ public function get_static_data()
 				elseif(IPS_GetName($value) == $var_change_script_name)
 				{
 					$var_change_script_id = $value;
+				}
+				elseif(IPS_GetName($value) == $add_var_change_script_name)
+				{
+					$add_var_change_script_name_id = $value;
+				}
+				elseif(IPS_GetName($value) == $remove_var_change_script_name)
+				{
+					$remove_var_change_script_name_id = $value;
 				}
 				elseif(IPS_GetName($value) == $content_var_php_class_name_string)
 				{
@@ -404,7 +418,8 @@ public function build_action_events()
 		{
 		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,$zone_var_change_script_id,
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
-					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_name,$script0,$script1,
+					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_name,$script0,$script5,$script6,$remove_var_change_script_name_id
+					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
 					$script2,$script3,$script4,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_name_string,$zone_var_change_script_name ;
 
 					if(@IPS_GetObjectIDByName ($update_script_name_string, $parent_id) == false)
@@ -414,11 +429,15 @@ public function build_action_events()
 						IPS_SetName($script_id , $update_script_name_string);
 						IPS_SetParent($script_id , $parent_id);
 						IPS_SetScriptContent($script_id,$script0);
- 						$event_id = IPS_CreateEvent (0);
+// 						$event_id = IPS_CreateEvent (0);
+						$event_id = IPS_CreateEvent (1);
 						IPS_SetName($event_id , $update_script_name_string);
 						IPS_SetParent( $event_id, $script_id);
- 						IPS_SetEventTrigger ($event_id,1,$content_var_name_string_id);
- 						IPS_SetEventActive ( $event_id, true );
+ //						IPS_SetEventTrigger ($event_id,1,$content_var_name_string_id);
+ //						IPS_SetEventActive ( $event_id, true );
+						IPS_SetEventCyclic($event_id, 0 , 0 , 0, 0, 1,10);
+						IPS_SetEventActive($event_id, true);
+
 					}
 
 					if(@IPS_GetObjectIDByName ($command_script_name_string, $parent_id )== false)
@@ -427,7 +446,8 @@ public function build_action_events()
 						IPS_SetName($command_script_id ,$command_script_name_string);
 						IPS_SetParent($command_script_id , $parent_id);
 						IPS_SetScriptContent($command_script_id,$script1);
-					}
+					}					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
+
 
 					if(@IPS_GetObjectIDByName ($var_change_script_name, $parent_id )== false)
 					{
@@ -436,6 +456,20 @@ public function build_action_events()
 						IPS_SetParent($var_change_script_id, $parent_id);
 						IPS_SetScriptContent($var_change_script_id,$script2);
 					}
+					if(@IPS_GetObjectIDByName ($add_var_change_script_name, $parent_id )== false)
+					{
+						$add_var_change_script_name_id = IPS_CreateScript (0);
+						IPS_SetName($add_var_change_script_name_id ,$add_var_change_script_name);
+						IPS_SetParent($add_var_change_script_name_id, $parent_id);
+						IPS_SetScriptContent($add_var_change_script_name_id,$script5);
+					}
+					if(@IPS_GetObjectIDByName ($remove_var_change_script_name, $parent_id )== false)
+					{
+						$remove_var_change_script_name_id = IPS_CreateScript (0);
+						IPS_SetName($remove_var_change_script_name_id ,$remove_var_change_script_name);
+						IPS_SetParent($remove_var_change_script_name_id, $parent_id);
+						IPS_SetScriptContent($remove_var_change_script_name_id,$script6);
+					}
 					if(@IPS_GetObjectIDByName ($zone_var_change_script_name, $parent_id )== false)
 					{
 						$zone_var_change_script_id = IPS_CreateScript (0);
@@ -443,7 +477,7 @@ public function build_action_events()
 						IPS_SetParent($zone_var_change_script_id, $parent_id);
 						IPS_SetScriptContent($zone_var_change_script_id,$script4);
 					}
-					if(@IPS_GetObjectIDByName ($content_var_php_script_name_string, $parent_id )== false)
+/*					if(@IPS_GetObjectIDByName ($content_var_php_script_name_string, $parent_id )== false)
 					{
 						$content_var_php_script_id= IPS_CreateScript (0);
 						IPS_SetName($content_var_php_script_id ,$content_var_php_script_name_string);
@@ -459,6 +493,7 @@ public function build_action_events()
 						IPS_SetEventActive($eid, true);
 
 					}
+*/
 	}
 
 
@@ -510,6 +545,7 @@ public function build_action_events()
    {
 		global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
+					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
 					$group_action_string,$var_change_script_id,$zone_var_change_script_id,$zone_cat_id;
 
 		if (IPS_SemaphoreEnter("Create_ZM_Cats", 1000))
@@ -606,7 +642,7 @@ public function build_action_events()
 				{
                if(!in_array ( $zone_name , $free_player_list ))
                {
-						SO_create_variables_with_action($parent_id,$zone_member_profile_name,$zone_cat_id,1,$zone_member_profile_name,$zone_var_change_script_id); // create the variable to control the zone
+						SO_create_variables_with_action($parent_id,$zone_member_profile_name,$zone_cat_id,1,$zone_member_profile_name,$remove_var_change_script_name_id); // create the variable to control the zone
 					}
 					else
 					{
@@ -629,12 +665,12 @@ public function build_action_events()
 				{
               if(!in_array ( $zone_name , $free_player_list )) // Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
                {
-						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,"Add_Player_to_this_Zone",$zone_var_change_script_id); // create the variable to control the zone
+						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,"Add_Player_to_this_Zone",$add_var_change_script_name_id); // create the variable to control the zone
 					}
 					else //Es handelt sich um einen einzigen PLayer in der Zone : Zone == Player
 					{//($Name,$Root,$Type,$Profile,$var_change_script_id)
 						$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone"); // der einzelne Player darf nicht in der Liste der verfügbaren player stehen
-						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,$profile,$zone_var_change_script_id); // create the variable to control the zone
+						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,$profile,$add_var_change_script_name_id); // create the variable to control the zone
 					}
 				}
 				else // Die Variable existiert
@@ -1314,7 +1350,7 @@ public function create_link($Parent,$Name,$Root,$ID)
 
 public function get_script_content()
 {
-global $script0,$script1,$script2,$script3,$script4;
+global $script0,$script1,$script2,$script3,$script4,$script5,$script6;
 
 $script0 =
 '<?
@@ -1593,6 +1629,158 @@ function change_zone_volume($zone,$delta)
 
 ?>';
 
+$script5 =
+
+
+'<?
+	 $IPS_SENDER = $_IPS["SENDER"];
+    if($IPS_SENDER == "WebFront")
+	 {
+    	$IPS_SELF = $_IPS["SELF"];
+	 	$IPS_VALUE = $_IPS["VALUE"];
+	 	$IPS_VARIABLE = $_IPS["VARIABLE"];
+    	@SetValue($IPS_VARIABLE , $IPS_VALUE);
+    	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE));
+    	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
+		$status = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
+		SO_update_sonos_data(1);
+//		echo $zone;
+      switch ($status)
+		{
+    		case "Mute":
+					SO_switch_zone_mute(1,$zone,true);
+        			break;
+    		case "Play":
+					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
+					$sonos-> Play();
+
+        			break;
+
+    		case "Unmute":
+					SO_switch_zone_mute(1,$zone,false);
+
+        			break;
+
+    		case "Stop";
+					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
+			   	$sonos->Stop();
+       			break;
+    		case "-5";
+					change_zone_volume($zone,-5);
+       			break;
+    		case "+5";
+					change_zone_volume($zone,+5);
+					break;
+    		default:
+
+        			break;
+
+    	}
+   }
+   else
+   {
+   }
+
+function change_zone_volume($zone,$delta)
+{
+	global $parent_id,$Sonos_Data;
+ 	SO_read_sonos_php_data($parent_id);
+  	$members_id = SO_find_zone_members($parent_id,$zone);
+	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
+	{
+		$ii = 0;
+      foreach($Sonos_Data as $key2)
+      {
+   		if($Sonos_Data[$ii]["Name"] == IPS_GetObject($id)["ObjectName"] )
+			{
+				$sonos = new PHPSonos($Sonos_Data[$ii]["IP"]); //Sonos ZP IPAdresse
+   			$Sonos_Data[$ii]["Volume"] = ($Sonos_Data[$ii]["Volume"]+$delta);
+   			$sonos->SetVolume($Sonos_Data[$ii]["Volume"]);
+			}
+
+			$ii++;
+
+      }
+	}
+}
+
+?>';
+$script6 =
+
+
+'<?
+	 $IPS_SENDER = $_IPS["SENDER"];
+    if($IPS_SENDER == "WebFront")
+	 {
+    	$IPS_SELF = $_IPS["SELF"];
+	 	$IPS_VALUE = $_IPS["VALUE"];
+	 	$IPS_VARIABLE = $_IPS["VARIABLE"];
+    	@SetValue($IPS_VARIABLE , $IPS_VALUE);
+    	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE));
+    	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
+		$status = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
+		SO_update_sonos_data(1);
+//		echo $zone;
+      switch ($status)
+		{
+    		case "Mute":
+					SO_switch_zone_mute(1,$zone,true);
+        			break;
+    		case "Play":
+					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
+					$sonos-> Play();
+
+        			break;
+
+    		case "Unmute":
+					SO_switch_zone_mute(1,$zone,false);
+
+        			break;
+
+    		case "Stop";
+					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
+			   	$sonos->Stop();
+       			break;
+    		case "-5";
+					change_zone_volume($zone,-5);
+       			break;
+    		case "+5";
+					change_zone_volume($zone,+5);
+					break;
+    		default:
+
+        			break;
+
+    	}
+   }
+   else
+   {
+   }
+
+function change_zone_volume($zone,$delta)
+{
+	global $parent_id,$Sonos_Data;
+ 	SO_read_sonos_php_data($parent_id);
+  	$members_id = SO_find_zone_members($parent_id,$zone);
+	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
+	{
+		$ii = 0;
+      foreach($Sonos_Data as $key2)
+      {
+   		if($Sonos_Data[$ii]["Name"] == IPS_GetObject($id)["ObjectName"] )
+			{
+				$sonos = new PHPSonos($Sonos_Data[$ii]["IP"]); //Sonos ZP IPAdresse
+   			$Sonos_Data[$ii]["Volume"] = ($Sonos_Data[$ii]["Volume"]+$delta);
+   			$sonos->SetVolume($Sonos_Data[$ii]["Volume"]);
+			}
+
+			$ii++;
+
+      }
+	}
+}
+
+?>';
 
 }
 }
