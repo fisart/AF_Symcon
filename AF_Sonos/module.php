@@ -446,7 +446,7 @@ public function build_action_events()
 						IPS_SetName($command_script_id ,$command_script_name_string);
 						IPS_SetParent($command_script_id , $parent_id);
 						IPS_SetScriptContent($command_script_id,$script1);
-					}					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
+					}				
 
 
 					if(@IPS_GetObjectIDByName ($var_change_script_name, $parent_id )== false)
