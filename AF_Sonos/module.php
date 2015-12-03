@@ -477,7 +477,7 @@ public function build_action_events()
 						IPS_SetParent($zone_var_change_script_id, $parent_id);
 						IPS_SetScriptContent($zone_var_change_script_id,$script4);
 					}
-/*					if(@IPS_GetObjectIDByName ($content_var_php_script_name_string, $parent_id )== false)
+					if(@IPS_GetObjectIDByName ($content_var_php_script_name_string, $parent_id )== false)
 					{
 						$content_var_php_script_id= IPS_CreateScript (0);
 						IPS_SetName($content_var_php_script_id ,$content_var_php_script_name_string);
@@ -490,10 +490,10 @@ public function build_action_events()
 						IPS_SetParent($eid,$content_var_php_script_id);
 						IPS_SetName($eid ," Poll SONOS PHP");
 						IPS_SetEventCyclic($eid, 0 , 0 , 0, 0, 1,10);
-						IPS_SetEventActive($eid, true);
+						IPS_SetEventActive($eid, false);
 
 					}
-*/
+
 	}
 
 
