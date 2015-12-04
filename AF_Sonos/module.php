@@ -564,7 +564,7 @@ public function build_action_events()
 				$existing_zone_cat_name[$key] = IPS_GetName($single_zone_cat_id);
 				if(in_array ($existing_zone_cat_name[$key] , $sonos_zone_names )) //Zonen Cat Name ist bereits vorhanden und wird auch zukünftig benötigt
 				{
-					$existing_variable_ids = IPS_GetChildrenIDs($value);// Status der exisitierenden Zonen aktualisieren
+					$existing_variable_ids = IPS_GetChildrenIDs($single_zone_cat_id);// Status der exisitierenden Zonen aktualisieren
 					foreach($Sonos_Data as $i => $x)// Loop alle Player
 					{
 						if($Sonos_Data[$i]['Name'] == $existing_zone_cat_name[$key] ) // Diese Zone gibt es bereits
