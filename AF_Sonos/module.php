@@ -654,7 +654,7 @@ public function build_action_events()
 
 				}
 				$var_id = @IPS_GetVariableIDByName ("Add_Player_to_this_Zone", $single_zone_cat_id);// Variablen Name = Profilname
-				if(is_array($free_player_list)
+				if(is_array($free_player_list))
 				{
 					if($var_id ==0)//Keine Variable gefunden
 					{
