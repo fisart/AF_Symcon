@@ -750,9 +750,18 @@ public function adjust_profile($zone_name,$old_profile_name)
 	}
 	IPS_CreateVariableProfile ($newprofile, 1 );
 	$i = 0;
+	$members = SO_find_zone_members($parent_id,$zone_name);
+	if(is_array($members))
+	{
+		$member_name_list = NULL;
+		foreach($members   as $key => $member_var_id)
+		{
+	      $member_name_list[] = IPS_GetName($member_var_id);
+		}
+	}
 	foreach($associations  as $key => $value)
 	{
-		if($value['Name'] != $zone_name)
+		if (($value['Name'] != $zone_name) OR (in_array($value['Name'],$member_name_list)))
 		{
 			IPS_SetVariableProfileAssociation ($newprofile,$i,$value['Name'],$value['Icon'],$value['Color']);
 			$i++;
