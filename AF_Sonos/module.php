@@ -677,7 +677,7 @@ public function build_action_events()
 				{
               if(!in_array ( $zone_name , $free_player_list )) //Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
                {
-				     	IPS_DeleteVariable($var_id );
+//				     	IPS_DeleteVariable($var_id );
 					}
 					else// der einzelne Player darf nicht in der Liste der verfügbaren player stehen
 					{//($Name,$Root,$Type,$Profile,$var_change_script_id)
@@ -1633,6 +1633,7 @@ $script5 =
 
 
 '<?
+Global $Sonos_Data,$name_and_ip;
 	 $IPS_SENDER = $_IPS["SENDER"];
     if($IPS_SENDER == "WebFront")
 	 {
@@ -1640,70 +1641,31 @@ $script5 =
 	 	$IPS_VALUE = $_IPS["VALUE"];
 	 	$IPS_VARIABLE = $_IPS["VARIABLE"];
     	@SetValue($IPS_VARIABLE , $IPS_VALUE);
-    	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE));
-    	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
-		$status = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
 		SO_update_sonos_data(1);
-//		echo $zone;
-      switch ($status)
+    	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE)); //Master Name
+    	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
+		$player_name = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
+		$sonosip = $name_and_ip[IPS_GetName(IPS_GetParent ($IPS_VARIABLE))];
+		foreach($Sonos_Data as $key => $id)
 		{
-    		case "Mute":
-					SO_switch_zone_mute(1,$zone,true);
-        			break;
-    		case "Play":
-					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
-					$sonos-> Play();
-
-        			break;
-
-    		case "Unmute":
-					SO_switch_zone_mute(1,$zone,false);
-
-        			break;
-
-    		case "Stop";
-					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
-			   	$sonos->Stop();
-       			break;
-    		case "-5";
-					change_zone_volume($zone,-5);
-       			break;
-    		case "+5";
-					change_zone_volume($zone,+5);
-					break;
-    		default:
-
-        			break;
-
-    	}
-   }
-   else
-   {
-   }
-
-function change_zone_volume($zone,$delta)
-{
-	global $parent_id,$Sonos_Data;
- 	SO_read_sonos_php_data($parent_id);
-  	$members_id = SO_find_zone_members($parent_id,$zone);
-	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
-	{
-		$ii = 0;
-      foreach($Sonos_Data as $key2)
-      {
-   		if($Sonos_Data[$ii]["Name"] == IPS_GetObject($id)["ObjectName"] )
+			if($Sonos_Data[$key]["Name"] == $player_name )
 			{
-				$sonos = new PHPSonos($Sonos_Data[$ii]["IP"]); //Sonos ZP IPAdresse
-   			$Sonos_Data[$ii]["Volume"] = ($Sonos_Data[$ii]["Volume"]+$delta);
-   			$sonos->SetVolume($Sonos_Data[$ii]["Volume"]);
+//				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")['Associations'][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
+            $memberip = $Sonos_Data[$key]["IP"];
+            $memberid = $Sonos_Data[$key]["Player_RINCON"];
 			}
+			if($Sonos_Data[$key]["Name"] == $zone )
+			{
+				$sonosid = $Sonos_Data[$key]["Player_RINCON"];
+			}
+		}
+        $sonos = new PHPSonos($sonosip); //Sonos ZP IPAdresse
+        $AddMember = $sonos->AddMember($memberid);
+        $sonos = new PHPSonos($memberip); //Slave Sonos ZP IPAddress
+        $ret = $sonos->SetAVTransportURI("x-rincon:" . $sonosid);
 
-			$ii++;
 
-      }
 	}
-}
-
 ?>';
 $script6 =
 
@@ -1718,67 +1680,35 @@ $script6 =
     	@SetValue($IPS_VARIABLE , $IPS_VALUE);
     	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE));
     	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
-		$status = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
+		$player_name = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
 		SO_update_sonos_data(1);
-//		echo $zone;
-      switch ($status)
-		{
-    		case "Mute":
-					SO_switch_zone_mute(1,$zone,true);
-        			break;
-    		case "Play":
-					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
-					$sonos-> Play();
+		remove($player_name);
+	 }
 
-        			break;
 
-    		case "Unmute":
-					SO_switch_zone_mute(1,$zone,false);
+function remove($player_name)
 
-        			break;
-
-    		case "Stop";
-					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
-			   	$sonos->Stop();
-       			break;
-    		case "-5";
-					change_zone_volume($zone,-5);
-       			break;
-    		case "+5";
-					change_zone_volume($zone,+5);
-					break;
-    		default:
-
-        			break;
-
-    	}
-   }
-   else
-   {
-   }
-
-function change_zone_volume($zone,$delta)
 {
-	global $parent_id,$Sonos_Data;
- 	SO_read_sonos_php_data($parent_id);
-  	$members_id = SO_find_zone_members($parent_id,$zone);
-	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
-	{
-		$ii = 0;
-      foreach($Sonos_Data as $key2)
-      {
-   		if($Sonos_Data[$ii]["Name"] == IPS_GetObject($id)["ObjectName"] )
+Global $Sonos_Data,$name_and_ip;
+
+		foreach($Sonos_Data as $key => $id)
+		{
+			if($Sonos_Data[$key]["Name"] == $player_name )
 			{
-				$sonos = new PHPSonos($Sonos_Data[$ii]["IP"]); //Sonos ZP IPAdresse
-   			$Sonos_Data[$ii]["Volume"] = ($Sonos_Data[$ii]["Volume"]+$delta);
-   			$sonos->SetVolume($Sonos_Data[$ii]["Volume"]);
+				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")['Associations'][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
+            $memberip = $Sonos_Data[$key]["IP"];
+            $memberid = $Sonos_Data[$key]["Player_RINCON"];
+
 			}
+		}
 
-			$ii++;
+      $sonos = new PHPSonos($sonosip);
+      $RemoveMember = $sonos->RemoveMember($memberid);
+      $sonos = new PHPSonos($memberip); //Slave Sonos ZP IPAddress
+      $sonos->SetAVTransportURI("");
 
-      }
-	}
 }
+
 
 ?>';
 
