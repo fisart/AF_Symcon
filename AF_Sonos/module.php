@@ -673,7 +673,7 @@ public function build_action_events()
 				{
 					if($var_id ==0)//Keine Variable gefunden
 					{
-echo " A ";
+echo " A ".$zone_name." ";
               		if(in_array ( $zone_name , $free_player_list )) //Es handelt sich um einen einzigen PLayer in der Zone : Zone == Player da nur einzelne player in der Free player list stehen
                	{
 							$adjusted_profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone"); // der einzelne Player darf nicht in der Liste der verfügbaren player stehen
@@ -682,7 +682,7 @@ echo " A ";
 						else // Es gibt mehr als einen Player in der Zone da nur Player die auch Zone sind (Free Player) in der free_player_list stehen
 						{//($Name,$Root,$Type,$Profile,$var_change_script_id)
 							SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$single_zone_cat_id,1,"Add_Player_to_this_Zone",$add_var_change_script_name_id); // create the variable to control the zone
- echo " B ";
+ echo " B ".$zone_name." ";
 
 						}
 					}
@@ -691,22 +691,22 @@ echo " A ";
              		if(!in_array ( $zone_name , $free_player_list )) //Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
                	{
 				     		IPS_DeleteVariable($var_id );
- echo " C ";
+ echo " C ".$zone_name." ";
 						}
 						else// der einzelne Player darf nicht in der Liste der verfügbaren player stehen
 						{//($Name,$Root,$Type,$Profile,$var_change_script_id)
 							$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone");
 				     		IPS_SetVariableCustomProfile ( $var_id, 	$profile);
- echo " D ";
+ echo " D ".$zone_name." ";
 						}
 					}
 				}
             else
 				{
- echo " E ";
+ echo " E ".$zone_name." ";
 					if($var_id !=0)//Keine Variable gefunden
 					{
- echo " F ";
+ echo " F ".$zone_name." ";
 				     		IPS_DeleteVariable($var_id );
 					}
 				}
