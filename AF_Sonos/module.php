@@ -677,7 +677,7 @@ public function build_action_events()
 				{
               if(!in_array ( $zone_name , $free_player_list )) //Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
                {
-//				     	IPS_DeleteVariable($var_id );
+				     	IPS_DeleteVariable($var_id );
 					}
 					else// der einzelne Player darf nicht in der Liste der verfügbaren player stehen
 					{//($Name,$Root,$Type,$Profile,$var_change_script_id)
