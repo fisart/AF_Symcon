@@ -670,23 +670,23 @@ echo " A ";
  echo " B ";
 
 						}
-						else // Die Variable existiert
-						{
-             			if(!in_array ( $zone_name , $free_player_list )) //Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
-               		{
-				     			IPS_DeleteVariable($var_id );
+					}
+					else // Die Variable existiert
+					{
+             		if(!in_array ( $zone_name , $free_player_list )) //Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
+               	{
+				     		IPS_DeleteVariable($var_id );
  echo " C ";
-							}
-							else// der einzelne Player darf nicht in der Liste der verfügbaren player stehen
-							{//($Name,$Root,$Type,$Profile,$var_change_script_id)
-								$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone");
-				     			IPS_SetVariableCustomProfile ( $var_id, 	$profile);
+						}
+						else// der einzelne Player darf nicht in der Liste der verfügbaren player stehen
+						{//($Name,$Root,$Type,$Profile,$var_change_script_id)
+							$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone");
+				     		IPS_SetVariableCustomProfile ( $var_id, 	$profile);
  echo " D ";
-							}
 						}
 					}
 				}
-				else
+            else
 				{
  echo " E ";
 					if($var_id !=0)//Keine Variable gefunden
