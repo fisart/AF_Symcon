@@ -740,6 +740,7 @@ echo " B2 ".$zone_name." ";
 
 public function adjust_profile($zone_name,$old_profile_name)
 {
+global $parent_id;
 
 	$newprofile = $zone_name."_Single_Player";
 	$newprofile = str_replace (" " , "_" ,$newprofile  );
