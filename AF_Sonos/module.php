@@ -688,7 +688,7 @@ echo " A ".$zone_name." ";
 					}
 					else // Die Variable existiert
 					{
-             		if(!in_array ( $zone_name , $free_player_list )) //Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
+             		if(in_array ( $zone_name , $free_player_list )) //Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
                	{
 				     		IPS_DeleteVariable($var_id );
  echo " C ".$zone_name." ";
