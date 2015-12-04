@@ -690,13 +690,14 @@ echo " A ".$zone_name." ";
 					{
              		if(in_array ( $zone_name , $free_player_list )) //Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
                	{
-				     		IPS_DeleteVariable($var_id );
+							$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone");
+				     		IPS_SetVariableCustomProfile ( $var_id, 	$profile);
+//				     		IPS_DeleteVariable($var_id );
  echo " C ".$zone_name." ";
 						}
 						else// der einzelne Player darf nicht in der Liste der verfügbaren player stehen
 						{//($Name,$Root,$Type,$Profile,$var_change_script_id)
-							$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone");
-				     		IPS_SetVariableCustomProfile ( $var_id, 	$profile);
+//				     		IPS_SetVariableCustomProfile ( $var_id, 	$profile);
  echo " D ".$zone_name." ";
 						}
 					}
