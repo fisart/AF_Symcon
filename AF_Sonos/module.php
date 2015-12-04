@@ -762,7 +762,7 @@ global $parent_id;
 	}
 	foreach($associations  as $key => $value)
 	{
-		if (($value['Name'] != $zone_name) OR (in_array($value['Name'],$member_name_list)))
+		if (($value['Name'] != $zone_name) OR (!in_array($value['Name'],$member_name_list)))
 		{
 			IPS_SetVariableProfileAssociation ($newprofile,$i,$value['Name'],$value['Icon'],$value['Color']);
 			$i++;
