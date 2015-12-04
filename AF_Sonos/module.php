@@ -1650,7 +1650,7 @@ Global $Sonos_Data,$name_and_ip;
 		{
 			if($Sonos_Data[$key]["Name"] == $player_name )
 			{
-//				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")['Associations'][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
+//				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")["Associations"][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
             $memberip = $Sonos_Data[$key]["IP"];
             $memberid = $Sonos_Data[$key]["Player_RINCON"];
 			}
@@ -1695,7 +1695,7 @@ Global $Sonos_Data,$name_and_ip;
 		{
 			if($Sonos_Data[$key]["Name"] == $player_name )
 			{
-				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")['Associations'][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
+				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")["Associations"][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
             $memberip = $Sonos_Data[$key]["IP"];
             $memberid = $Sonos_Data[$key]["Player_RINCON"];
 
