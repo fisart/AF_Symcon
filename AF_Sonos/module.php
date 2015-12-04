@@ -553,15 +553,15 @@ public function build_action_events()
 			$master_list_var_ids = IPS_GetChildrenIDs($Sonos_Master_id);
 			$sonos_zone_names[] = NULL; //SONOS Zonen
 			$existing_zone_cat_name[] = NULL;
-         foreach ($master_list_var_ids as $key => $value)
+         foreach ($master_list_var_ids as $key => $master_id)
 			{
-			   $sonos_zone_names[$key] = IPS_GetVariableProfile($sonos_master_string)['Associations'][GetValueInteger($value)]['Name'];
+			   $sonos_zone_names[$key] = IPS_GetVariableProfile($sonos_master_string)['Associations'][GetValueInteger($master_id)]['Name'];
 			}
          $sonos_zone_names = array_unique ( $sonos_zone_names );//SONOS Zonen (immer nur einmal) feststellen
-			$existing_zone_cat_ids = IPS_GetChildrenIDs($zone_cat_id); // Feststellen welche Zonenkategorien bereits existieren
-         foreach ($existing_zone_cat_ids as $key => $value)
+			$existing_zones_cat_ids = IPS_GetChildrenIDs($zone_cat_id); // Feststellen welche Zonenkategorien bereits existieren
+         foreach ($existing_zones_cat_ids as $key => $single_zone_cat_id)
 			{
-				$existing_zone_cat_name[$key] = IPS_GetName($value);
+				$existing_zone_cat_name[$key] = IPS_GetName($single_zone_cat_id);
 				if(in_array ($existing_zone_cat_name[$key] , $sonos_zone_names )) //Zonen Cat Name ist bereits vorhanden und wird auch zukünftig benötigt
 				{
 					$existing_variable_ids = IPS_GetChildrenIDs($value);// Status der exisitierenden Zonen aktualisieren
@@ -587,13 +587,13 @@ public function build_action_events()
 				else // Der Zonen Cat Name ist in SONOS nicht mehr vorhanden und kann gelöscht werden
 				{
 					// Zone Cat is no more needed, delete
-						$existing_variable_ids = IPS_GetChildrenIDs($value);
+						$existing_variable_ids = IPS_GetChildrenIDs($single_zone_cat_id);
 
          			foreach (	$existing_variable_ids as $key1 => $value1) //Eventuelle Variablen unterhalb des weggefallenen Zonennamen löschen
 						{
 								IPS_DeleteVariable($value1);
 						}
-						IPS_DeleteCategory($value);
+						IPS_DeleteCategory($single_zone_cat_id);
 				}
 
 			}
@@ -617,13 +617,6 @@ public function build_action_events()
 						else
 						{
 						}
-						if(1)
-						{
-						
-						}
-						else
-						{
-						}
 					}
 					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile,$zone_var_change_script_id); // create the variable to control the zone
 				}
@@ -631,18 +624,18 @@ public function build_action_events()
 			$free_player_list = SO_create_zone_member_profiles($parent_id);
 			$zones = IPS_GetObject($zone_cat_id)['ChildrenIDs']; // IDS Zone Categories
 
-			foreach($zones as $key => $zone_cat_id)// Loop IDS Zone Categories
+			foreach($zones as $key => $single_zone_cat_id)// Loop IDS Zone Categories
 			{
-			   $zone_name = IPS_GetName($zone_cat_id);
+			   $zone_name = IPS_GetName($single_zone_cat_id);
    			$zone_name_profil = str_replace (" " , "_" , 	$zone_name );
    			$zone_member_var_ids = SO_find_zone_members($parent_id,$zone_name);
 				$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_profil;
-				$var_id = @IPS_GetVariableIDByName ( $zone_member_profile_name, $zone_cat_id );// Variablen Name = Profilname
+				$var_id = @IPS_GetVariableIDByName ( $zone_member_profile_name, $single_zone_cat_id );// Variablen Name = Profilname
 				if($var_id == 0)
 				{
                if(!in_array ( $zone_name , $free_player_list ))
                {
-						SO_create_variables_with_action($parent_id,$zone_member_profile_name,$zone_cat_id,1,$zone_member_profile_name,$remove_var_change_script_name_id); // create the variable to control the zone
+						SO_create_variables_with_action($parent_id,$zone_member_profile_name,$single_zone_cat_id,1,$zone_member_profile_name,$remove_var_change_script_name_id); // create the variable to control the zone
 					}
 					else
 					{
@@ -660,24 +653,24 @@ public function build_action_events()
 					}
 
 				}
-				$var_id = @IPS_GetVariableIDByName ("Add_Player_to_this_Zone", $zone_cat_id);// Variablen Name = Profilname
+				$var_id = @IPS_GetVariableIDByName ("Add_Player_to_this_Zone", $single_zone_cat_id);// Variablen Name = Profilname
 				if($var_id ==0)//Keine Variable gefunden
 				{
-              if(!in_array ( $zone_name , $free_player_list )) // Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
+              if(in_array ( $zone_name , $free_player_list )) //Es handelt sich um einen einzigen PLayer in der Zone : Zone == Player da nur einzelne player in der Free player list stehen
                {
-						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,"Add_Player_to_this_Zone",$add_var_change_script_name_id); // create the variable to control the zone
+						$adjusted_profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone"); // der einzelne Player darf nicht in der Liste der verfügbaren player stehen
+						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$single_zone_cat_id,1,$adjusted_profile,$add_var_change_script_name_id); // create the variable to control the zone
 					}
-					else //Es handelt sich um einen einzigen PLayer in der Zone : Zone == Player
+					else // Es gibt mehr als einen Player in der Zone da nur Player die auch Zone sind (Free Player) in der free_player_list stehen
 					{//($Name,$Root,$Type,$Profile,$var_change_script_id)
-						$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone"); // der einzelne Player darf nicht in der Liste der verfügbaren player stehen
-						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$zone_cat_id,1,$profile,$add_var_change_script_name_id); // create the variable to control the zone
+						SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$single_zone_cat_id,1,"Add_Player_to_this_Zone",$add_var_change_script_name_id); // create the variable to control the zone
 					}
 				}
 				else // Die Variable existiert
 				{
               if(!in_array ( $zone_name , $free_player_list )) //Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
                {
-				     	IPS_DeleteVariable($var_id );
+//				     	IPS_DeleteVariable($var_id );
 					}
 					else// der einzelne Player darf nicht in der Liste der verfügbaren player stehen
 					{//($Name,$Root,$Type,$Profile,$var_change_script_id)
