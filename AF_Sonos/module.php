@@ -631,27 +631,42 @@ public function build_action_events()
    			$zone_member_var_ids = SO_find_zone_members($parent_id,$zone_name);
 				$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_profil;
 				$var_id = @IPS_GetVariableIDByName ( $zone_member_profile_name, $single_zone_cat_id );// Variablen Name = Profilname
-				if($var_id == 0)
-				{
-               if(!in_array ( $zone_name , $free_player_list ))
-               {
-						SO_create_variables_with_action($parent_id,$zone_member_profile_name,$single_zone_cat_id,1,$zone_member_profile_name,$remove_var_change_script_name_id); // create the variable to control the zone
+				if(is_array($free_player_list))
+					{
+					if($var_id == 0)
+					{
+               	if(!in_array ( $zone_name , $free_player_list ))
+               	{
+							SO_create_variables_with_action($parent_id,$zone_member_profile_name,$single_zone_cat_id,1,$zone_member_profile_name,$remove_var_change_script_name_id); // create the variable to control the zone
+						}
+						else
+						{
+						}
 					}
 					else
 					{
+              		if(!in_array ( $zone_name , $free_player_list ))
+               	{
+				     		IPS_SetVariableCustomProfile ( $var_id, $zone_member_profile_name);
+						}
+						else
+						{
+							IPS_DeleteVariable($var_id );
+						}
+
 					}
 				}
 				else
 				{
-              	if(!in_array ( $zone_name , $free_player_list ))
-               {
-				     	IPS_SetVariableCustomProfile ( $var_id, $zone_member_profile_name);
+					if($var_id == 0)
+					{
+ 							SO_create_variables_with_action($parent_id,$zone_member_profile_name,$single_zone_cat_id,1,$zone_member_profile_name,$remove_var_change_script_name_id); // create the variable to control the zone
 					}
 					else
 					{
-						IPS_DeleteVariable($var_id );
-					}
+				     		IPS_SetVariableCustomProfile ( $var_id, $zone_member_profile_name);
 
+					}
 				}
 				$var_id = @IPS_GetVariableIDByName ("Add_Player_to_this_Zone", $single_zone_cat_id);// Variablen Name = Profilname
 				if(is_array($free_player_list))
