@@ -1059,7 +1059,7 @@ global $parent_id;
 				IPS_SetProperty($id,"UseBasicAuth",false);
 				IPS_SetProperty($id,"AuthUser","");
 				IPS_SetProperty($id,"AuthPass","");
-				IPS_SetProperty($id,"Interval",10);
+				IPS_SetProperty($id,"Interval",1);
 				IPS_ApplyChanges($id);
 				IPS_SetName ( $id,$socket_name);
 			}
@@ -1312,30 +1312,21 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 
 	 	IPS_SetVariableProfileAssociation ($group_action_string."1",0,"Play","Speaker",  $Color[14]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."1",1,"Mute","Cross",  $Color[12]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."1",2,"+5","HollowArrowUp",  $Color[7]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."1",3,"-5","HollowArrowDown",  $Color[8]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."2",0,"Stop","Cross",  $Color[18]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."2",1,"Mute","Cross",  $Color[12]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."2",2,"+5","HollowArrowUp",  $Color[7]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."2",3,"-5","HollowArrowDown",  $Color[8]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."3",0,"Play","Speaker",  $Color[14]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."3",1,"Unmute","Speaker",  $Color[11]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."3",2,"+5","HollowArrowUp",  $Color[7]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."3",3,"-5","HollowArrowDown",  $Color[8]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."4",0,"Stop","Cross",  $Color[18]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."4",1,"Unmute","Speaker",  $Color[11]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."4",2,"+5","HollowArrowUp",  $Color[7]);
+	 	IPS_SetVariableProfileAssociation ($group_action_string."4",3,"-5","HollowArrowDown",  $Color[8]);
 
-		for ($x = 1; $x <= 4; $x++)
-		{
-	 		IPS_SetVariableProfileAssociation ($group_action_string.$x,2,"+5","HollowArrowUp",  $Color[7]);
-	 		IPS_SetVariableProfileAssociation ($group_action_string.$x,3,"-5","HollowArrowDown",  $Color[8]);
-	 		IPS_SetVariableProfileAssociation ($group_action_string.$x,4,"Party Mode","HollowArrowUp",  $Color[13]);
-	 		IPS_SetVariableProfileAssociation ($group_action_string.$x,5,"Dissolve Zone","HollowArrowDown",  $Color[19]);
-		}
-
-
-//	 	IPS_SetVariableProfileAssociation ($group_action_string."2",2,"+5","HollowArrowUp",  $Color[7]);
-//	 	IPS_SetVariableProfileAssociation ($group_action_string."2",3,"-5","HollowArrowDown",  $Color[8]);
-
-//	 	IPS_SetVariableProfileAssociation ($group_action_string."3",2,"+5","HollowArrowUp",  $Color[7]);
-//	 	IPS_SetVariableProfileAssociation ($group_action_string."3",3,"-5","HollowArrowDown",  $Color[8]);
-
-//	 	IPS_SetVariableProfileAssociation ($group_action_string."4",2,"+5","HollowArrowUp",  $Color[7]);
-//	 	IPS_SetVariableProfileAssociation ($group_action_string."4",3,"-5","HollowArrowDown",  $Color[8]);
 
 }
 
