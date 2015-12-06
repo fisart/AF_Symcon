@@ -1059,7 +1059,7 @@ global $parent_id;
 				IPS_SetProperty($id,"UseBasicAuth",false);
 				IPS_SetProperty($id,"AuthUser","");
 				IPS_SetProperty($id,"AuthPass","");
-				IPS_SetProperty($id,"Interval",10);
+				IPS_SetProperty($id,"Interval",1);
 				IPS_ApplyChanges($id);
 				IPS_SetName ( $id,$socket_name);
 			}
