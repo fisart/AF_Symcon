@@ -18,19 +18,28 @@
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name;
 
+
+
 			SO_define_names("");
 			$this->RegisterVariableString ("Sonos_Master_IP", "Sonos_Master_IP", "",0); // Erzeugt die Variable
 			$Sonos_Master_IP = $this->ReadPropertyString($master_ip_name_string); //Liest die Eigenschaft
 			$master_IP_id = $this->GetIDForIdent($master_ip_name_string);
 			SetValue($master_IP_id, $Sonos_Master_IP); //Beschreibt die Variable
 			$parent_id = IPS_GetObject($master_IP_id)['ParentID'];
-			SO_create_sonos_reader_socket($parent_id);
-			SO_create_sonos_text_parser($parent_id);
-			SO_create_sonos_content_variable($parent_id);
-			SO_set_rule_sonos_text_parser($parent_id);
-			SO_create_categories($parent_id);
-			SO_create_scripts($parent_id);
-			SO_create_links($parent_id);
+         if(Sys_Ping ($Sonos_Master_IP, 1000 ))
+         {
+				SO_create_sonos_reader_socket($parent_id);
+				SO_create_sonos_text_parser($parent_id);
+				SO_create_sonos_content_variable($parent_id);
+				SO_set_rule_sonos_text_parser($parent_id);
+				SO_create_categories($parent_id);
+				SO_create_scripts($parent_id);
+				SO_create_links($parent_id);
+			}
+			else
+			{
+				echo " IP Adresse Failure ";
+			}
 
 		}
 
