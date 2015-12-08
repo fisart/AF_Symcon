@@ -15,7 +15,7 @@
 			parent::ApplyChanges();
 
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
-					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
+					 $content_var_name_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name;
 
 
@@ -55,13 +55,14 @@
 		public function define_names()
 		{
 			global
-					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,$content_var_name_string,
+					$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,$content_var_name_string,
 					$update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
 					$var_change_script_name,$content_var_php_class_name_string,	$content_var_php_script_name_string,$group_action_string,$group_add_string,$group_remove_string,
 					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
 					$zone_var_change_script_name,$add_var_change_script_name,$remove_var_change_script_name,$stations_profile,	$radio_script_name,$radio_script_id  ;
 
-			$action_string 						= "Sonos_Action";
+			define (action_string ,"Sonos_Action");
+//									= "Sonos_Action";
 			$volume_string 						= "Volume";
 			$mute_string 							= "Mute";
 			$player_data_string 					= "Player_Data";
@@ -95,7 +96,7 @@
 		public function update_sonos_data()
 		{
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
-					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
+					 $content_var_name_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
 					 $zone_id,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_id,$var_change_script_name,$add_var_change_script_name,$remove_var_change_script_name,
 					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
@@ -127,7 +128,7 @@
 public function get_static_data()
 {
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
-					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
+					 $content_var_name_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
 					 $zone_id,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_id,$var_change_script_name,
 					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
@@ -142,7 +143,7 @@ public function get_static_data()
 				{
 					$content_var_name_string_id = $value;
 				}
-				elseif(IPS_GetName($value) == $action_string)
+				elseif(IPS_GetName($value) == action_string)
 				{
 					$action_ID = $value;
 				}
@@ -478,7 +479,7 @@ public function build_action_events()
 
 {
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
-					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
+					 $content_var_name_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id;
 
 					$list_event_names[] = NULL;
@@ -507,7 +508,7 @@ public function build_action_events()
 		public function create_scripts()
 		{
 		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,$zone_var_change_script_id,
-					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
+					$content_var_name_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_name,$remove_var_change_script_name_id,
 					$add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
 					$script0,$script1,$script2,$script3,$script4,$script5,$script6,$script7,
@@ -643,7 +644,7 @@ public function build_action_events()
    public function create_categories_zone_master()
    {
 		global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
-					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
+					$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
 					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
 					$group_action_string,$var_change_script_id,$zone_var_change_script_id,$zone_cat_id,$stations_profile,	$radio_script_name,$radio_script_id;
 
@@ -913,7 +914,7 @@ global $parent_id;
 		{
 
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
-						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,
+						$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,
 						$visu_id,$zone_id,$zone_cat_id;
 
 
@@ -924,7 +925,7 @@ global $parent_id;
 			$zone_cat_id = 0;
 			foreach ($ALL_IDS as $key => $value)
 			{
-				if(IPS_GetName($value) == $action_string)
+				if(IPS_GetName($value) == action_string)
 				{
 					$action_ID = $value;
 				}
@@ -944,7 +945,7 @@ global $parent_id;
 			if ($action_ID == 0)
 			{
 				$action_ID = IPS_CreateCategory();       // Kategorie anlegen
-				IPS_SetName($action_ID, $action_string); // Kategorie benennen
+				IPS_SetName($action_ID, action_string); // Kategorie benennen
 				IPS_SetParent($action_ID, $parent_id);
 			}
 			else
@@ -1030,7 +1031,7 @@ global $parent_id;
 		public function create_links()
 		{
 			global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
-						$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,
+						$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,
 						$zone_id,$visu_id,$zone_cat_id;
 
 					$Diff = " View";
@@ -1363,7 +1364,7 @@ public function populate_master($Sonos_Data,$i)
 public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master definiert
 {
 	global $Sonos_Data,
-	       $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string
+	       $content_var_name_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string
 			 ,$group_action_string,$group_add_string,$group_remove_string,$Color;
 
 	$key = 0;
@@ -1402,13 +1403,13 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 	 	IPS_SetVariableProfileAssociation ($volume_string,1,"Leise","",  $Color[19]);
 	 	IPS_SetVariableProfileAssociation ($volume_string,26,"Normal","",  $Color[14]);
 	 	IPS_SetVariableProfileAssociation ($volume_string,76,"Laut","",  $Color[18]);
-	 	IPS_SetVariableProfileAssociation ($action_string,0,"+5","HollowArrowUp",  $Color[14]);
-	 	IPS_SetVariableProfileAssociation ($action_string,1,"-5","HollowArrowDown",  $Color[12]);
+	 	IPS_SetVariableProfileAssociation (action_string,0,"+5","HollowArrowUp",  $Color[14]);
+	 	IPS_SetVariableProfileAssociation (action_string,1,"-5","HollowArrowDown",  $Color[12]);
 //	 	IPS_SetVariableProfileAssociation ($action_string,5,"Make me Master","Network",  $Color[13]);
 //	 	IPS_SetVariableProfileAssociation ($action_string,6,"Add me as member","Notebook",  $Color[19]);
 //	 	IPS_SetVariableProfileAssociation ($action_string,4,"Remove me as member","Cross",  $Color[18]);
-	 	IPS_SetVariableProfileAssociation ($action_string,2,"Mute","Cross",  $Color[5]);
-	 	IPS_SetVariableProfileAssociation ($action_string,3,"Unmute","Speaker",  $Color[6]);
+	 	IPS_SetVariableProfileAssociation (action_string,2,"Mute","Cross",  $Color[5]);
+	 	IPS_SetVariableProfileAssociation (action_string,3,"Unmute","Speaker",  $Color[6]);
 
 	 	IPS_SetVariableProfileAssociation ($group_action_string."1",0,"Play","Speaker",  $Color[14]);
 	 	IPS_SetVariableProfileAssociation ($group_action_string."1",1,"Mute","Cross",  $Color[12]);
@@ -1442,14 +1443,14 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 
 public function 	create_profile() //Hier wird das Sonos Master Profil angelegt
 {
-	global $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string
+	global $content_var_name_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string
 	,$group_action_string,$group_add_string,$group_remove_string;
 
 
 	if(!IPS_VariableProfileExists ( $sonos_master_string )) IPS_CreateVariableProfile( $sonos_master_string, 1 );
 	if(!IPS_VariableProfileExists ($mute_string ))	IPS_CreateVariableProfile ( $mute_string, 1 );
 	if(!IPS_VariableProfileExists ($volume_string ))	IPS_CreateVariableProfile ( $volume_string, 1 );
-	if(!IPS_VariableProfileExists ($action_string ))	IPS_CreateVariableProfile ( $action_string, 1 );
+	if(!IPS_VariableProfileExists (action_string ))	IPS_CreateVariableProfile ( action_string, 1 );
 
 	if(!IPS_VariableProfileExists ($group_action_string."1" ))	IPS_CreateVariableProfile ( $group_action_string."1", 1 );
 	if(!IPS_VariableProfileExists ($group_action_string."2" ))	IPS_CreateVariableProfile ( $group_action_string."2", 1 );
@@ -1529,7 +1530,7 @@ else
 $script1 =
 '<?
 global 	$action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
-			$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
+			$content_var_name_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 			$update_script_name_string,$event_name_string,$visualisierung_name_string;
 
 
