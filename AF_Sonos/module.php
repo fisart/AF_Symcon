@@ -645,7 +645,7 @@ public function build_action_events()
 		global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
 					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
 					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
-					$group_action_string,$var_change_script_id,$zone_var_change_script_id,$zone_cat_id;
+					$group_action_string,$var_change_script_id,$zone_var_change_script_id,$zone_cat_id,$stations_profile,	$radio_script_name,$radio_script_id;
 
 		if (IPS_SemaphoreEnter("Create_ZM_Cats", 1000))
 		{
@@ -718,8 +718,7 @@ public function build_action_events()
 						}
 					}
 					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile,$zone_var_change_script_id); // create the variable to control the zone
-//					SO_create_variables_with_action($parent_id,"Stations",$zone_name_id,1,"Radio_Stations",$radio_script_id); // create the variable to control the zone
-
+					SO_create_variables_with_action($parent_id,"Stations",$zone_name_id,1,$stations_profile,$radio_script_id); // create the variable to control the zone
 				}
 			}
 			$free_player_list = SO_create_zone_member_profiles($parent_id);
