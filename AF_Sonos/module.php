@@ -59,7 +59,7 @@
 					$update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
 					$var_change_script_name,$content_var_php_class_name_string,	$content_var_php_script_name_string,$group_action_string,$group_add_string,$group_remove_string,
 					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
-					$zone_var_change_script_name,$add_var_change_script_name,$remove_var_change_script_name;
+					$zone_var_change_script_name,$add_var_change_script_name,$remove_var_change_script_name,$stations_profile,	$radio_script_name,$radio_script_id  ;
 
 			$action_string 						= "Sonos_Action";
 			$volume_string 						= "Volume";
@@ -85,6 +85,8 @@
 			$group_action_string                ="Group_Action";
 			$group_add_string                   ="Group_Add";
 			$group_remove_string                ="Group_Remove";
+			$stations_profile 						= "Radio_Stations";
+			$radio_script_name						= "Select_Station";
 
 
 		}
@@ -129,7 +131,8 @@ public function get_static_data()
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
 					 $zone_id,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_id,$var_change_script_name,
 					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
-					 $content_var_php_script_name_string,$Sonos_Master_id,$zone_var_change_script_name,$zone_var_change_script_id,$zone_cat_id;
+					 $content_var_php_script_name_string,$Sonos_Master_id,$zone_var_change_script_name,$zone_var_change_script_id,$zone_cat_id,
+					 $radio_script_name,$radio_script_id ;
 
 			$ALL_IDS = IPS_GetObjectList ( );
 			$content_var_name_string_id = 0;
@@ -191,7 +194,10 @@ public function get_static_data()
 				{
 					$zone_var_change_script_id = $value;
 				}
-
+				elseif(IPS_GetName($value) == $radio_script_name)
+				{
+					$radio_script_id = $value;
+				}
 				else
 				{
 				}
@@ -203,7 +209,7 @@ public function get_static_data()
 
 public function create_radio_stations()
 {
-global $parent_id;
+global $parent_id,$stations_profile ;
 	$Color = [	0x15EB4A,//0 Grün
 					0xF21344,//1 Rot
 					0x1833DE,//2 Blau
@@ -228,8 +234,6 @@ global $parent_id;
 					0xfaeefb //21 Weiß
 				];
 	$stations = SO_radio_stations_static_data($parent_id);
-	$stations_profile = "Radio_Stations";
-
 	if(IPS_VariableProfileExists ($stations_profile))
 	{
 		IPS_DeleteVariableProfile($stations_profile);
@@ -505,8 +509,10 @@ public function build_action_events()
 		global   $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,$zone_var_change_script_id,
 					$content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					$update_script_name_string,$event_name_string,$command_script_name_string,$command_script_id,$var_change_script_name,$remove_var_change_script_name_id,
-					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
-					$script0,$script1,$script2,$script3,$script4,$script5,$script6,$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_name_string,$zone_var_change_script_name ;
+					$add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
+					$script0,$script1,$script2,$script3,$script4,$script5,$script6,$script7,
+					$content_var_php_class_name_string,$sonos_data_via_php_class_id,$content_var_php_script_name_string,$zone_var_change_script_name,
+					$radio_script_name,$radio_script_id ;
 
 					if(@IPS_GetObjectIDByName ($update_script_name_string, $parent_id) == false)
 					{
@@ -562,6 +568,13 @@ public function build_action_events()
 						IPS_SetName($zone_var_change_script_id ,$zone_var_change_script_name);
 						IPS_SetParent($zone_var_change_script_id, $parent_id);
 						IPS_SetScriptContent($zone_var_change_script_id,$script4);
+					}
+					if(@IPS_GetObjectIDByName ($radio_script_name, $parent_id )== false)
+					{
+						$radio_script_id = IPS_CreateScript (0);
+						IPS_SetName($radio_script_id ,$radio_script_name);
+						IPS_SetParent($radio_script_id, $parent_id);
+						IPS_SetScriptContent($radio_script_id,$script7);
 					}
 					if(@IPS_GetObjectIDByName ($content_var_php_script_name_string, $parent_id )== false)
 					{
@@ -1498,7 +1511,7 @@ public function create_link($Parent,$Name,$Root,$ID)
 
 public function get_script_content()
 {
-global $script0,$script1,$script2,$script3,$script4,$script5,$script6;
+global $script0,$script1,$script2,$script3,$script4,$script5,$script6,$script7;
 
 $script0 =
 '<?
@@ -1816,6 +1829,51 @@ Global $Sonos_Data,$name_and_ip;
 	}
 ?>';
 $script6 =
+
+
+'<?
+	 $IPS_SENDER = $_IPS["SENDER"];
+    if($IPS_SENDER == "WebFront")
+	 {
+    	$IPS_SELF = $_IPS["SELF"];
+	 	$IPS_VALUE = $_IPS["VALUE"];
+	 	$IPS_VARIABLE = $_IPS["VARIABLE"];
+    	@SetValue($IPS_VARIABLE , $IPS_VALUE);
+    	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE));
+    	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
+		$player_name = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
+		SO_update_sonos_data(1);
+		remove($player_name);
+	 }
+
+
+function remove($player_name)
+
+{
+Global $Sonos_Data,$name_and_ip;
+
+		foreach($Sonos_Data as $key => $id)
+		{
+			if($Sonos_Data[$key]["Name"] == $player_name )
+			{
+				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")["Associations"][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
+            $memberip = $Sonos_Data[$key]["IP"];
+            $memberid = $Sonos_Data[$key]["Player_RINCON"];
+
+			}
+		}
+
+      $sonos = new PHPSonos($sonosip);
+      $RemoveMember = $sonos->RemoveMember($memberid);
+      $sonos = new PHPSonos($memberip); //Slave Sonos ZP IPAddress
+      $sonos->SetAVTransportURI("");
+
+}
+
+
+?>';
+
+$script7 =
 
 
 '<?
