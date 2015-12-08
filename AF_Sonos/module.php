@@ -35,7 +35,7 @@
 				SO_create_categories($parent_id);
 				SO_create_scripts($parent_id);
 				SO_create_links($parent_id);
-				create_radio_stations($parent_id)
+				SO_create_radio_stations($parent_id);
 			}
 			else
 			{
