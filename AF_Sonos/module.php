@@ -203,6 +203,7 @@ public function get_static_data()
 
 public function create_radio_stations()
 {
+global $parent_id;
 	$Color = [	0x15EB4A,//0 Grün
 					0xF21344,//1 Rot
 					0x1833DE,//2 Blau
@@ -226,14 +227,14 @@ public function create_radio_stations()
 					0xe34444,//20 Ocker Rot
 					0xfaeefb //21 Weiß
 				];
-	$stations = SO_radio_stations_static_data();
+	$stations = SO_radio_stations_static_data($parent_id);
 	$stations_profile = "Radio_Stations";
 
 	if(IPS_VariableProfileExists ($stations_profile))
 	{
 		IPS_DeleteVariableProfile($stations_profile);
 	}
-	IPS_CreateVariableProfile( 	$stations_profile, 1 );
+	IPS_CreateVariableProfile( 	$stations_profile,1 );
 
 	$i = 0;
 	foreach($stations as $key => $station)
