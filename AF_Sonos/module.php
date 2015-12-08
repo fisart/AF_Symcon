@@ -35,6 +35,7 @@
 				SO_create_categories($parent_id);
 				SO_create_scripts($parent_id);
 				SO_create_links($parent_id);
+				create_radio_stations($parent_id)
 			}
 			else
 			{
@@ -102,13 +103,20 @@
 			SO_get_static_data($parent_id);
 			SO_create_categories($parent_id);
 			SO_read_sonos_data($parent_id);
-			SO_build_or_fix_sonos_variables($parent_id,"");
-			SO_populate_variables($parent_id,"");
-			SO_create_profile($parent_id);
-			SO_build_or_fix_profile($parent_id,"");
-			SO_build_or_fix_sonos_controls($parent_id,"");
-			SO_build_action_events($parent_id);
-         SO_create_categories_zone_master($parent_id);
+			if( is_array ($Sonos_Data))
+			{
+				SO_build_or_fix_sonos_variables($parent_id,"");
+				SO_populate_variables($parent_id,"");
+				SO_create_profile($parent_id);
+				SO_build_or_fix_profile($parent_id,"");
+				SO_build_or_fix_sonos_controls($parent_id,"");
+				SO_build_action_events($parent_id);
+         	SO_create_categories_zone_master($parent_id);
+			}
+			else
+			{
+				echo " Cannot read SONOS Data ";
+			}
 //         SO_create_links($parent_id);
 //			SO_sonos_content( $parent_id);
 	   }
@@ -191,6 +199,74 @@ public function get_static_data()
 
 
 
+}
+
+public function create_radio_stations()
+{
+	$Color = [	0x15EB4A,//0 Grün
+					0xF21344,//1 Rot
+					0x1833DE,//2 Blau
+					0xE8DA10,//3 Gelb
+					0xF21BB9,//4 Violet
+					0x1BCEF2,//5 Türkis
+					0x1BF2C0,//6 Mint
+					0x1A694C,//7 Dunkelgrün
+					0xF2981B,//8 Orange
+					0x48508A,//9 Purpur
+					0x912A41,//10 Dunkelrot
+					0x15EB4A,//11 Gift Grün
+					0xF21344,//12 Kamin Rot
+					0x1833DE,//13 Kobalt Blau
+				 	0xA1EFB4,//14 Light Mint
+					0xFFA07A,//15 Ocker
+					0x808080,//16 Grau
+					0x383C42,//17 Schwarz
+					0xee2edd,//18 Leucht Violett
+					0xFFF200,//19 Leucht Gelb
+					0xe34444,//20 Ocker Rot
+					0xfaeefb //21 Weiß
+				];
+	$stations = SO_radio_stations_static_data();
+	$stations_profile = "Radio_Stations";
+
+	if(IPS_VariableProfileExists ($stations_profile))
+	{
+		IPS_DeleteVariableProfile($stations_profile);
+	}
+	IPS_CreateVariableProfile( 	$stations_profile, 1 );
+
+	$i = 0;
+	foreach($stations as $key => $station)
+	{
+		IPS_SetVariableProfileAssociation ($stations_profile,$i,$key,"",  $Color[$i]);
+		$i++;
+	}
+
+
+
+}
+
+
+public function radio_stations_static_data()
+{
+   $RadioStations["RSA"] = "x-rincon-mp3radio://streams.rsa-sachsen.de/rsa-live/mp3-192/mediaplayerrsa";
+   $RadioStations["Info"] = "x-rincon-mp3radio://inforadio.de/live.m3u";
+   $RadioStations["Antenne Bayern"] = "x-rincon-mp3radio://mp3channels.webradio.antenne.de/antenne";
+   $RadioStations["Antenne MV"] = "x-rincon-mp3radio://streams.antennemv.de/antennemv-live/mp3-192/amv";
+   $RadioStations[ "Antenne Thueringen"] = "x-rincon-mp3radio://xapp2023227392c40000.f.l.i.lb.core-cdn.net/40000mb/live/app2023227392/w2075033608/live_de_128.mp3";
+   $RadioStations["Bayern 3"] = "x-rincon-mp3radio://streams.br.de/bayern3_2.m3u" ;
+   $RadioStations["bigFM"] = "x-rincon-mp3radio://srv05.bigstreams.de/bigfm-mp3-96.m3u";
+   $RadioStations[ "Bremen Vier"] = "x-rincon-mp3radio://httpmedia.radiobremen.de/bremenvier.m3u";
+   $RadioStations["Deutschlandfunk"] = "x-rincon-mp3radio://www.dradio.de/streaming/dlf.m3u ";
+   $RadioStations["FFH"] = "x-rincon-mp3radio://streams.ffh.de/radioffh/mp3/hqlivestream.m3u";
+   $RadioStations["FFN"] = "x-rincon-mp3radio://player.ffn.de/ffn.mp3";
+   $RadioStations["HR3"] = "x-rincon-mp3radio://metafiles.gl-systemhaus.de/hr/hr3_2.m3u";
+   $RadioStations["KiRaKa"] =  "x-rincon-mp3radio://www.wdr.de/wdrlive/media/kiraka.m3u" ;
+   $RadioStations["MDR1"] = "x-rincon-mp3radio://avw.mdr.de/livestreams/mdr1_radio_sachsen_live_128.m3u";
+   $RadioStations["MDR Jump"] = "x-rincon-mp3radio://www.jumpradio.de/static/webchannel/jump_live_channel_high.m3u";
+   $RadioStations["NDR2"] = "x-rincon-mp3radio://www.ndr.de/resources/metadaten/audio/m3u/ndr2.m3u";
+   $RadioStations["N-JOY"] = "x-rincon-mp3radio://www.ndr.de/resources/metadaten/audio/m3u/n-joy.m3u";
+	return $RadioStations;
 }
 
 
@@ -628,6 +704,8 @@ public function build_action_events()
 						}
 					}
 					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile,$zone_var_change_script_id); // create the variable to control the zone
+//					SO_create_variables_with_action($parent_id,"Stations",$zone_name_id,1,"Radio_Stations",$radio_script_id); // create the variable to control the zone
+
 				}
 			}
 			$free_player_list = SO_create_zone_member_profiles($parent_id);
