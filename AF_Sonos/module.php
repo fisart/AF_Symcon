@@ -1885,32 +1885,27 @@ $script7 =
     	@SetValue($IPS_VARIABLE , $IPS_VALUE);
     	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE));
     	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
-		$player_name = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
+		$station = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
 		SO_update_sonos_data(1);
-		remove($player_name);
+		$zone =  IPS_GetName( IPS_GetParent ($IPS_VARIABLE));
+		$stations = SO_radio_stations_static_data(1);
+
+		set_radio_station($zone,$stations[$station],$station);
 	 }
 
 
-function remove($player_name)
+
+function set_radio_station($zone,$station,$name)
 
 {
 Global $Sonos_Data,$name_and_ip;
+		$sonosip = $name_and_ip[$zone];
 
-		foreach($Sonos_Data as $key => $id)
-		{
-			if($Sonos_Data[$key]["Name"] == $player_name )
-			{
-				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")["Associations"][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
-            $memberip = $Sonos_Data[$key]["IP"];
-            $memberid = $Sonos_Data[$key]["Player_RINCON"];
 
-			}
-		}
 
       $sonos = new PHPSonos($sonosip);
-      $RemoveMember = $sonos->RemoveMember($memberid);
-      $sonos = new PHPSonos($memberip); //Slave Sonos ZP IPAddress
-      $sonos->SetAVTransportURI("");
+		$sonos->SetRadio($station,$name);
+		$sonos->Play();
 
 }
 
@@ -2781,7 +2776,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#GetPositionInfo"
 
 	public function SetRadio($radio,$Name="IP-Symcon Radio")
 	{
-	$Metadata="&lt;DIDL-Lite xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; xmlns:upnp=&quot;urn:schemas-upnp-org:metadata-1-0/upnp/&quot; xmlns:r=&quot;urn:schemas-rinconnetworks-com:metadata-1-0/&quot; xmlns=&quot;urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/&quot;&gt;&lt;item id=&quot;R:0/0/0&quot; parentID=&quot;R:0/0&quot; restricted=&quot;true&quot;&gt;&lt;dc:title&gt;".$Name."&lt;/dc:title&gt;&lt;upnp:class&gt;object.item.audioItem.audioBroadcast&lt;/upnp:class&gt;&lt;desc id=&quot;cdudn&quot; nameSpace=&quot;urn:schemas-rinconnetworks-com:metadata-1-0/&quot;&gt;SA_RINCON65031_&lt;/desc&gt;&lt;/item&gt;&lt;/DIDL-Lite&gt;";
+	$MetaData="&lt;DIDL-Lite xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; xmlns:upnp=&quot;urn:schemas-upnp-org:metadata-1-0/upnp/&quot; xmlns:r=&quot;urn:schemas-rinconnetworks-com:metadata-1-0/&quot; xmlns=&quot;urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/&quot;&gt;&lt;item id=&quot;R:0/0/0&quot; parentID=&quot;R:0/0&quot; restricted=&quot;true&quot;&gt;&lt;dc:title&gt;".$Name."&lt;/dc:title&gt;&lt;upnp:class&gt;object.item.audioItem.audioBroadcast&lt;/upnp:class&gt;&lt;desc id=&quot;cdudn&quot; nameSpace=&quot;urn:schemas-rinconnetworks-com:metadata-1-0/&quot;&gt;SA_RINCON65031_&lt;/desc&gt;&lt;/item&gt;&lt;/DIDL-Lite&gt;";
 
  	$this->SetAVTransportURI($radio,$MetaData);
 
