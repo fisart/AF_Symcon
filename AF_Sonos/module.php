@@ -105,6 +105,7 @@
 			SO_get_static_data($parent_id);
 			SO_create_categories($parent_id);
 			SO_read_sonos_data($parent_id);
+			SO_delete_lost_player_data($parent_id,$parent_id);
 			if( is_array ($Sonos_Data))
 			{
 				SO_build_or_fix_sonos_variables($parent_id,"");
@@ -250,6 +251,221 @@ global $parent_id,$stations_profile ;
 
 
 }
+
+
+
+public function delete_lost_player_data($start_id)
+{
+Global $Sonos_Data,$parent_id,$command_script_name_string,$player_data_string,$action_string,$volume_string,$mute_string, $sonos_master_string,$Zone_cat_name;
+
+foreach($Sonos_Data as $key => $value)
+{
+	$player_names[$key] = $Sonos_Data[$key]['Name'];
+}
+
+
+	$next_level_ids =  IPS_GetObject($start_id)['ChildrenIDs'];
+
+	foreach($next_level_ids as $key1 => $value1)
+	{
+		if(IPS_GetName($value1) == $command_script_name_string) //Events
+		{
+				$events =  IPS_GetObject($value1)['ChildrenIDs'];
+				foreach($events as $key2 => $value2)
+				{
+					if(!in_array (IPS_GetName($value2) , $player_names )) // Lost player event
+					{
+						IPS_DeleteEvent ($value2);
+					}
+					else
+					{
+					}
+				}
+
+		}
+		elseif(IPS_GetName($value1) == $player_data_string) //Player_Data
+		{
+
+				$id3 =  IPS_GetObject($value1)['ChildrenIDs'];
+				$sub_cat_names = ["Mute","Volume","Sonos_Master"];
+				foreach($id3 as $key3 => $value3)
+				{
+					if(in_array (IPS_GetName($value3) , $sub_cat_names )) //Mute , Volume, Sonos_Master
+					{
+						$id3a =  IPS_GetObject($value3)['ChildrenIDs'];
+						foreach($id3a as $key3a => $value3a)
+						{
+							if(!in_array(IPS_GetName($value3a) , $player_names )) //Lost Player variable
+							{
+								IPS_DeleteVariable ($value3a);
+							}
+							else
+							{
+							}
+						}
+					}
+					else
+					{
+					}
+				}
+
+		}
+		elseif(IPS_GetName($value1) == $action_string) // Sonos_Action
+		{
+				$id4 =  IPS_GetObject($value1)['ChildrenIDs'];
+				foreach($id4 as $key4 => $value4)
+				{
+					if(!in_array (IPS_GetName($value4) , $player_names ))//Lost Player variable
+					{
+							IPS_DeleteVariable ($value4);
+					}
+					else
+					{
+					}
+				}
+
+		}
+		elseif(IPS_GetName($value1) == $Zone_cat_name) // Zone
+		{
+				$id5 =  IPS_GetObject($value1)['ChildrenIDs'];
+				foreach($id5 as $key5 => $value5)
+				{
+					if(!in_array (IPS_GetName($value5) , $player_names ))//Lost Player variable
+					{
+						$id5a =  IPS_GetObject($value5)['ChildrenIDs'];
+						foreach($id5a as $key5a => $value5a)
+						{
+							IPS_DeleteVariable ($value5a);
+						}
+						IPS_DeleteCategory ( $value5);
+					}
+					else
+					{
+					}
+				}
+
+		}
+		else
+		{
+
+		}
+	}
+	$add_player_string = "Add_Player_to_this_Zone";
+	$all_profiles = IPS_GetVariableProfileList ( );
+	foreach($all_profiles as $pkey => $pvalue) //Profile Names
+	{
+		if($pvalue == $add_player_string)
+		{
+			$associations = IPS_GetVariableProfile ($add_player_string)["Associations"];
+			foreach($associations  as $key => $value)
+			{
+				if (!in_array($value['Name'],$player_names))
+				{
+					IPS_SetVariableProfileAssociation ($add_player_string,$key,"","",-1);
+				}
+				else
+				{
+				}
+			}
+
+		}
+		elseif($pvalue == "Sonos_Master")
+		{
+
+			$associations = IPS_GetVariableProfile ("Sonos_Master")["Associations"];
+			foreach($associations  as $key1 => $value1)
+			{
+				if (!in_array($value1['Name'],$player_names))
+				{
+					IPS_SetVariableProfileAssociation ("Sonos_Master",$key1,"","",-1);
+				}
+				else
+				{
+				}
+			}
+
+		}
+		elseif(preg_match ("/_Single_Player/",$pvalue) > 0) //Profile Name with _Single_Player
+		{
+			$flag = 0;
+			foreach($player_names as $nkey => $nvalue)  // Alle vorhandenen Namen der Player
+			{
+
+				$adj = str_replace(" ","_",$nvalue);
+				$adj = '/'.$adj.'/';  // valider Playder Name
+				$match = preg_match ($adj,$pvalue);
+            if( $match > 0)
+            {
+					$flag = 1;
+					$associations = IPS_GetVariableProfile ($pvalue)["Associations"];
+					foreach($associations  as $key3 => $value3)
+					{
+						if (!in_array($value3['Name'],$player_names))
+						{
+							IPS_SetVariableProfileAssociation ($pvalue,$key3,"","",-1);
+						}
+						else
+						{
+						}
+					}
+				}
+				else
+				{
+				}
+			}
+			if ($flag == 0)
+			{
+ 				IPS_DeleteVariableProfile($pvalue);
+			}
+			else
+			{
+			}
+		}
+		elseif(preg_match ("/Remove_Player_from_this_Zone_/",$pvalue) > 0) //Profile Name with _Single_Player
+		{
+			$flag = 0;
+			foreach($player_names as $nkey => $nvalue)  // Alle vorhandenen Namen der Player
+			{
+
+				$adj = str_replace(" ","_",$nvalue);
+				$adj = '/'.$adj.'/';  // valider Playder Name
+				$match = preg_match ($adj,$pvalue);
+            if( $match > 0)
+            {
+					$flag = 1;
+					$associations = IPS_GetVariableProfile ($pvalue)["Associations"];
+					foreach($associations  as $key3 => $value3)
+					{
+						if (!in_array($value3['Name'],$player_names))
+						{
+							IPS_SetVariableProfileAssociation ($pvalue,$key3,"","",-1);
+						}
+						else
+						{
+						}
+					}
+				}
+				else
+				{
+				}
+			}
+			if ($flag == 0)
+			{
+ 				IPS_DeleteVariableProfile($pvalue);
+			}
+			else
+			{
+			}
+		}
+		else
+		{
+		}
+	}
+
+
+}
+
+
 
 
 public function radio_stations_static_data()
