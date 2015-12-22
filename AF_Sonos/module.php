@@ -829,7 +829,7 @@ public function build_action_events()
 		}
 
 
-		function build_or_fix_sonos_variables()
+		public function build_or_fix_sonos_variables()
 		{
 			global $player_data_id,$Sonos_Data,$parent_id,$action_ID;
 
