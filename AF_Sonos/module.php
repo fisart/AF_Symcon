@@ -108,7 +108,6 @@
          {
 				SO_create_categories($parent_id);
 				SO_read_sonos_data($parent_id);
-				SO_delete_lost_player_data($parent_id,$parent_id);
 				if( is_array ($Sonos_Data))
 				{
 					SO_build_or_fix_sonos_variables($parent_id,"");
@@ -118,6 +117,7 @@
 					SO_build_or_fix_sonos_controls($parent_id,"");
 					SO_build_action_events($parent_id);
          		SO_create_categories_zone_master($parent_id);
+					SO_delete_lost_player_data($parent_id,$parent_id);
 				}
 				else
 				{
