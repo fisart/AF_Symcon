@@ -101,27 +101,35 @@
 					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
 					 $content_var_php_script_name_string,$zone_cat_id;
 
-			SO_define_names($parent_id);
-			SO_get_static_data($parent_id);
-			SO_create_categories($parent_id);
-			SO_read_sonos_data($parent_id);
-			SO_delete_lost_player_data($parent_id,$parent_id);
-			if( is_array ($Sonos_Data))
-			{
-				SO_build_or_fix_sonos_variables($parent_id,"");
-				SO_populate_variables($parent_id,"");
-				SO_create_profile($parent_id);
-				SO_build_or_fix_profile($parent_id,"");
-				SO_build_or_fix_sonos_controls($parent_id,"");
-				SO_build_action_events($parent_id);
-         	SO_create_categories_zone_master($parent_id);
-			}
-			else
-			{
-				echo " Cannot read SONOS Data ";
-			}
+			$Sonos_Master_IP = GetValueString($master_IP_id);
+         if(Sys_Ping ($Sonos_Master_IP, 1000 ))
+         {
+				SO_define_names($parent_id);
+				SO_get_static_data($parent_id);
+				SO_create_categories($parent_id);
+				SO_read_sonos_data($parent_id);
+				SO_delete_lost_player_data($parent_id,$parent_id);
+				if( is_array ($Sonos_Data))
+				{
+					SO_build_or_fix_sonos_variables($parent_id,"");
+					SO_populate_variables($parent_id,"");
+					SO_create_profile($parent_id);
+					SO_build_or_fix_profile($parent_id,"");
+					SO_build_or_fix_sonos_controls($parent_id,"");
+					SO_build_action_events($parent_id);
+         		SO_create_categories_zone_master($parent_id);
+				}
+				else
+				{
+					echo " Cannot read SONOS Data ";
+				}
 //         SO_create_links($parent_id);
 //			SO_sonos_content( $parent_id);
+			 }
+			 else
+			 {
+				echo " Still IP Adresse Failure ";
+			 }
 	   }
 
 
