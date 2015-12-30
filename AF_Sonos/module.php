@@ -139,6 +139,42 @@
 			 }
 	   }
 
+public function copy_profile ($source_name,$destination_name)
+{
+	$new_profile = NULL;
+	if (IPS_VariableProfileExists ($destination_name))
+	{
+	    IPS_DeleteVariableProfile ($destination_name);
+	}
+	else
+	{
+	}
+	if( IPS_VariableProfileExists ($source_name))
+	{
+		$old_profile = IPS_GetVariableProfile($source_name);
+		IPS_CreateVariableProfile ( $destination_name, $old_profile['ProfileType']);
+			if(is_array($old_profile['Associations'])) // Association
+			{
+				foreach($old_profile['Associations'] as $key1 => $value1)
+				{
+						IPS_SetVariableProfileAssociation ( $destination_name, $old_profile['Associations'][$key1]['Value'], $old_profile['Associations'][$key1]['Name'], $old_profile['Associations'][$key1]['Icon'], $old_profile['Associations'][$key1]['Color']);
+				}
+			}
+			else
+			{
+			}
+			IPS_SetVariableProfileDigits ($destination_name, $old_profile['Digits'] );
+			IPS_SetVariableProfileIcon ($destination_name, $old_profile['Icon']);
+			IPS_SetVariableProfileText ( $destination_name,$old_profile['Prefix'], $old_profile['Suffix']);
+			IPS_SetVariableProfileValues ( $destination_name, $old_profile['MinValue'], $old_profile['MaxValue'], $old_profile['StepSize'] );
+ 	}
+	else
+	{
+	   return false;
+	}
+	return true;
+}
+
 
 public function get_static_data()
 {
