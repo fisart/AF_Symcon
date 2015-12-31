@@ -908,9 +908,28 @@ public function build_action_events()
 
 public function customize_group_action_profile_to_zone($group_action_profile,$zone_name)
 {
-   $zone_name_profil = str_replace (" " , "_" , 	$zone_name );
-   $zone_name_profil = $group_action_profile.$zone_name_profil;
+   $zone_name_fixed = str_replace (" " , "_" , 	$zone_name );
+   $zone_name_profil = $group_action_profile.$zone_name_fixed;
    SO_copy_profile ("1",$group_action_profile, $zone_name_profil);
+	$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_fixed;
+	if(IPS_VariableProfileExists ($zone_member_profile_name))
+	{
+		$free_player_profile = IPS_GetVariableProfile ( $zone_member_profile_name )['Associations'];
+		if(array_key_exists ("1" , $free_player_profile))
+		{
+ 		 //Dissolve
+		}
+		else
+		{
+ 			// Kein Dissolve
+			IPS_SetVariableProfileAssociation($zone_name_profil, 5, "", "", -1);
+		}
+	}
+	else
+	{
+			IPS_SetVariableProfileAssociation($zone_name_profil, 5, "", "", -1);
+ 		// Kein Dissolve
+	}
 	return $zone_name_profil;//hier muss dann die association geändert werden.
 }
 
