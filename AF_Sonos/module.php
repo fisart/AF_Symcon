@@ -946,7 +946,7 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 								if(IPS_GetName($value0) == "Group_Action")
 								{
 									$group_action_profile = SO_find_zone_profile($parent_id,$Player_IP,$Sonos_Data[$i]['Name']);
-									$zone_specific_profile = customize_group_action_profile_to_zone($group_action_profile,$Sonos_Data[$i]['Name']);
+									$zone_specific_profile = SO_customize_group_action_profile_to_zone($parent_id,$group_action_profile,$Sonos_Data[$i]['Name']);
   									IPS_SetVariableCustomProfile ( $value0, $zone_specific_profile);
 								}
 							}
@@ -990,7 +990,7 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 						{
 						}
 					}
-					$zone_specific_profile = customize_group_action_profile_to_zone($group_action_profile,$value2);
+					$zone_specific_profile = SO_customize_group_action_profile_to_zone($parent_id,$group_action_profile,$value2);
 					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$zone_specific_profile,$zone_var_change_script_id); // create the variable to control the zone
 					SO_create_variables_with_action($parent_id,"Stations",$zone_name_id,1,$stations_profile,$radio_script_id); // create the variable to control the zone
 				}
