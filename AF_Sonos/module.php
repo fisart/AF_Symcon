@@ -540,6 +540,50 @@ public function radio_stations_static_data()
    $RadioStations["N-JOY"] = "x-rincon-mp3radio://www.ndr.de/resources/metadaten/audio/m3u/n-joy.m3u";
 	return $RadioStations;
 }
+public function free_zone_player($zone_name)
+{
+global $parent_id;
+	$Color = [	0x15EB4A,//0 Grün
+					0xF21344,//1 Rot
+					0x1833DE,//2 Blau
+					0xE8DA10,//3 Gelb
+					0xF21BB9,//4 Violet
+					0x1BCEF2,//5 Türkis
+					0x1BF2C0,//6 Mint
+					0x1A694C,//7 Dunkelgrün
+					0xF2981B,//8 Orange
+					0x48508A,//9 Purpur
+					0x912A41,//10 Dunkelrot
+					0x15EB4A,//11 Gift Grün
+					0xF21344,//12 Kamin Rot
+					0x1833DE,//13 Kobalt Blau
+				 	0xA1EFB4,//14 Light Mint
+					0xFFA07A,//15 Ocker
+					0x808080,//16 Grau
+					0x383C42,//17 Schwarz
+					0xee2edd,//18 Leucht Violett
+					0xFFF200,//19 Leucht Gelb
+					0xe34444,//20 Ocker Rot
+					0xfaeefb //21 Weiß
+				];
+
+	$free_player_profile = $zone_name."_Single_Player";
+	$free_player_profile = str_replace (" " , "_" ,$free_player_profile  );
+	if(IPS_VariableProfileExists($free_player_profile))
+	{
+		IPS_DeleteVariableProfile ($free_player_profile);
+	}
+	IPS_CreateVariableProfile ($free_player_profile, 1 );
+	$i = 0;
+	$free_player = SO_create_zone_member_profiles(1);
+	foreach($free_player  as $key => $value)
+	{
+		IPS_SetVariableProfileAssociation ($free_player_profile,$key,$value,"",$Color[$key]);
+	}
+
+	return $free_player_profile;
+}
+
 
 
 public function create_zone_member_profiles()
@@ -1073,7 +1117,7 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
                	{
 							if(count($free_player_list) > 1)
 							{
-								$adjusted_profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone"); // der einzelne Player darf nicht in der Liste der verfügbaren player stehen
+								$adjusted_profile = SO_free_zone_player($parent_id,$zone_name); // der einzelne Player darf nicht in der Liste der verfügbaren player stehen
 								SO_create_variables_with_action($parent_id,"Add_Player_to_this_Zone",$single_zone_cat_id,1,$adjusted_profile,$add_var_change_script_name_id); // create the variable to control the zone
 // echo " B10 ".$zone_name." ";
 							}
@@ -1096,7 +1140,7 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 							if(count($free_player_list) > 1)
 							{
  //echo " C1 ".$zone_name." ";
-								$profile = SO_adjust_profile($parent_id,$zone_name,"Add_Player_to_this_Zone");
+								$profile = SO_free_zone_player($parent_id,$zone_name);
 				     			IPS_SetVariableCustomProfile ( $var_id, 	$profile);
 							}
 							else
@@ -1133,7 +1177,7 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 
 
 
-public function adjust_profile($zone_name,$old_profile_name)
+public function adjust_profile($zone_name,$old_profile_name) //Kann entfernt werden
 {
 global $parent_id;
 
