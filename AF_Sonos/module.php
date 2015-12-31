@@ -910,7 +910,7 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 {
    $zone_name_profil = str_replace (" " , "_" , 	$zone_name );
    $zone_name_profil = $group_action_profile.$zone_name_profil;
-   SO_copy_profile ("1",$group_action_profile,$group_action_profile.$zone_name_profil);
+   SO_copy_profile ("1",$group_action_profile, $zone_name_profil);
 	return $zone_name_profil;//hier muss dann die association geändert werden.
 }
 
