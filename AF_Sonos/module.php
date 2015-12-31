@@ -567,8 +567,8 @@ global $parent_id;
 					0xfaeefb //21 Weiß
 				];
 
-	$free_player_profile = $zone_name."_Single_Player";
-	$free_player_profile = str_replace (" " , "_" ,$free_player_profile  );
+	$zone_name_clean = str_replace (" " , "_" ,$zone_name );
+	$free_player_profile = $zone_name_clean."_Single_Player";
 	if(IPS_VariableProfileExists($free_player_profile))
 	{
 		IPS_DeleteVariableProfile ($free_player_profile);
@@ -578,7 +578,10 @@ global $parent_id;
 	$free_player = SO_create_zone_member_profiles(1);
 	foreach($free_player  as $key => $value)
 	{
-		IPS_SetVariableProfileAssociation ($free_player_profile,$key,$value,"",$Color[$key]);
+		if($value != $zone_name)
+		{
+			IPS_SetVariableProfileAssociation ($free_player_profile,$key,$value,"",$Color[$key]);
+		}
 	}
 
 	return $free_player_profile;
