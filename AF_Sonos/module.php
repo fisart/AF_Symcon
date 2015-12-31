@@ -906,6 +906,11 @@ public function build_action_events()
 			}
 		}
 
+public function customize_group_action_profile_to_zone($group_action_profile,$zone_name)
+{
+   SO_copy_profile ("1",$group_action_profile,$group_action_profile.$zone_name);
+	return $group_action_profile.$zone_name;//hier muss dann die association geändert werden.
+}
 
    public function create_categories_zone_master()
    {
@@ -940,8 +945,9 @@ public function build_action_events()
 							{
 								if(IPS_GetName($value0) == "Group_Action")
 								{
-									$profile = SO_find_zone_profile($parent_id,$Player_IP,$Sonos_Data[$i]['Name']);
-  									IPS_SetVariableCustomProfile ( $value0, $profile);
+									$group_action_profile = SO_find_zone_profile($parent_id,$Player_IP,$Sonos_Data[$i]['Name']);
+									$zone_specific_profile = customize_group_action_profile_to_zone($group_action_profile,$Sonos_Data[$i]['Name']);
+  									IPS_SetVariableCustomProfile ( $value0, $zone_specific_profile);
 								}
 							}
 						}
@@ -978,13 +984,14 @@ public function build_action_events()
 						if($Sonos_Data[$key3]['Name'] == $value2 ) // Find the new zone player
 						{
 							$Player_IP = $Sonos_Data[$key3]['IP'];
-                 		$profile = SO_find_zone_profile($parent_id,$Player_IP,$value2); // find the group status of the zone and create profile
+                 		$group_action_profile = SO_find_zone_profile($parent_id,$Player_IP,$value2); // find the group status of the zone and create profile
 						}
 						else
 						{
 						}
 					}
-					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$profile,$zone_var_change_script_id); // create the variable to control the zone
+					$zone_specific_profile = customize_group_action_profile_to_zone($group_action_profile,$value2);
+					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$zone_specific_profile,$zone_var_change_script_id); // create the variable to control the zone
 					SO_create_variables_with_action($parent_id,"Stations",$zone_name_id,1,$stations_profile,$radio_script_id); // create the variable to control the zone
 				}
 			}
