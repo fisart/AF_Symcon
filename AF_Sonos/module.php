@@ -540,6 +540,7 @@ public function radio_stations_static_data()
    $RadioStations["N-JOY"] = "x-rincon-mp3radio://www.ndr.de/resources/metadaten/audio/m3u/n-joy.m3u";
 	return $RadioStations;
 }
+
 public function free_zone_player($zone_name)
 {
 global $parent_id;
@@ -575,7 +576,7 @@ global $parent_id;
 	}
 	IPS_CreateVariableProfile ($free_player_profile, 1 );
 	$i = 0;
-	$free_player = SO_create_zone_member_profiles(1);
+	$free_player = SO_find_single_player($parent_id);
 	foreach($free_player  as $key => $value)
 	{
 		if($value != $zone_name)
@@ -584,9 +585,41 @@ global $parent_id;
 		}
 	}
 
-	return $free_player_profile;
+	return $free_player;
 }
 
+public function find_single_player()
+{
+Global $Sonos_Data;
+
+	$single_player_list = NULL;
+	foreach ($Sonos_Data  as $key => $value)
+	{
+		if($value['Master_RINCON'] == $value['Player_RINCON'])
+		{
+			$sp[$key] = $value['Player_RINCON'];
+			$names [$key] = $value['Name'];
+		}
+		else
+		{
+
+		}
+		$master[$key] = $value['Master_RINCON'];
+	}
+	foreach($sp as $key => $rincon)
+	{
+		$occurence = array_keys ($master,$rincon);
+		if(count($occurence) <= 1)
+		{
+			$single_player_list[] = 	$names [$key];
+		}
+		else
+		{
+		}
+
+	}
+	return $single_player_list;
+}
 
 
 public function create_zone_member_profiles()
