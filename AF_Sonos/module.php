@@ -436,7 +436,7 @@ foreach($Sonos_Data as $key => $value)
 			}
 
 		}
-		elseif(preg_match ("/_Single_Player/",$pvalue) > 0) //Profile Name with _Single_Player
+		elseif(preg_match ("/Single_Player/",$pvalue) > 0) //Profile Name with Single_Player
 		{
 			$flag = 0;
 			foreach($player_names as $nkey => $nvalue)  // Alle vorhandenen Namen der Player
@@ -472,7 +472,7 @@ foreach($Sonos_Data as $key => $value)
 			{
 			}
 		}
-		elseif(preg_match ("/Remove_Player_from_this_Zone_/",$pvalue) > 0) //Profile Name with _Single_Player
+		elseif(preg_match ("/Remove_Player_from_this_Zone_/",$pvalue) > 0) //Profile Name with
 		{
 			$flag = 0;
 			foreach($player_names as $nkey => $nvalue)  // Alle vorhandenen Namen der Player
@@ -569,7 +569,7 @@ global $parent_id;
 				];
 
 	$zone_name_clean = str_replace (" " , "_" ,$zone_name );
-	$free_player_profile = $zone_name_clean."_Single_Player";
+	$free_player_profile = "Single_Player_".$zone_name_clean;
 	if(IPS_VariableProfileExists($free_player_profile))
 	{
 		IPS_DeleteVariableProfile ($free_player_profile);
@@ -1217,7 +1217,7 @@ public function adjust_profile($zone_name,$old_profile_name) //Kann entfernt wer
 {
 global $parent_id;
 
-	$newprofile = $zone_name."_Single_Player";
+	$newprofile = "Single_Player_".$zone_name;
 	$newprofile = str_replace (" " , "_" ,$newprofile  );
 	$associations = IPS_GetVariableProfile ($old_profile_name)["Associations"];
 	if(IPS_VariableProfileExists($newprofile))
