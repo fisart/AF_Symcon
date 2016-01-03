@@ -585,7 +585,7 @@ global $parent_id;
 		}
 	}
 
-	return $free_player;
+	return $free_player_profile;
 }
 
 public function find_single_player()
