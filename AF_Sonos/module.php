@@ -988,10 +988,14 @@ public function build_action_events()
 
 public function customize_group_action_profile_to_zone($group_action_profile,$zone_name)
 {
+	global $player_data_id;
+
+
    $zone_name_fixed = str_replace (" " , "_" , 	$zone_name );
    $zone_name_profil = $group_action_profile.$zone_name_fixed;
-   SO_copy_profile ("1",$group_action_profile, $zone_name_profil);
+   SO_copy_profile ($player_data_id,$group_action_profile, $zone_name_profil);
 	$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_fixed;
+	$zone_master_list = SO_find_zone_masters($player_data_id);
 	if(IPS_VariableProfileExists ($zone_member_profile_name))
 	{
 		$free_player_profile = IPS_GetVariableProfile ( $zone_member_profile_name )['Associations'];
@@ -1009,6 +1013,13 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 	{
 			IPS_SetVariableProfileAssociation($zone_name_profil, 5, "", "", -1);
  		// Kein Dissolve
+	}
+	if (count($zone_master_list) <= 1)
+	{
+			IPS_SetVariableProfileAssociation($zone_name_profil, 4, "", "", -1);
+	}
+	else
+	{
 	}
 	return $zone_name_profil;//hier muss dann die association geändert werden.
 }
@@ -1882,6 +1893,27 @@ public function create_link($Parent,$Name,$Root,$ID)
   IPS_SetParent ( $LID, $Parent);
   IPS_SetLinkTargetID ( $LID, $ID );
 }
+
+public function find_zone_masters()
+{
+Global $Sonos_Data;
+
+	$zone_master_list = NULL;
+	foreach ($Sonos_Data  as $key => $value)
+	{
+		if($value['COORD'] == true)
+		{
+			$zone_master_list [] = $value['Name'];
+		}
+		else
+		{
+
+		}
+	}
+	return $zone_master_list;
+}
+
+
 
 public function get_script_content()
 {
