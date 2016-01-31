@@ -472,7 +472,11 @@ foreach($Sonos_Data as $key => $value)
 			{
 			}
 		}
-		elseif(preg_match ("/Remove_Player_from_this_Zone_/",$pvalue) > 0) //Profile Name with
+		elseif(
+					(preg_match ("/Remove_Player_from_this_Zone_/",$pvalue) > 0) //Profile Name with
+					OR
+					(preg_match ("/Remove Player from this Zone /",$pvalue) > 0) //Profile Name with
+				)
 		{
 			$flag = 0;
 			foreach($player_names as $nkey => $nvalue)  // Alle vorhandenen Namen der Player
