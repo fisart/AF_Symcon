@@ -1059,7 +1059,11 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 							$Player_IP = $Sonos_Data[$i]['IP'];
          				foreach ($existing_variable_ids as $key0 => $value0) //Update Profil der Variablen unterhalb der existierenden Zonen
 							{
-								if(IPS_GetName($value0) == "Group_Action")
+								if(
+										(IPS_GetName($value0) == "Group_Action")
+										OR
+										(IPS_GetName($value0) == "Group Action")
+									)
 								{
 									$group_action_profile = SO_find_zone_profile($parent_id,$Player_IP,$Sonos_Data[$i]['Name']);
 									$zone_specific_profile = SO_customize_group_action_profile_to_zone($parent_id,$group_action_profile,$Sonos_Data[$i]['Name']);
