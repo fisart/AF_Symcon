@@ -135,7 +135,7 @@
 			 }
 			 else
 			 {
-				echo $Sonos_Master_IP." Still IP Adresse Failure ";
+				echo " IP = ".$Sonos_Master_IP." Still IP Adresse Failure ";
 			 }
 	   }
 
