@@ -135,7 +135,7 @@
 			 }
 			 else
 			 {
-				echo " Still IP Adresse Failure ";
+				echo $Sonos_Master_IP." Still IP Adresse Failure ";
 			 }
 	   }
 
