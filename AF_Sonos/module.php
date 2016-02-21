@@ -2207,13 +2207,19 @@ Global $Sonos_Data,$name_and_ip;
 		SO_update_sonos_data(1);
     	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE)); //Master Name
     	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
-		$player_name = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
+		$player_name = "";
+		$associations =  IPS_GetVariableProfile($profile_name)["Associations"];
+		foreach(	$associations as $key => $value)
+		{
+			if($value["Value"] == $IPS_VALUE) $player_name = $value["Name"];
+
+		}
+
 		$sonosip = $name_and_ip[IPS_GetName(IPS_GetParent ($IPS_VARIABLE))];
 		foreach($Sonos_Data as $key => $id)
 		{
 			if($Sonos_Data[$key]["Name"] == $player_name )
 			{
-//				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")["Associations"][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
             $memberip = $Sonos_Data[$key]["IP"];
             $memberid = $Sonos_Data[$key]["Player_RINCON"];
 			}
