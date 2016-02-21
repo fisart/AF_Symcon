@@ -758,7 +758,7 @@ public function find_zone_members($zone)
 		}
 
 //		$master = IPS_GetVariableProfile($profile_name)['Associations'][$var_content]["Name"];
-		if ($master == $zone)
+		if ($master != $zone)
 		{
 		   $zone_members[$i] = $id;
 		   $i++;
