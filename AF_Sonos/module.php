@@ -751,9 +751,9 @@ public function find_zone_members($zone)
 
 		$master = "";
 		$associations =  IPS_GetVariableProfile($profile_name)["Associations"];
-		foreach(	$associations as $key => $value)
+		foreach(	$associations as $key1 => $value)
 		{
-			if($value["Value"] == $var_content)$master = $value["Name"];
+			if($value["Value"] == $var_content) $master = $value["Name"];
 
 		}
 
@@ -1117,32 +1117,39 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 			{
 			   $zone_name = IPS_GetName($single_zone_cat_id);
    			$zone_name_profil = str_replace (" " , "_" , 	$zone_name );
-   			$zone_member_var_ids = SO_find_zone_members($parent_id,$zone_name);
+   			$zone_member_var_ids = SO_find_zone_members($parent_id,$zone_name);// Alle Player IDS die zu dieser Zone gehören
 				$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_profil;
-				$var_id = @IPS_GetVariableIDByName ( $zone_member_profile_name, $single_zone_cat_id );// Variablen Name = Profilname
+				$var_id = @IPS_GetVariableIDByName ( $zone_member_profile_name, $single_zone_cat_id );// Variablen Name = Profilname $var_id = remove player variable der zone
 				if(is_array($free_player_list))
 					{
-					if($var_id == 0)
+					if($zone_member_var_ids == NULL) // Es gibt keine PLayer die zu dieser Zone gehören
 					{
-               	if(!in_array ( $zone_name , $free_player_list ))
-               	{
-							SO_create_variables_with_action($parent_id,$zone_member_profile_name,$single_zone_cat_id,1,$zone_member_profile_name,$remove_var_change_script_name_id); // create the variable to control the zone
-						}
-						else
-						{
-						}
+						if($var_id != 0)	IPS_DeleteVariable($var_id );
 					}
 					else
 					{
-              		if(!in_array ( $zone_name , $free_player_list ))
-               	{
-				     		IPS_SetVariableCustomProfile ( $var_id, $zone_member_profile_name);
+						if($var_id == 0)
+						{
+               		if(!in_array ( $zone_name , $free_player_list ))
+               		{
+								SO_create_variables_with_action($parent_id,$zone_member_profile_name,$single_zone_cat_id,1,$zone_member_profile_name,$remove_var_change_script_name_id); // create the variable to control the zone
+							}
+							else
+							{
+							}
 						}
 						else
 						{
-							IPS_DeleteVariable($var_id );
-						}
+              			if(!in_array ( $zone_name , $free_player_list ))
+               		{
+				     			IPS_SetVariableCustomProfile ( $var_id, $zone_member_profile_name);
+							}
+							else
+							{
+								IPS_DeleteVariable($var_id );
+							}
 
+						}
 					}
 				}
 				else
