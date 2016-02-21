@@ -1122,7 +1122,7 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 				$var_id = @IPS_GetVariableIDByName ( $zone_member_profile_name, $single_zone_cat_id );// Variablen Name = Profilname $var_id = remove player variable der zone
 				if(is_array($free_player_list))
 					{
-					if($zone_member_var_ids == NULL) // Es gibt keine PLayer die zu dieser Zone gehören
+					if($zone_member_var_ids[0] == NULL) // Es gibt keine PLayer die zu dieser Zone gehören
 					{
 						if($var_id != 0)	IPS_DeleteVariable($var_id );
 					}
