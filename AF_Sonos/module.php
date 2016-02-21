@@ -534,7 +534,7 @@ public function radio_stations_static_data()
 public function free_zone_player($zone_name)
 {
 global $parent_id;
-	$Color = [	0x15EB4A,//0 Grün  aaaaa
+	$Color = [	0x15EB4A,//0 Grün
 					0xF21344,//1 Rot
 					0x1833DE,//2 Blau
 					0xE8DA10,//3 Gelb
@@ -748,7 +748,16 @@ public function find_zone_members($zone)
 	{
 		$var_content = GetValueInteger($id);
 		$profile_name = IPS_GetVariable ($id)["VariableCustomProfile"];
-		$master = IPS_GetVariableProfile($profile_name)['Associations'][$var_content]["Name"];
+
+		$master = "";
+		$associations =  IPS_GetVariableProfile($profile_name)["Associations"];
+		foreach(	$associations as $key => $value)
+		{
+			if($value["Value"] == $var_content)$master = $value["Name"];
+
+		}
+
+//		$master = IPS_GetVariableProfile($profile_name)['Associations'][$var_content]["Name"];
 		if ($master == $zone)
 		{
 		   $zone_members[$i] = $id;
