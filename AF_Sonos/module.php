@@ -2128,7 +2128,13 @@ $script4 =
     	@SetValue($IPS_VARIABLE , $IPS_VALUE);
     	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE));
     	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
-		$status = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
+		$status = "";
+		$associations =  IPS_GetVariableProfile($profile_name)["Associations"];
+		foreach(	$associations as $key => $value)
+		{
+			if($value["Value"] == $IPS_VALUE) $status = $value["Name"];
+
+		}
 		SO_update_sonos_data(1);
 //		echo $zone;
       switch ($status)
@@ -2249,7 +2255,14 @@ $script6 =
     	@SetValue($IPS_VARIABLE , $IPS_VALUE);
     	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE));
     	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
-		$player_name = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
+		$player_name = "";
+		$associations =  IPS_GetVariableProfile($profile_name)["Associations"];
+		foreach(	$associations as $key => $value)
+		{
+			if($value["Value"] == $IPS_VALUE) $player_name = $value["Name"];
+
+		}
+
 		SO_update_sonos_data(1);
 		remove($player_name);
 	 }
@@ -2295,6 +2308,13 @@ $script7 =
     	$zone =  IPS_GetName(IPS_GetParent ( $IPS_VARIABLE));
     	$profile_name = IPS_GetVariable ($IPS_VARIABLE)["VariableCustomProfile"];
 		$station = IPS_GetVariableProfile($profile_name)["Associations"][$IPS_VALUE]["Name"];
+		$station = "";
+		$associations =  IPS_GetVariableProfile($profile_name)["Associations"];
+		foreach(	$associations as $key => $value)
+		{
+			if($value["Value"] == $IPS_VALUE) $statione = $value["Name"];
+
+		}
 		SO_update_sonos_data(1);
 		$zone =  IPS_GetName( IPS_GetParent ($IPS_VARIABLE));
 		$stations = SO_radio_stations_static_data(1);
