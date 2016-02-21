@@ -534,7 +534,7 @@ public function radio_stations_static_data()
 public function free_zone_player($zone_name)
 {
 global $parent_id;
-	$Color = [	0x15EB4A,//0 Grün
+	$Color = [	0x15EB4A,//0 Grün  aaaaa
 					0xF21344,//1 Rot
 					0x1833DE,//2 Blau
 					0xE8DA10,//3 Gelb
