@@ -200,46 +200,43 @@ public function get_static_data()
 					$action_ID = $value;
 				break;
 				case $player_data_string:
-							$player_data_string = $value;
+							$player_data_id = $value;
 				break;
 				case $module_name_string:
-						$module_name_string	= $value;
+						$parent_id	= $value;
 				break;
 				case $master_ip_name_string:
-						$master_ip_name_string	= $value;
+						$master_IP_id	= $value;
 				break;
 				case $command_script_name_string:
-						$command_script_name_string	= $value;
+						$command_script_id	= $value;
 				break;
 				case $Zone_cat_name:
-						$Zone_cat_name	= $value;
+						$zone_cat_id 	= $value;
 				break;
 				case $var_change_script_name:
-						$var_change_script_name	= $value;
+						$var_change_script_id	= $value;
 				break;
 				case $add_var_change_script_name:
-						$add_var_change_script_name	= $value;
-				break;
-				case $add_var_change_script_name:
-						$add_var_change_script_name	= $value;
+						$add_var_change_script_name_id 	= $value;
 				break;
 				case $remove_var_change_script_name:
-						$remove_var_change_script_name	= $value;
+						$remove_var_change_script_name_id	= $value;
 				break;
 				case  $content_var_php_class_name_string:
-						 $content_var_php_class_name_string	= $value;
+						 	$sonos_data_via_php_class_id 	= $value;
 				break;
 				case $content_var_php_script_name_string:
-						$content_var_php_script_name_string	= $value;
+						$content_var_php_script_id	= $value;
 				break;
 				case $sonos_master_string:
-						$sonos_master_string	= $value;
+						$Sonos_Master_id	= $value;
 				break;
 				case $zone_var_change_script_name:
-						$zone_var_change_script_name	= $value;
+						$zone_var_change_script_id	= $value;
 				break;
 				case $radio_script_name:
-						$radio_script_name	= $value;
+						$radio_script_id	= $value;
 				break;
 	 			default: break;
 			}
