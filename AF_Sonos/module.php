@@ -178,6 +178,7 @@ public function copy_profile ($source_name,$destination_name)
 
 public function get_static_data()
 {
+{
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
 					 $update_script_name_string,$event_name_string,$visualisierung_name_string,$command_script_name_string,$Sonos_cat_name,$command_script_id,$Zone_cat_name,
@@ -190,71 +191,60 @@ public function get_static_data()
 			$content_var_name_string_id = 0;
 			foreach ($ALL_IDS as $key => $value)
 			{
-				if(IPS_GetName($value) == $content_var_name_string)
+				$Object_Name = IPS_GetName($value);
+				switch ($Object_Name)
 				{
+    			case $content_var_name_string:
 					$content_var_name_string_id = $value;
-				}
-				elseif(IPS_GetName($value) == $action_string)
-				{
+       		break ;
+				case $action_string:
 					$action_ID = $value;
-				}
-				elseif(IPS_GetName($value) == $player_data_string)
-				{
-					$player_data_id= $value;
-				}
-				elseif(IPS_GetName($value) == $module_name_string)
-				{
-					$parent_id = $value;
-				}
-				elseif(IPS_GetName($value) == $master_ip_name_string)
-				{
-					$master_IP_id = $value;
-				}
-				elseif(IPS_GetName($value) == $command_script_name_string)
-				{
-					$command_script_id = $value;
-				}
-				elseif(IPS_GetName($value) == $Zone_cat_name)
-				{
-					$zone_cat_id = $value;
-				}
-				elseif(IPS_GetName($value) == $var_change_script_name)
-				{
-					$var_change_script_id = $value;
-				}
-				elseif(IPS_GetName($value) == $add_var_change_script_name)
-				{
-					$add_var_change_script_name_id = $value;
-				}
-				elseif(IPS_GetName($value) == $remove_var_change_script_name)
-				{
-					$remove_var_change_script_name_id = $value;
-				}
-				elseif(IPS_GetName($value) == $content_var_php_class_name_string)
-				{
-					$sonos_data_via_php_class_id = $value;
-				}
-				elseif(IPS_GetName($value) == $content_var_php_script_name_string)
-				{
-					$content_var_php_script_id = $value;
-				}
-				elseif(IPS_GetName($value) == $sonos_master_string)
-				{
-					$Sonos_Master_id = $value;
-				}
-				elseif(IPS_GetName($value) == $zone_var_change_script_name)
-				{
-					$zone_var_change_script_id = $value;
-				}
-				elseif(IPS_GetName($value) == $radio_script_name)
-				{
-					$radio_script_id = $value;
-				}
-				else
-				{
-				}
+				break;
+				case $player_data_string:
+							$player_data_string = $value;
+				break;
+				case $module_name_string:
+						$module_name_string	= $value;
+				break;
+				case $master_ip_name_string:
+						$master_ip_name_string	= $value;
+				break;
+				case $command_script_name_string:
+						$command_script_name_string	= $value;
+				break;
+				case $Zone_cat_name:
+						$Zone_cat_name	= $value;
+				break;
+				case $var_change_script_name:
+						$var_change_script_name	= $value;
+				break;
+				case $add_var_change_script_name:
+						$add_var_change_script_name	= $value;
+				break;
+				case $add_var_change_script_name:
+						$add_var_change_script_name	= $value;
+				break;
+				case $remove_var_change_script_name:
+						$remove_var_change_script_name	= $value;
+				break;
+				case  $content_var_php_class_name_string:
+						 $content_var_php_class_name_string	= $value;
+				break;
+				case $content_var_php_script_name_string:
+						$content_var_php_script_name_string	= $value;
+				break;
+				case $sonos_master_string:
+						$sonos_master_string	= $value;
+				break;
+				case $zone_var_change_script_name:
+						$zone_var_change_script_name	= $value;
+				break;
+				case $radio_script_name:
+						$radio_script_name	= $value;
+				break;
+	 			default: break;
 			}
-
+		}
 
 
 }
@@ -1955,7 +1945,7 @@ global 	$action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_
 SO_update_sonos_data(1);
 
 
-//$Sonos_Player_ID = 23540 /*[Object #23540 does not exist]*/; // Fehler Wert
+//$Sonos_Player_ID = 23540 /*[Objekt #23540 existiert nicht]*/; // Fehler Wert
 $befehl = 100;
 $Sonos_Player_ID = 100;
 
@@ -2035,7 +2025,7 @@ function decrease_volume($Sonos_Player_ID,$Sonos_Data)
 function make_me_a_master($Sonos_Player_ID,$Sonos_Data)
 {
 
-	$Old_Master = GetValueInteger(27534 /*[Object #27534 does not exist]*/);
+	$Old_Master = GetValueInteger(27534 /*[Objekt #27534 existiert nicht]*/);
 	foreach ($Sonos_Data  as $key => $value)
 	{
 		if ($key != $Old_Master)
@@ -2057,7 +2047,7 @@ function make_me_a_master($Sonos_Player_ID,$Sonos_Data)
 			$Sonos_Data[$key]["Master"] = false;
 		}
 	}
-//	SetValueInteger(27534 /*[Object #27534 does not exist]*/,$Sonos_Player_ID);
+//	SetValueInteger(27534 /*[Objekt #27534 existiert nicht]*/,$Sonos_Player_ID);
 	$Sonos_Data[$Sonos_Player_ID]["Master"] = true;
 
 }
@@ -2065,13 +2055,13 @@ function make_me_a_master($Sonos_Player_ID,$Sonos_Data)
 
 function add_me_as_a_member($Sonos_Player_ID,$Sonos_Data)
 {
-	$Master = GetValueInteger(27534 /*[Object #27534 does not exist]*/);
+	$Master = GetValueInteger(27534 /*[Objekt #27534 existiert nicht]*/);
 	IPSLogger_Inf(c_LogId, " Master ".$Master." Member ".$Sonos_Player_ID." ");
    if($Sonos_Player_ID != $Master){change_player_group($Master,"AddMember",$Sonos_Player_ID,$Sonos_Data);}
 }
 function remove_me_as_a_member($Sonos_Player_ID,$Sonos_Data)
 {
-	      $Master = GetValueInteger(27534 /*[Object #27534 does not exist]*/);
+	      $Master = GetValueInteger(27534 /*[Objekt #27534 existiert nicht]*/);
 			change_player_group($Master,"RemoveMember",$Sonos_Player_ID,$Sonos_Data);
 }
 function mute($Sonos_Player_ID,$Sonos_Data)
