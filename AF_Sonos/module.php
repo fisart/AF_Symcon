@@ -1189,8 +1189,10 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 						}
 						else // Es gibt mehr als einen Player in der Zone da nur Player die auch Zone sind (Free Player) in der free_player_list stehen
 						{//($Name,$Root,$Type,$Profile,$var_change_script_id)
-							SO_create_variables_with_action($parent_id,"Add Player to this Zone",$single_zone_cat_id,1,"Add_Player_to_this_Zone",$add_var_change_script_name_id); // create the variable to control the zone
-
+/*added*/				$adjusted_profile = SO_free_zone_player($parent_id,$zone_name); // der einzelne Player darf nicht in der Liste der verfügbaren player stehen
+//							SO_create_variables_with_action($parent_id,"Add Player to this Zone",$single_zone_cat_id,1,"Add_Player_to_this_Zone",$add_var_change_script_name_id); // create the variable to control the zone
+							SO_create_variables_with_action($parent_id,"Add Player to this_Zone",$single_zone_cat_id,1,$adjusted_profile,$add_var_change_script_name_id); // create the variable to control the zone
+/
 //echo " B2 ".$zone_name." ";
 						}
 					}
