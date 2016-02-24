@@ -661,21 +661,24 @@ public function create_zone_member_profiles()
 		{
 	   	IPS_DeleteVariableProfile($zone_member_profile_name);
 		}
-		IPS_CreateVariableProfile( 	$zone_member_profile_name, 1 );
+		IPS_CreateVariableProfile($zone_member_profile_name, 1 );
 
 		$ii = 0;
-		if(count($zone_member_var_ids[0]) == NULL)
+		if(count($zone_member_var_ids[0]) == NULL) // Es handelt sich um einen einzelnen Player Master = Player, es gibt keine member
 		{
-      		IPS_SetVariableProfileAssociation ($free_players,$iii,IPS_GetName($zone_member_var_ids[0]),"",  $Color[$iii]);
-            $free_players_list[$iii] = $zone_name;
+      		IPS_SetVariableProfileAssociation ($free_players,$iii,IPS_GetName($zone_member_var_ids[0]),"",  $Color[$iii]); // Aufbau der association" Add_Player_to_this_Zone"
+            $free_players_list[$iii] = $zone_name; // Hier stehen zum Schlussalle freien PLayer  (Master = Player) in der Liste
       		$iii++;
 		}
-		foreach($zone_member_var_ids as $i => $varid)
+		else
 		{
-			if($varid  != NULL)
+			foreach($zone_member_var_ids as $i => $varid)
 			{
-      		IPS_SetVariableProfileAssociation ($zone_member_profile_name,$ii,IPS_GetName($varid),"",  $Color[$ii]);
-   			$ii++;
+				if($varid  != NULL)
+				{
+      			IPS_SetVariableProfileAssociation ($zone_member_profile_name,$ii,IPS_GetName($varid),"",  $Color[$ii]);
+   				$ii++;
+				}
 			}
 		}
 	}
