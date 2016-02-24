@@ -656,6 +656,7 @@ public function create_zone_member_profiles()
    	$zone_name = IPS_GetName($value);
    	$zone_name_profil = str_replace (" " , "_" , 	$zone_name );
    	$zone_member_var_ids = SO_find_zone_members(1,$zone_name);
+   	print_r($zone_member_var_ids);
 		$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_profil;
 		if(IPS_VariableProfileExists ($zone_member_profile_name))
 		{
@@ -664,10 +665,10 @@ public function create_zone_member_profiles()
 		IPS_CreateVariableProfile( 	$zone_member_profile_name, 1 );
 
 		$ii = 0;
-		if(count($zone_member_var_ids) == 1)
+		if(count($zone_member_var_ids[0]) == NULL)
 		{
       		IPS_SetVariableProfileAssociation ($free_players,$iii,IPS_GetName($zone_member_var_ids[0]),"",  $Color[$iii]);
-            $free_players_list[$iii] = IPS_GetName($zone_member_var_ids[0]);
+            $free_players_list[$iii] = $zone_name;
       		$iii++;
 		}
 		foreach($zone_member_var_ids as $i)
@@ -681,7 +682,6 @@ public function create_zone_member_profiles()
 	}
 	return $free_players_list;
 }
-
 
 
 public function switch_zone_mute($zone,$status)
