@@ -1307,8 +1307,15 @@ public function create_categories_zone_master()
 
 			}
 			// Jetzt noch Kategorien anlegen für neu hinzugekommene SONOS Zonen
-			$zone_cats_to_create = array_diff ($sonos_zone_names,	$existing_zone_cat_name );//Feststellen welche Zonen hinzugekommen sind
-			$zone_cats_to_create = array_unique($zone_cats_to_create);
+			if(is_array ($existing_zones_cat_ids))
+			{
+				$zone_cats_to_create = array_diff ($sonos_zone_names,	$existing_zone_cat_name );//Feststellen welche Zonen hinzugekommen sind
+				$zone_cats_to_create = array_unique($zone_cats_to_create);
+			}
+			else
+			{
+				$zone_cats_to_create = $sonos_zone_names;
+			}
          SO_create_new_zones_with_var_group_action_and_station(1,$zone_cats_to_create);
 			$free_player_list = SO_create_zone_member_profiles($parent_id);
 			$zones = IPS_GetObject($zone_cat_id)['ChildrenIDs']; // IDS Zone Categories
