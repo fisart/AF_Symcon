@@ -667,7 +667,7 @@ public function create_zone_member_profiles()
 		if(count($zone_member_var_ids[0]) == NULL) // Es handelt sich um einen einzelnen Player Master = Player, es gibt keine member
 		{
       		IPS_SetVariableProfileAssociation ($free_players,$iii,IPS_GetName($zone_member_var_ids[0]),"",  $Color[$iii]); // Aufbau der association" Add_Player_to_this_Zone"
-            $free_players_list[$iii] = $zone_name; // Hier stehen zum Schlussalle freien PLayer  (Master = Player) in der Liste
+            $free_players_list[$iii] = $zone_name; // Hier stehen zum Schluss alle freien PLayer  (Master = Player) in der Liste
       		$iii++;
 		}
 		else
@@ -1027,30 +1027,29 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 	return $zone_name_profil;//hier muss dann die association geändert werden.
 }
 
-   public function create_categories_zone_master()
-   {
-		global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
-					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
-					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
-					$group_action_string,$var_change_script_id,$zone_var_change_script_id,$zone_cat_id,$stations_profile,	$radio_script_name,$radio_script_id;
+// ``````````````````
 
-		if (IPS_SemaphoreEnter("Create_ZM_Cats", 1000))
-		{
+public function find_exisiting_zone_names()
+{
+			global $Sonos_Master_id,$sonos_master_string, $zone_cat_id ;
+
+
 			$master_list_var_ids = IPS_GetChildrenIDs($Sonos_Master_id);
 			$sonos_zone_names[] = NULL; //SONOS Zonen
-			$existing_zone_cat_name[] = NULL;
          foreach ($master_list_var_ids as $key => $master_id)
 			{
 			   $sonos_zone_names[$key] = IPS_GetVariableProfile($sonos_master_string)['Associations'][GetValueInteger($master_id)]['Name'];
 			}
          $sonos_zone_names = array_unique ( $sonos_zone_names );//SONOS Zonen (immer nur einmal) feststellen
-			$existing_zones_cat_ids = IPS_GetChildrenIDs($zone_cat_id); // Feststellen welche Zonenkategorien bereits existieren
-         foreach ($existing_zones_cat_ids as $key => $single_zone_cat_id)
-			{
-				$existing_zone_cat_name[$key] = IPS_GetName($single_zone_cat_id);
-				if(in_array ($existing_zone_cat_name[$key] , $sonos_zone_names )) //Zonen Cat Name ist bereits vorhanden und wird auch zukünftig benötigt
-				{
-					$existing_variable_ids = IPS_GetChildrenIDs($single_zone_cat_id);// Status der exisitierenden Zonen aktualisieren
+			return $sonos_zone_names;
+
+}
+
+
+
+public function set_GROUP_ACTION_profile_for_exisiting_zone_variables($existing_variable_ids,$existing_zone_cat_name,$Sonos_Data,$key)
+{
+					global $parent_id;
 					foreach($Sonos_Data as $i => $x)// Loop alle Player
 					{
 						if($Sonos_Data[$i]['Name'] == $existing_zone_cat_name[$key] ) // Diese Zone gibt es bereits
@@ -1074,9 +1073,12 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 						{
 						}
 					}
-				}
-				else // Der Zonen Cat Name ist in SONOS nicht mehr vorhanden und kann gelöscht werden
-				{
+
+
+}
+
+public function delete_zone_cat_and_variables($single_zone_cat_id)
+{
 					// Zone Cat is no more needed, delete
 						$existing_variable_ids = IPS_GetChildrenIDs($single_zone_cat_id);
 
@@ -1085,47 +1087,53 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 								IPS_DeleteVariable($value1);
 						}
 						IPS_DeleteCategory($single_zone_cat_id);
-				}
+}
 
-			}
-			// Jetzt noch Kategorien anlegen für neu hinzugekommene SONOS Zonen
-			$zone_cats_to_create = array_diff ($sonos_zone_names,	$existing_zone_cat_name );//Feststellen welche Zonen hinzugekommen sind
-			$zone_cats_to_create = array_unique($zone_cats_to_create);
-         foreach ($zone_cats_to_create as $key2 => $value2) //Loop all new Zone Names to create
+public function create_new_zones_with_var_group_action_and_station($zone_cats_to_create)
+{
+
+			global $Sonos_Data,$parent_id, $zone_cat_id,$zone_var_change_script_id,$radio_script_id,$stations_profile;
+         foreach ($zone_cats_to_create as $key2 => $new_zone_name) //Loop all new Zone Names to create
 			{
-				if($value2 != "")  //Exclude empty Names
+				if($new_zone_name != "")  //Exclude empty Names
 				{
 					$zone_name_id = IPS_CreateCategory();       // Kategorie anlegen
-					IPS_SetName($zone_name_id,$value2 ); // Kategorie benennen
+					IPS_SetName($zone_name_id,$new_zone_name); // Kategorie benennen
 					IPS_SetParent($zone_name_id, $zone_cat_id);
 					foreach($Sonos_Data as $key3 => $value3)  //Loop through the Sonos Data Array
 					{
-						if($Sonos_Data[$key3]['Name'] == $value2 ) // Find the new zone player
+						if($Sonos_Data[$key3]['Name'] == $new_zone_name ) // Find the new zone player
 						{
 							$Player_IP = $Sonos_Data[$key3]['IP'];
-                 		$group_action_profile = SO_find_zone_profile($parent_id,$Player_IP,$value2); // find the group status of the zone and create profile
+                 		$group_action_profile = SO_find_zone_profile($parent_id,$Player_IP,$new_zone_name); // find the group status of the zone and create profile
 						}
 						else
 						{
 						}
 					}
-					$zone_specific_profile = SO_customize_group_action_profile_to_zone($parent_id,$group_action_profile,$value2);
+					$zone_specific_profile = SO_customize_group_action_profile_to_zone($parent_id,$group_action_profile,$new_zone_name);
 					SO_create_variables_with_action($parent_id,"Group_Action",$zone_name_id,1,$zone_specific_profile,$zone_var_change_script_id); // create the variable to control the zone
 					SO_create_variables_with_action($parent_id,"Stations",$zone_name_id,1,$stations_profile,$radio_script_id); // create the variable to control the zone
 				}
 			}
-			$free_player_list = SO_create_zone_member_profiles($parent_id);
-			$zones = IPS_GetObject($zone_cat_id)['ChildrenIDs']; // IDS Zone Categories
 
-			foreach($zones as $key => $single_zone_cat_id)// Loop IDS Zone Categories
-			{
+
+}
+
+
+public function configure_var_remove_player_from_this_zone($single_zone_cat_id,$free_player_list )
+
+{
+				global $parent_id,$remove_var_change_script_name_id;
+
 			   $zone_name = IPS_GetName($single_zone_cat_id);
-   			$zone_name_profil = str_replace (" " , "_" , 	$zone_name );
+   			$zone_name_profil = str_replace (" " , "_" , $zone_name );
    			$zone_member_var_ids = SO_find_zone_members($parent_id,$zone_name);// Alle Player IDS die zu dieser Zone gehören
 				$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_profil;
-				$var_id = @IPS_GetVariableIDByName ( $zone_member_profile_name, $single_zone_cat_id );// Variablen Name = Profilname $var_id = remove player variable der zone
+				$zone_remove_player_var_name = "Remove Player from this Zone ".$zone_name;
+				$var_id = @IPS_GetVariableIDByName ($zone_remove_player_var_name, $single_zone_cat_id );// Variablen Name = Profilname $var_id = remove player variable der zone
 				if(is_array($free_player_list))
-					{
+				{
 					if($zone_member_var_ids[0] == NULL) // Es gibt keine PLayer die zu dieser Zone gehören
 					{
 						if($var_id != 0)	IPS_DeleteVariable($var_id );
@@ -1135,8 +1143,8 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 						if($var_id == 0)
 						{
                		if(!in_array ( $zone_name , $free_player_list ))
-               		{
-								SO_create_variables_with_action($parent_id,$zone_member_profile_name,$single_zone_cat_id,1,$zone_member_profile_name,$remove_var_change_script_name_id); // create the variable to control the zone
+               		{//($Name,$Root,$Type,$Profile,$var_change_script_id)
+								SO_create_variables_with_action($parent_id,$zone_remove_player_var_name,$single_zone_cat_id,1,$zone_member_profile_name,$remove_var_change_script_name_id); // create the variable to control the zone
 							}
 							else
 							{
@@ -1160,7 +1168,7 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 				{
 					if($var_id == 0)
 					{
- 							SO_create_variables_with_action($parent_id,$zone_member_profile_name,$single_zone_cat_id,1,$zone_member_profile_name,$remove_var_change_script_name_id); // create the variable to control the zone
+ 							SO_create_variables_with_action($parent_id,$zone_remove_player_var_name,$single_zone_cat_id,1,$zone_member_profile_name,$remove_var_change_script_name_id); // create the variable to control the zone
 					}
 					else
 					{
@@ -1168,23 +1176,27 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 
 					}
 				}
-				$var_id = @IPS_GetVariableIDByName ("Add Player to this Zone", $single_zone_cat_id);// Variablen Name = Profilname
-				if(is_array($free_player_list))
-				{
-					if($var_id ==0)//Keine Variable gefunden
-					{
-//echo " A ".$zone_name." ";
+
+
+}
+
+public function create_all_zone_variables($var_id,$free_player_list,$single_zone_cat_id)
+
+{
+						global $parent_id,$add_var_change_script_name_id;
+
+
+						$zone_name = IPS_GetName($single_zone_cat_id);
+
               		if(in_array ( $zone_name , $free_player_list )) //Es handelt sich um einen einzigen PLayer in der Zone : Zone == Player da nur einzelne player in der Free player list stehen
                	{
 							if(count($free_player_list) > 1)
 							{
 								$adjusted_profile = SO_free_zone_player($parent_id,$zone_name); // der einzelne Player darf nicht in der Liste der verfügbaren player stehen
 								SO_create_variables_with_action($parent_id,"Add Player to this_Zone",$single_zone_cat_id,1,$adjusted_profile,$add_var_change_script_name_id); // create the variable to control the zone
-// echo " B10 ".$zone_name." ";
 							}
 							else
 							{
- //echo " B11 ".$zone_name." ";
 							}
 						}
 						else // Es gibt mehr als einen Player in der Zone da nur Player die auch Zone sind (Free Player) in der free_player_list stehen
@@ -1193,22 +1205,26 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 //							SO_create_variables_with_action($parent_id,"Add Player to this Zone",$single_zone_cat_id,1,"Add_Player_to_this_Zone",$add_var_change_script_name_id); // create the variable to control the zone
 							SO_create_variables_with_action($parent_id,"Add Player to this_Zone",$single_zone_cat_id,1,$adjusted_profile,$add_var_change_script_name_id); // create the variable to control the zone
 
-//echo " B2 ".$zone_name." ";
 						}
-					}
-					else // Die Variable existiert
-					{
+
+
+}
+
+public function modify_existing_zone_variable($var_id,$free_player_list,$single_zone_cat_id)
+
+{
+						global $parent_id,$add_var_change_script_name_id;
+						$zone_name = IPS_GetName($single_zone_cat_id);
+
              		if(in_array ( $zone_name , $free_player_list )) //Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
                	{
 							if(count($free_player_list) > 1)
 							{
- //echo " C1 ".$zone_name." ";
 								$profile = SO_free_zone_player($parent_id,$zone_name);
 				     			IPS_SetVariableCustomProfile ( $var_id, 	$profile);
 							}
 							else
 							{
- //echo " C2 ".$zone_name." ";
 								IPS_DeleteVariable($var_id );
 							}
 //
@@ -1216,29 +1232,102 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 						else// der einzelne Player darf nicht in der Liste der verfügbaren player stehen
 						{//($Name,$Root,$Type,$Profile,$var_change_script_id)
 //				     		IPS_SetVariableCustomProfile ( $var_id, 	$profile);
-// echo " D ".$zone_name." ";
 						}
+
+
+}
+
+public function configure_var_add_player_to_this_zone($single_zone_cat_id,$free_player_list)
+
+{
+
+				$var_id = @IPS_GetVariableIDByName ("Add Player to this Zone", $single_zone_cat_id);// Variablen Name = Profilname
+				if(is_array($free_player_list))
+				{
+					if($var_id ==0)//Keine Variable gefunden
+					{
+						SO_create_all_zone_variables(1,$var_id,$free_player_list,$single_zone_cat_id);
+					}
+					else // Die Variable existiert
+					{
+						SO_modify_existing_zone_variable(1,$var_id,$free_player_list,$single_zone_cat_id);
 					}
 				}
             else
 				{
-// echo " E ".$zone_name." ";
 					if($var_id !=0)//Keine Variable gefunden
 					{
-// echo " F ".$zone_name." ";
 				     		IPS_DeleteVariable($var_id );
 					}
 				}
+
+
+}
+
+
+public function configure_all_other_variables_on_all_zone($zones,$free_player_list)
+
+{
+			global $Sonos_Data,$parent_id, $zone_cat_id,$zone_var_change_script_id,$radio_script_id,$stations_profile,$remove_var_change_script_name_id,$add_var_change_script_name_id;
+
+			foreach($zones as $key => $single_zone_cat_id)// Loop IDS Zone Categories
+			{
+				SO_configure_var_remove_player_from_this_zone(1,$single_zone_cat_id,$free_player_list);
+				SO_configure_var_add_player_to_this_zone(1,$single_zone_cat_id,$free_player_list);
 			}
+}
+
+
+
+
+public function create_categories_zone_master()
+   {
+		global 	$parent_id,$action_ID, $player_data_id,$Mute_id,$Volume_id,$Sonos_Master_id ,$Sonos_Data,
+					$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$visualisierung_name_string,$Zone_cat_name,$zone_id,
+					 $add_var_change_script_name,$remove_var_change_script_name,$add_var_change_script_name_id,$remove_var_change_script_name_id,
+					$group_action_string,$var_change_script_id,$zone_var_change_script_id,$zone_cat_id,$stations_profile,	$radio_script_name,$radio_script_id;
+
+		if (IPS_SemaphoreEnter("Create_ZM_Cats", 1000))
+		{
+         $sonos_zone_names = SO_find_exisiting_zone_names(1);
+			$existing_zones_cat_ids = IPS_GetChildrenIDs($zone_cat_id); // Feststellen welche Zonenkategorien bereits existieren
+         foreach ($existing_zones_cat_ids as $key => $single_zone_cat_id)
+			{
+				$existing_zone_cat_name[$key] = IPS_GetName($single_zone_cat_id);
+				$existing_variable_ids = IPS_GetChildrenIDs($single_zone_cat_id);// Status der exisitierenden Zonen aktualisieren
+				if(in_array ($existing_zone_cat_name[$key] , $sonos_zone_names )) //Zonen Cat Name ist bereits vorhanden und wird auch zukünftig benötigt
+				{
+					SO_set_GROUP_ACTION_profile_for_exisiting_zone_variables(1,$existing_variable_ids,$existing_zone_cat_name,$Sonos_Data,$key);
+
+				}
+				else // Der Zonen Cat Name ist in SONOS nicht mehr vorhanden und kann gelöscht werden
+				{
+					SO_delete_zone_cat_and_variables(1,$single_zone_cat_id);
+				}
+
+			}
+			// Jetzt noch Kategorien anlegen für neu hinzugekommene SONOS Zonen
+			$zone_cats_to_create = array_diff ($sonos_zone_names,	$existing_zone_cat_name );//Feststellen welche Zonen hinzugekommen sind
+			$zone_cats_to_create = array_unique($zone_cats_to_create);
+         SO_create_new_zones_with_var_group_action_and_station(1,$zone_cats_to_create);
+			$free_player_list = SO_create_zone_member_profiles($parent_id);
+			$zones = IPS_GetObject($zone_cat_id)['ChildrenIDs']; // IDS Zone Categories
+			SO_configure_all_other_variables_on_all_zone(1,$zones,$free_player_list);
 			IPS_SemaphoreLeave("Create_ZM_Cats");
-  		}
+		}
   		else
   		{
+			echo "script is allready running Semaphore error";
   		}
 
-   }
+	}
 
 
+
+
+
+
+// ***************
 
 public function adjust_profile($zone_name,$old_profile_name) //Kann entfernt werden
 {
