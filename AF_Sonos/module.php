@@ -1307,7 +1307,7 @@ public function create_categories_zone_master()
 
 			}
 			// Jetzt noch Kategorien anlegen für neu hinzugekommene SONOS Zonen
-			if(is_array ($existing_zones_cat_ids))
+			if($existing_zones_cat_ids != NULL)
 			{
 				$zone_cats_to_create = array_diff ($sonos_zone_names,	$existing_zone_cat_name );//Feststellen welche Zonen hinzugekommen sind
 				$zone_cats_to_create = array_unique($zone_cats_to_create);
