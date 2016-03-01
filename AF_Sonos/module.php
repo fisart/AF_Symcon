@@ -1315,7 +1315,7 @@ public function create_categories_zone_master()
 		}
   		else
   		{
-			echo "script is allready running Semaphore error";
+//			echo "script is allready running Semaphore error";
   		}
 
 	}
@@ -2272,6 +2272,11 @@ $script4 =
     		case "+5";
 					change_zone_volume($zone,+5);
 					break;
+    		case "Dissolve Zone";
+					dissolve_zone($zone);
+					break;
+    		case "Party Mode";
+					break;
     		default:
 
         			break;
@@ -2304,6 +2309,48 @@ function change_zone_volume($zone,$delta)
       }
 	}
 }
+
+
+function dissolve_zone($zone)
+{
+	$zone_member_var_ids = SO_find_zone_members(1,$zone);
+	foreach($zone_member_var_ids as $i => $varid)
+	{
+		if($varid  != NULL)
+		{
+			$player_name = IPS_GetName($varid);
+			remove($player_name);
+		}
+		else
+		{
+		}
+  }
+}
+
+
+function remove($player_name)
+
+{
+Global $Sonos_Data,$name_and_ip;
+
+		foreach($Sonos_Data as $key => $id)
+		{
+			if($Sonos_Data[$key]["Name"] == $player_name )
+			{
+				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")["Associations"][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
+            $memberip = $Sonos_Data[$key]["IP"];
+            $memberid = $Sonos_Data[$key]["Player_RINCON"];
+
+			}
+		}
+
+      $sonos = new PHPSonos($sonosip);
+      $RemoveMember = $sonos->RemoveMember($memberid);
+      $sonos = new PHPSonos($memberip); //Slave Sonos ZP IPAddress
+      $sonos->SetAVTransportURI("");
+
+}
+
 
 ?>';
 
