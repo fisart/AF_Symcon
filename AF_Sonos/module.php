@@ -1215,9 +1215,6 @@ public function modify_existing_zone_variable($var_id,$free_player_list,$single_
 {
 						global $parent_id,$add_var_change_script_name_id;
 						$zone_name = IPS_GetName($single_zone_cat_id);
-
-             		if(in_array ( $zone_name , $free_player_list )) //Es gibt mehr als einen Player in der Zone da einzlene Player in der free_player_list stehen
-               	{
 							if(count($free_player_list) > 1)
 							{
 								$profile = SO_free_zone_player($parent_id,$zone_name);
@@ -1227,15 +1224,9 @@ public function modify_existing_zone_variable($var_id,$free_player_list,$single_
 							{
 								IPS_DeleteVariable($var_id );
 							}
-//
- 						}
-						else// der einzelne Player darf nicht in der Liste der verfügbaren player stehen
-						{//($Name,$Root,$Type,$Profile,$var_change_script_id)
-//				     		IPS_SetVariableCustomProfile ( $var_id, 	$profile);
-						}
-
 
 }
+
 
 public function configure_var_add_player_to_this_zone($single_zone_cat_id,$free_player_list)
 
