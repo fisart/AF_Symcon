@@ -1215,7 +1215,7 @@ public function modify_existing_zone_variable($var_id,$free_player_list,$single_
 {
 						global $parent_id,$add_var_change_script_name_id;
 						$zone_name = IPS_GetName($single_zone_cat_id);
-							if(count($free_player_list) > 1)
+							if(count($free_player_list) >= 1)
 							{
 								$profile = SO_free_zone_player($parent_id,$zone_name);
 				     			IPS_SetVariableCustomProfile ( $var_id, 	$profile);
