@@ -2276,6 +2276,7 @@ $script4 =
 					dissolve_zone($zone);
 					break;
     		case "Party Mode";
+					party_mode($zone);
 					break;
     		default:
 
@@ -2327,6 +2328,49 @@ function dissolve_zone($zone)
   }
 }
 
+function party_mode($zone)
+{
+
+	global $parent_id;
+   $free_player = SO_find_single_player($parent_id);
+	foreach($free_player as $i => $player_name)
+	{
+		if($player_name != "")
+		{
+			add_player($player_name,$zone);
+		}
+		else
+		{
+		}
+  }
+}
+
+
+function add_player($player_name,$zone)
+
+{
+
+		global $Sonos_Data,$name_and_ip;
+		$sonosip = $name_and_ip[$zone];
+		foreach($Sonos_Data as $key => $id)
+		{
+			if($Sonos_Data[$key]["Name"] == $player_name )
+			{
+            $memberip = $Sonos_Data[$key]["IP"];
+            $memberid = $Sonos_Data[$key]["Player_RINCON"];
+			}
+			if($Sonos_Data[$key]["Name"] == $zone )
+			{
+				$sonosid = $Sonos_Data[$key]["Player_RINCON"];
+			}
+		}
+        $sonos = new PHPSonos($sonosip); //Sonos ZP IPAdresse
+        $AddMember = $sonos->AddMember($memberid);
+        $sonos = new PHPSonos($memberip); //Slave Sonos ZP IPAddress
+        $ret = $sonos->SetAVTransportURI("x-rincon:" . $sonosid);
+
+
+}
 
 function remove($player_name)
 
