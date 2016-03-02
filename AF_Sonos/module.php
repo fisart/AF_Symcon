@@ -582,7 +582,7 @@ public function find_single_player()
 {
 Global $Sonos_Data;
 
-	$single_player_list = NULL;
+	$single_player_list[0] = NULL;
 	foreach ($Sonos_Data  as $key => $value)
 	{
 		if($value['Master_RINCON'] == $value['Player_RINCON'])
