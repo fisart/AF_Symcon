@@ -2468,7 +2468,7 @@ $script7 =
 		$associations =  IPS_GetVariableProfile($profile_name)["Associations"];
 		foreach(	$associations as $key => $value)
 		{
-			if($value["Value"] == $IPS_VALUE) $statione = $value["Name"];
+			if($value["Value"] == $IPS_VALUE) $station = $value["Name"];
 
 		}
 		SO_update_sonos_data(1);
