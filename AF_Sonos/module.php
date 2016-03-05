@@ -569,7 +569,11 @@ global $parent_id;
 	$free_player = SO_find_single_player($parent_id);
 	foreach($free_player  as $key => $value)
 	{
-		if($value != $zone_name)
+		if(
+				($value != $zone_name)
+				AND
+				($value != NULL)
+			)
 		{
 			IPS_SetVariableProfileAssociation ($free_player_profile,$key,$value,"",$Color[$key]);
 		}
