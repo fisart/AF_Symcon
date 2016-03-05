@@ -513,19 +513,19 @@ public function radio_stations_static_data()
 {
    $RadioStations["RSA"] = "x-rincon-mp3radio://streams.rsa-sachsen.de/rsa-live/mp3-192/mediaplayerrsa";
    $RadioStations["Info"] = "x-rincon-mp3radio://inforadio.de/live.m3u";
-   $RadioStations["Antenne Bayern"] = "x-rincon-mp3radio://mp3channels.webradio.antenne.de/antenne";
-   $RadioStations["Antenne MV"] = "x-rincon-mp3radio://streams.antennemv.de/antennemv-live/mp3-192/amv";
-   $RadioStations[ "Antenne Thueringen"] = "x-rincon-mp3radio://xapp2023227392c40000.f.l.i.lb.core-cdn.net/40000mb/live/app2023227392/w2075033608/live_de_128.mp3";
-   $RadioStations["Bayern 3"] = "x-rincon-mp3radio://streams.br.de/bayern3_2.m3u" ;
+   $RadioStations["Heart"] = "x-rincon-mp3radio://media-ice.musicradio.com/HeartCambridgeMP3";
+   $RadioStations["Ant.MV"] = "x-rincon-mp3radio://streams.antennemv.de/antennemv-live/mp3-192/amv";
+   $RadioStations["Ant. Thu."] = "x-rincon-mp3radio://xapp2023227392c40000.f.l.i.lb.core-cdn.net/40000mb/live/app2023227392/w2075033608/live_de_128.mp3";
+   $RadioStations["Bay.3"] = "x-rincon-mp3radio://streams.br.de/bayern3_2.m3u" ;
    $RadioStations["bigFM"] = "x-rincon-mp3radio://srv05.bigstreams.de/bigfm-mp3-96.m3u";
-   $RadioStations[ "Bremen Vier"] = "x-rincon-mp3radio://httpmedia.radiobremen.de/bremenvier.m3u";
-   $RadioStations["Deutschlandfunk"] = "x-rincon-mp3radio://www.dradio.de/streaming/dlf.m3u ";
+   $RadioStations["Brem.4"] = "x-rincon-mp3radio://httpmedia.radiobremen.de/bremenvier.m3u";
+   $RadioStations["DLF"] = "x-rincon-mp3radio://www.dradio.de/streaming/dlf.m3u ";
    $RadioStations["FFH"] = "x-rincon-mp3radio://streams.ffh.de/radioffh/mp3/hqlivestream.m3u";
    $RadioStations["FFN"] = "x-rincon-mp3radio://player.ffn.de/ffn.mp3";
    $RadioStations["HR3"] = "x-rincon-mp3radio://metafiles.gl-systemhaus.de/hr/hr3_2.m3u";
    $RadioStations["KiRaKa"] =  "x-rincon-mp3radio://www.wdr.de/wdrlive/media/kiraka.m3u" ;
    $RadioStations["MDR1"] = "x-rincon-mp3radio://avw.mdr.de/livestreams/mdr1_radio_sachsen_live_128.m3u";
-   $RadioStations["MDR Jump"] = "x-rincon-mp3radio://www.jumpradio.de/static/webchannel/jump_live_channel_high.m3u";
+   $RadioStations["Jump"] = "x-rincon-mp3radio://www.jumpradio.de/static/webchannel/jump_live_channel_high.m3u";
    $RadioStations["NDR2"] = "x-rincon-mp3radio://www.ndr.de/resources/metadaten/audio/m3u/ndr2.m3u";
    $RadioStations["N-JOY"] = "x-rincon-mp3radio://www.ndr.de/resources/metadaten/audio/m3u/n-joy.m3u";
 	return $RadioStations;
