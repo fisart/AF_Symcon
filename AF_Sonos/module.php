@@ -724,8 +724,27 @@ public function switch_zone_mute_old($zone,$status)
 	}
 }
 
-
 public function status_zone_mute($zone)
+{
+	global $parent_id,$Sonos_Data;
+	$ips = SO_find_zone_ips(1,$zone);
+	foreach($ips as $key  => $single_ip ) // Looped durch SONOS Array
+	{
+				$sonos = new PHPSonos($single_ip); //Sonos ZP IPAdresse
+			   if ($sonos->GetMute() == true)
+			   {
+
+			   }
+			   else
+			   {
+			   	$mute = false;
+			   }
+	}
+	return $mute;
+}
+
+
+public function status_zone_mute_old($zone)
 {
 	global $parent_id,$Sonos_Data;
  	SO_read_sonos_php_data($parent_id);
