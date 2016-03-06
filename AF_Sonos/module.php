@@ -744,6 +744,38 @@ public function status_zone_mute($zone)
 	return $mute;
 }
 
+public function find_zone_ips($zone)
+{
+	global $Sonos_Data,$name_and_ip,$Sonos_Master_id;
+
+	$zone_members[] = NULL;
+	$i = 0;
+	foreach(IPS_GetObject($Sonos_Master_id)['ChildrenIDs'] as $key => $id) // Schleife über alle MASTER
+	{
+		$var_content = GetValueInteger($id);
+		$profile_name = IPS_GetVariable ($id)["VariableCustomProfile"];
+
+		$master = "";
+		$associations =  IPS_GetVariableProfile($profile_name)["Associations"];
+		foreach(	$associations as $key1 => $value) // Feststellen welcher Player dem Master aus der ersten Schleife zugeordnet werden kann
+		{
+			if($value["Value"] == $var_content) $master = $value["Name"]; // Den Assoziationsname des Wertes der Integer Variablen herausfinden
+		}
+
+		if (
+				($master == $zone)
+			)
+		{
+			$member_name = IPS_GetName($id);
+		   $zone_members[$i] = $name_and_ip[$member_name];
+		   $i++;
+		}
+	}
+	return $zone_members;
+
+}
+
+
 public function find_zone_members($zone)
 {
 	global $Sonos_Master_id;
