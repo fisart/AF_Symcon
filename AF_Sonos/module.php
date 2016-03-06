@@ -728,6 +728,7 @@ public function status_zone_mute($zone)
 {
 	global $parent_id,$Sonos_Data;
 	$ips = SO_find_zone_ips(1,$zone);
+   $mute = true;
 	foreach($ips as $key  => $single_ip ) // Looped durch SONOS Array
 	{
 				$sonos = new PHPSonos($single_ip); //Sonos ZP IPAdresse
