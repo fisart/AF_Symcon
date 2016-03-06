@@ -841,6 +841,20 @@ public function find_zone_members($zone)
 
 }
 
+public function change_zone_volume($zone,$delta)
+{
+	global $parent_id,$Sonos_Data;
+	$ips = SO_find_zone_ips(1,$zone);
+
+	foreach($ips as $key  => $single_ip ) // Looped durch SONOS Array
+	{
+		$sonos = new PHPSonos($single_ip); //Sonos ZP IPAdresse
+		$old_volume = $sonos->GetVolume();
+		$new_volume = $old_volume + $delta;
+		$sonos->SetVolume($new_volume);
+	}
+}
+
 
 
 public  function read_sonos_php_data()
@@ -2335,10 +2349,10 @@ $script4 =
 			   	$sonos->Stop();
        			break;
     		case "-5";
-					change_zone_volume($zone,-5);
+					SO_change_zone_volume(1,$zone,-5);
        			break;
     		case "+5";
-					change_zone_volume($zone,+5);
+					SO_change_zone_volume(1,$zone,+5);
 					break;
     		case "Dissolve Zone";
 					dissolve_zone($zone);
@@ -2356,28 +2370,6 @@ $script4 =
    {
    }
 
-function change_zone_volume($zone,$delta)
-{
-	global $parent_id,$Sonos_Data;
- 	SO_read_sonos_php_data($parent_id);
-  	$members_id = SO_find_zone_members($parent_id,$zone);
-	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
-	{
-		$ii = 0;
-      foreach($Sonos_Data as $key2)
-      {
-   		if($Sonos_Data[$ii]["Name"] == IPS_GetObject($id)["ObjectName"] )
-			{
-				$sonos = new PHPSonos($Sonos_Data[$ii]["IP"]); //Sonos ZP IPAdresse
-   			$Sonos_Data[$ii]["Volume"] = ($Sonos_Data[$ii]["Volume"]+$delta);
-   			$sonos->SetVolume($Sonos_Data[$ii]["Volume"]);
-			}
-
-			$ii++;
-
-      }
-	}
-}
 
 
 function dissolve_zone($zone)
