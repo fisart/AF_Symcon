@@ -689,8 +689,20 @@ public function create_zone_member_profiles()
 	return $free_players_list;
 }
 
-
 public function switch_zone_mute($zone,$status)
+{
+	global $parent_id,$Sonos_Data;
+	$ips = SO_find_zone_ips(1,$zone);
+
+	foreach($ips as $key  => $single_ip ) // Looped durch SONOS Array
+	{
+			$sonos = new PHPSonos($single_ip); //Sonos ZP IPAdresse
+			$sonos->SetMute($status);
+	}
+}
+
+
+public function switch_zone_mute_old($zone,$status)
 {
 	global $parent_id,$Sonos_Data;
  	SO_read_sonos_php_data($parent_id);
