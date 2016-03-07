@@ -396,7 +396,11 @@ foreach($Sonos_Data as $key => $value)
 			$associations = IPS_GetVariableProfile ($add_player_string)["Associations"];
 			foreach($associations  as $key => $value)
 			{
-				if (!in_array($value['Name'],$player_names))
+				if (
+						(!in_array($value['Name'],$player_names))
+						AND
+						($value != NULL)
+					 )
 				{
 					IPS_SetVariableProfileAssociation ($add_player_string,$key,"","",-1);
 				}
