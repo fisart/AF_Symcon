@@ -623,7 +623,7 @@ Global $Sonos_Data;
 public function create_zone_member_profiles()
 
 {
-	Global 	$zone_cat_id;
+	Global 	$zone_cat_id,$zone_names;
 
 
 	$Color = [	0x15EB4A,//0 Grün
@@ -661,9 +661,9 @@ public function create_zone_member_profiles()
 	$iii = 0;
 	foreach($zones as $key => $value )
 	{
-   	$zone_name = IPS_GetName($value);
-   	$zone_name_profil = str_replace (" " , "_" , 	$zone_name );
-   	$zone_member_var_ids = SO_find_zone_members(1,$zone_name);
+   	$zone_names[$key] = IPS_GetName($value);
+   	$zone_name_profil = str_replace (" " , "_" , 	$zone_names[$key] );
+   	$zone_member_var_ids = SO_find_zone_members(1,$zone_names[$key]);
  		$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_profil;
 		if(IPS_VariableProfileExists ($zone_member_profile_name))
 		{
@@ -675,7 +675,7 @@ public function create_zone_member_profiles()
 		if(count($zone_member_var_ids[0]) == NULL) // Es handelt sich um einen einzelnen Player Master = Player, es gibt keine member
 		{
       		IPS_SetVariableProfileAssociation ($free_players,$iii,IPS_GetName($zone_member_var_ids[0]),"",  $Color[$iii]); // Aufbau der association" Add_Player_to_this_Zone"
-            $free_players_list[$iii] = $zone_name; // Hier stehen zum Schluss alle freien PLayer  (Master = Player) in der Liste
+            $free_players_list[$iii] = $zone_names[$key]; // Hier stehen zum Schluss alle freien PLayer  (Master = Player) in der Liste
       		$iii++;
 		}
 		else
