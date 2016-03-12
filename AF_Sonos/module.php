@@ -1756,7 +1756,7 @@ global $parent_id;
 
 		public function read_sonos_data()
 		{
-         global $content_var_name_string_id,$Sonos_Data,$parent_id,$value,$name_and_ip;
+         global $content_var_name_string_id,$Sonos_Data,$parent_id,$value,$name_and_ip,$list_with_player_name_as_index;
 			$Text = GetValueString($content_var_name_string_id/*[Object #36164 does not exist]*/);
 			$result = explode("<",$Text);
 			$list[0][0] = NULL;
@@ -1772,6 +1772,7 @@ global $parent_id;
 					$ZoneAttributes = $sonos->GetZoneAttributes();
 					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
 					$name_and_ip[$list[$i]['Name']] = $list[$i]['IP'];
+					$list_with_player_name_as_index[$list[$i]['Name']] = $list[$i];
 					$i = $i+1;
  				}
  				else
