@@ -703,11 +703,11 @@ public function switch_zone_mute($zone,$status)
 	{
 			$single_ip = $name_and_ip[IPS_GetName($var_id)];
 			$sonos = new PHPSonos($single_ip);
-			$sonos->SetMute(false);
+			$sonos->SetMute($status);
 	}
 	$single_ip = $name_and_ip[$zone];
 	$sonos = new PHPSonos($single_ip);
-	$sonos->SetMute(false);
+	$sonos->SetMute($status);
 }
 
 
