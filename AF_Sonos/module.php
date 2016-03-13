@@ -1788,6 +1788,7 @@ global $parent_id;
 					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
 					$name_and_ip[$list[$i]['Name']] = $list[$i]['IP'];
 					$list_with_player_name_as_index[$list[$i]['Name']] = $list[$i];
+					$list_with_player_rincon_as_index[$list[$i]['Player_RINCON']] = $list[$i];
 					$i = $i+1;
  				}
  				else
