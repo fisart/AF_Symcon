@@ -2106,6 +2106,108 @@ Global $Sonos_Data;
 }
 
 
+public function dissolve_zone($zone)
+{
+	$zone_member_var_ids = SO_find_zone_members(1,$zone);
+	foreach($zone_member_var_ids as $i => $varid)
+	{
+		if($varid  != NULL)
+		{
+			$player_name = IPS_GetName($varid);
+			SO_remove(1,$player_name);
+		}
+		else
+		{
+		}
+  }
+}
+
+public function party_mode($zone)
+{
+
+	global $parent_id;
+   $free_player = SO_find_single_player($parent_id);
+	foreach($free_player as $i => $player_name)
+	{
+		if($player_name != "")
+		{
+			SO_add_player(1,$player_name,$zone);
+		}
+		else
+		{
+		}
+  }
+}
+
+
+public function add_player($player_name,$zone)
+
+{
+
+		global $Sonos_Data,$name_and_ip;
+		$sonosip = $name_and_ip[$zone];
+		foreach($Sonos_Data as $key => $id)
+		{
+			if($Sonos_Data[$key]["Name"] == $player_name )
+			{
+            $memberip = $Sonos_Data[$key]["IP"];
+            $memberid = $Sonos_Data[$key]["Player_RINCON"];
+			}
+			if($Sonos_Data[$key]["Name"] == $zone )
+			{
+				$sonosid = $Sonos_Data[$key]["Player_RINCON"];
+			}
+		}
+        $sonos = new PHPSonos($sonosip); //Sonos ZP IPAdresse
+        $AddMember = $sonos->AddMember($memberid);
+        $sonos = new PHPSonos($memberip); //Slave Sonos ZP IPAddress
+        $ret = $sonos->SetAVTransportURI("x-rincon:" . $sonosid);
+
+
+}
+
+public function remove($player_name)
+
+{
+Global $Sonos_Data,$name_and_ip;
+
+		foreach($Sonos_Data as $key => $id)
+		{
+			if($Sonos_Data[$key]["Name"] == $player_name )
+			{
+				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")["Associations"][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
+            $memberip = $Sonos_Data[$key]["IP"];
+            $memberid = $Sonos_Data[$key]["Player_RINCON"];
+
+			}
+		}
+
+      $sonos = new PHPSonos($sonosip);
+      $RemoveMember = $sonos->RemoveMember($memberid);
+      $sonos = new PHPSonos($memberip); //Slave Sonos ZP IPAddress
+      $sonos->SetAVTransportURI("");
+
+}
+
+
+
+
+public function  start_play_zone($zone)
+{
+global $name_and_ip;
+
+					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
+					$sonos-> Play();
+
+}
+
+public function  stop_play_zone($zone)
+{
+global $name_and_ip;
+
+					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
+			   	$sonos->Stop();
+}
 
 public function get_script_content()
 {
@@ -2339,9 +2441,7 @@ $script4 =
 					SO_switch_zone_mute(1,$zone,true);
         			break;
     		case "Play":
-					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
-					$sonos-> Play();
-
+					SO_start_play_zone(1,$zone);
         			break;
 
     		case "Unmute":
@@ -2350,8 +2450,7 @@ $script4 =
         			break;
 
     		case "Stop";
-					$sonos = new PHPSonos($name_and_ip[$zone]); //Sonos ZP IPAdresse
-			   	$sonos->Stop();
+    		      SO_stop_play_zone(1,$zone);
        			break;
     		case "-5";
 					SO_change_zone_volume(1,$zone,-5);
@@ -2360,10 +2459,10 @@ $script4 =
 					SO_change_zone_volume(1,$zone,+5);
 					break;
     		case "Dissolve Zone";
-					dissolve_zone($zone);
+					SO_dissolve_zone(1,$zone);
 					break;
     		case "Party Mode";
-					party_mode($zone);
+					SO_party_mode(1,$zone);
 					break;
     		default:
 
@@ -2377,88 +2476,7 @@ $script4 =
 
 
 
-function dissolve_zone($zone)
-{
-	$zone_member_var_ids = SO_find_zone_members(1,$zone);
-	foreach($zone_member_var_ids as $i => $varid)
-	{
-		if($varid  != NULL)
-		{
-			$player_name = IPS_GetName($varid);
-			remove($player_name);
-		}
-		else
-		{
-		}
-  }
-}
 
-function party_mode($zone)
-{
-
-	global $parent_id;
-   $free_player = SO_find_single_player($parent_id);
-	foreach($free_player as $i => $player_name)
-	{
-		if($player_name != "")
-		{
-			add_player($player_name,$zone);
-		}
-		else
-		{
-		}
-  }
-}
-
-
-function add_player($player_name,$zone)
-
-{
-
-		global $Sonos_Data,$name_and_ip;
-		$sonosip = $name_and_ip[$zone];
-		foreach($Sonos_Data as $key => $id)
-		{
-			if($Sonos_Data[$key]["Name"] == $player_name )
-			{
-            $memberip = $Sonos_Data[$key]["IP"];
-            $memberid = $Sonos_Data[$key]["Player_RINCON"];
-			}
-			if($Sonos_Data[$key]["Name"] == $zone )
-			{
-				$sonosid = $Sonos_Data[$key]["Player_RINCON"];
-			}
-		}
-        $sonos = new PHPSonos($sonosip); //Sonos ZP IPAdresse
-        $AddMember = $sonos->AddMember($memberid);
-        $sonos = new PHPSonos($memberip); //Slave Sonos ZP IPAddress
-        $ret = $sonos->SetAVTransportURI("x-rincon:" . $sonosid);
-
-
-}
-
-function remove($player_name)
-
-{
-Global $Sonos_Data,$name_and_ip;
-
-		foreach($Sonos_Data as $key => $id)
-		{
-			if($Sonos_Data[$key]["Name"] == $player_name )
-			{
-				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")["Associations"][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
-            $memberip = $Sonos_Data[$key]["IP"];
-            $memberid = $Sonos_Data[$key]["Player_RINCON"];
-
-			}
-		}
-
-      $sonos = new PHPSonos($sonosip);
-      $RemoveMember = $sonos->RemoveMember($memberid);
-      $sonos = new PHPSonos($memberip); //Slave Sonos ZP IPAddress
-      $sonos->SetAVTransportURI("");
-
-}
 
 
 ?>';
