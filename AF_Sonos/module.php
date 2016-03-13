@@ -859,7 +859,17 @@ public function change_zone_volume($zone,$delta)
 	}
 }
 
+public function change_zone_volume_to_absolute_value($zone,$volume)
+{
+	global $parent_id,$Sonos_Data;
+	$ips = SO_find_zone_ips(1,$zone);
 
+	foreach($ips as $key  => $single_ip ) // Looped durch SONOS Array
+	{
+		$sonos = new PHPSonos($single_ip); //Sonos ZP IPAdresse
+		$sonos->SetVolume($volume);
+	}
+}
 
 public  function read_sonos_php_data()
 {
