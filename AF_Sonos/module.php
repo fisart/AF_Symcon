@@ -2571,32 +2571,10 @@ $script6 =
 		}
 
 		SO_update_sonos_data(1);
-		remove($player_name);
+		SO_remove(1,$player_name);
 	 }
 
 
-function remove($player_name)
-
-{
-Global $Sonos_Data,$name_and_ip;
-
-		foreach($Sonos_Data as $key => $id)
-		{
-			if($Sonos_Data[$key]["Name"] == $player_name )
-			{
-				$sonosip = $name_and_ip[IPS_GetVariableProfile("Sonos_Master")["Associations"][GetValueInteger($Sonos_Data[$key]["Sonos_Master_ID"])]["Name"]];
-            $memberip = $Sonos_Data[$key]["IP"];
-            $memberid = $Sonos_Data[$key]["Player_RINCON"];
-
-			}
-		}
-
-      $sonos = new PHPSonos($sonosip);
-      $RemoveMember = $sonos->RemoveMember($memberid);
-      $sonos = new PHPSonos($memberip); //Slave Sonos ZP IPAddress
-      $sonos->SetAVTransportURI("");
-
-}
 
 
 ?>';
