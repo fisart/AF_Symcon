@@ -2139,7 +2139,11 @@ public function party_mode($zone)
    $free_player = SO_find_single_player($parent_id);
 	foreach($free_player as $i => $player_name)
 	{
-		if($player_name != "")
+		if(
+				($player_name != "")
+				AND
+				($player_name != $zone)
+			)
 		{
 			SO_add_player(1,$player_name,$zone);
 		}
