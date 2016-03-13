@@ -2209,7 +2209,7 @@ global $name_and_ip;
 			   	$sonos->Stop();
 }
 
-public function remove($player_name)
+public function remove_player($player_name)
 
 {
 Global $Sonos_Data,$name_and_ip;
@@ -2571,7 +2571,7 @@ $script6 =
 		}
 
 		SO_update_sonos_data(1);
-		SO_remove(1,$player_name);
+		SO_remove_player(1,$player_name);
 	 }
 
 
