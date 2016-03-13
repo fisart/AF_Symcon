@@ -695,14 +695,19 @@ public function create_zone_member_profiles()
 
 public function switch_zone_mute($zone,$status)
 {
-	global $parent_id,$Sonos_Data;
-	$ips = SO_find_zone_ips(1,$zone);
+	global $parent_id,$Sonos_Data,$name_and_ip;
 
-	foreach($ips as $key  => $single_ip ) // Looped durch SONOS Array
+	$members = SO_find_zone_members($parent_id,$zone);
+
+	foreach($members as $key  => $var_id )
 	{
-			$sonos = new PHPSonos($single_ip); //Sonos ZP IPAdresse
-			$sonos->SetMute($status);
+			$single_ip = $name_and_ip[IPS_GetName($var_id)];
+			$sonos = new PHPSonos($single_ip);
+			$sonos->SetMute(false);
 	}
+	$single_ip = $name_and_ip[$zone];
+	$sonos = new PHPSonos($single_ip);
+	$sonos->SetMute(false);
 }
 
 
