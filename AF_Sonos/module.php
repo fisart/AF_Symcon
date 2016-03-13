@@ -701,9 +701,12 @@ public function switch_zone_mute($zone,$status)
 
 	foreach($members as $key  => $var_id )
 	{
+		if($var_id != 0)
+		{
 			$single_ip = $name_and_ip[IPS_GetName($var_id)];
 			$sonos = new PHPSonos($single_ip);
 			$sonos->SetMute($status);
+		}
 	}
 	$single_ip = $name_and_ip[$zone];
 	$sonos = new PHPSonos($single_ip);
