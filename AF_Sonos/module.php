@@ -1798,7 +1798,7 @@ global $parent_id;
  				{
  				}
 			}
-			generate_lists($list);
+			SO_generate_lists(1,$list);
 			$Sonos_Data = $list;
 		}
 
