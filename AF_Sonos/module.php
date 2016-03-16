@@ -1798,10 +1798,59 @@ global $parent_id;
  				{
  				}
 			}
+			generate_lists($list);
 			$Sonos_Data = $list;
 		}
 
+public function generate_lists($list)
 
+{
+
+Global $name_and_ip,	$list_with_player_name_as_index,$zone_names,$list_with_player_name_as_index,$list_with_player_rincon_as_index;
+
+	$list_with_masters_as_index = NULL;
+	$list_only_with_zone_master = NULL;
+
+	foreach($list as $key  => $player )
+	{
+ 		foreach($list as $key1  => $player1)
+		{
+			if ($player['Player_RINCON'] == $player1['Master_RINCON'])
+			{
+			   if	($player1['Name'] != $player['Name'])
+				{
+            	$list_with_masters_as_index[$player['Name']][$player1['Name']] = $list_with_player_name_as_index[$player1['Name']];
+				}
+				else
+				{
+					$list_only_with_single_players[$player1['Name']] = $list_with_player_name_as_index[$player1['Name']];
+				}
+			}
+			else
+			{
+
+			}
+		}
+	}
+
+	if ($list_with_masters_as_index != NULL)
+	{
+		foreach ($list_with_masters_as_index as $key => $value)
+		{
+
+			$position = array_search ( $key, $list_only_with_single_players);
+			if($position === false)
+			{
+			}
+			else
+			{
+				unset($list_only_with_single_players[$position]);
+			}
+			$list_only_with_zone_master[$key] = $list_with_player_name_as_index[$key];
+		}
+	}
+
+}
 
 
  		public function get_sonos_details($value)
