@@ -1806,7 +1806,10 @@ public function generate_lists($list)
 
 {
 
-Global $name_and_ip,	$list_with_player_name_as_index,$zone_names,$list_with_player_name_as_index,$list_with_player_rincon_as_index;
+Global $list_only_with_zone_master,
+		 $list_with_player_name_as_index,
+		 $list_only_with_single_players,
+		 $list_with_masters_as_index;
 
 	$list_with_masters_as_index = NULL;
 	$list_only_with_zone_master = NULL;
