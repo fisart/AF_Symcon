@@ -247,7 +247,7 @@ public function get_static_data()
 
 public function create_radio_stations()
 {
-global $parent_id,$stations_profile ;
+global $parent_id,$action_ID, $stations_profile ;
 	$Color = [	0x15EB4A,//0 Grün
 					0xF21344,//1 Rot
 					0x1833DE,//2 Blau
