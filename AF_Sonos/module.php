@@ -724,6 +724,7 @@ Global $list_only_with_zone_master,
 		 $list_only_with_single_players,
 		 $list_with_masters_as_index;
 
+	read_sonos_data();
 	$mute = true;
 	foreach($list_with_masters_as_index[$zone] as $key  => $member)
 	{
