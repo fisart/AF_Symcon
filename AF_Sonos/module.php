@@ -695,126 +695,72 @@ public function create_zone_member_profiles()
 
 public function switch_zone_mute($zone,$status)
 {
-	global $parent_id,$Sonos_Data,$name_and_ip;
+Global $list_only_with_zone_master,
+		 $list_with_player_name_as_index,
+		 $list_only_with_single_players,
+		 $list_with_masters_as_index;
 
-	$members = SO_find_zone_members($parent_id,$zone);
 
-	foreach($members as $key  => $var_id )
+	foreach($list_with_masters_as_index[$zone] as $key  => $member)
 	{
-		if($var_id != 0)
-		{
-			$single_ip = $name_and_ip[IPS_GetName($var_id)];
-			$sonos = new PHPSonos($single_ip);
+
+			$sonos = new PHPSonos($member['IP']);
 			$sonos->SetMute($status);
-		}
+
 	}
-	$single_ip = $name_and_ip[$zone];
-	$sonos = new PHPSonos($single_ip);
+	$sonos = new PHPSonos($list_with_player_name_as_index[$zone]['IP']);
 	$sonos->SetMute($status);
+
+
 }
 
 
-public function switch_zone_mute_old($zone,$status)
-{
-	global $parent_id,$Sonos_Data;
- 	SO_read_sonos_php_data($parent_id);
-  	$members_id = SO_find_zone_members($parent_id,$zone);
-	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
-	{
-		$ii = 0;
-      foreach($Sonos_Data as $key2)
-      {
-   		if($Sonos_Data[$ii]["Name"] == IPS_GetObject($id)['ObjectName'] )
-			{
-				$sonos = new PHPSonos($Sonos_Data[$ii]["IP"]); //Sonos ZP IPAdresse
-			   $sonos->SetMute($status);
-			}
 
-			$ii++;
-
-      }
-	}
-}
 
 public function status_zone_mute($zone)
 {
-	global $parent_id,$Sonos_Data;
-	$ips = SO_find_zone_ips(1,$zone);
-   $mute = true;
-	foreach($ips as $key  => $single_ip ) // Looped durch SONOS Array
-	{
-				$sonos = new PHPSonos($single_ip); //Sonos ZP IPAdresse
-			   if ($sonos->GetMute() == true)
-			   {
+Global $list_only_with_zone_master,
+		 $list_with_player_name_as_index,
+		 $list_only_with_single_players,
+		 $list_with_masters_as_index;
 
-			   }
-			   else
-			   {
-			   	$mute = false;
-			   }
+	$mute = true;
+	foreach($list_with_masters_as_index[$zone] as $key  => $member)
+	{
+
+		if ($member['Mute'] == false)
+	   {
+			$mute = false;
+	   }
+	   else
+	   {
+
+	   }
 	}
+	if ($list_only_with_single_players[$zone]['Mute'] == false)
+	{
+  		$mute = false;
+   }
+   else
+   {
+   }
 	return $mute;
 }
 
-
-public function status_zone_mute_old($zone)
-{
-	global $parent_id,$Sonos_Data;
- 	SO_read_sonos_php_data($parent_id);
-  	$members_id = SO_find_zone_members($parent_id,$zone);
-   $mute = true;
-	foreach($members_id as $key1  => $id ) // Looped durch SONOS Array
-	{
-		$ii = 0;
-      foreach($Sonos_Data as $key2)
-      {
-   		if($Sonos_Data[$ii]["Name"] == IPS_GetObject($id)['ObjectName'] )
-			{
-				$sonos = new PHPSonos($Sonos_Data[$ii]["IP"]); //Sonos ZP IPAdresse
-			   if ($sonos->GetMute() == true)
-			   {
-
-			   }
-			   else
-			   {
-			   	$mute = false;
-			   }
-			}
-
-			$ii++;
-
-      }
-	}
-	return $mute;
-}
 
 public function find_zone_ips($zone)
 {
-	global $Sonos_Data,$name_and_ip,$Sonos_Master_id;
+Global $list_only_with_zone_master,
+		 $list_with_player_name_as_index,
+		 $list_only_with_single_players,
+		 $list_with_masters_as_index;
 
-	$zone_members[] = NULL;
-	$i = 0;
-	foreach(IPS_GetObject($Sonos_Master_id)['ChildrenIDs'] as $key => $id) // Schleife über alle MASTER
+	foreach($list_with_masters_as_index[$zone] as $key  => $member)
 	{
-		$var_content = GetValueInteger($id);
-		$profile_name = IPS_GetVariable ($id)["VariableCustomProfile"];
-
-		$master = "";
-		$associations =  IPS_GetVariableProfile($profile_name)["Associations"];
-		foreach(	$associations as $key1 => $value) // Feststellen welcher Player dem Master aus der ersten Schleife zugeordnet werden kann
-		{
-			if($value["Value"] == $var_content) $master = $value["Name"]; // Den Assoziationsname des Wertes der Integer Variablen herausfinden
-		}
-
-		if (
-				($master == $zone)
-			)
-		{
-			$member_name = IPS_GetName($id);
-		   $zone_members[$i] = $name_and_ip[$member_name];
-		   $i++;
-		}
+ 		$zone_members[] = $member['IP'];
 	}
+	$zone_members[] = $list_only_with_single_players[$zone]['IP'];
+
 	return $zone_members;
 
 }
