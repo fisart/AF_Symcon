@@ -1789,7 +1789,11 @@ global $parent_id;
 					$list[$i]['Mute'] = $sonos->GetMute();
 					$ZoneAttributes = $sonos->GetZoneAttributes();
 					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
-					$list[$i]["Media"] = $sonos->GetMediaInfo();
+
+					$media = $sonos->GetMediaInfo();
+					$list[$i]["title"] = $media["title"];
+					$list[$i]["CurrentURI"] = $media["CurrentURI"];
+					$list[$i]["CurrentURIMetaData"] = $media["CurrentURIMetaData"];
 	            $list[$i]['Status'] = $sonos->GetTransportInfo(); // des Sonos-Players als Integer zurück, 1: PLAYING, 2: PAUSED, 3: STOPPED
 	           
 					$name_and_ip[$list[$i]['Name']] = $list[$i]['IP'];
