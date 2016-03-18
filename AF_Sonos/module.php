@@ -1751,7 +1751,7 @@ Global $list_only_with_zone_master,
 			if ($player['Player_RINCON'] == $player1['Master_RINCON'])
 			{
             $list_with_masters_as_index[$player['Name']][$player1['Name']] = $list_with_player_name_as_index[$player1['Name']];
-             $all_zone_names[] =$player1['Name'];
+             $all_zone_names[] =$player['Name'];
 			   if	($player1['Name'] != $player['Name'])
 				{
 				}
