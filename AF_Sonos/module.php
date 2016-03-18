@@ -588,34 +588,9 @@ global $parent_id;
 
 public function find_single_player()
 {
-Global $Sonos_Data;
+Global $Sonos_Data,$single_player_list;
 
-	$single_player_list[0] = NULL;
-	foreach ($Sonos_Data  as $key => $value)
-	{
-		if($value['Master_RINCON'] == $value['Player_RINCON'])
-		{
-			$sp[$key] = $value['Player_RINCON'];
-			$names [$key] = $value['Name'];
-		}
-		else
-		{
 
-		}
-		$master[$key] = $value['Master_RINCON'];
-	}
-	foreach($sp as $key => $rincon)
-	{
-		$occurence = array_keys ($master,$rincon);
-		if(count($occurence) <= 1)
-		{
-			$single_player_list[] = 	$names [$key];
-		}
-		else
-		{
-		}
-
-	}
 	return $single_player_list;
 }
 
@@ -1797,6 +1772,7 @@ Global $list_only_with_zone_master,
 
 			if(count($value) == 1)
 			{
+   			$single_player_list[] = $key;
 			}
 			else
 			{
