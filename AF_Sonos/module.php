@@ -973,7 +973,7 @@ public function build_action_events()
 
 		public function sonos_content()
 		{
-			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id ;
+			global $Sonos_Data;
 //			print_r($Sonos_Data);
 
 			return $Sonos_Data;
@@ -1738,7 +1738,8 @@ Global $list_only_with_zone_master,
 		 $list_with_player_name_as_index,
 		 $list_only_with_single_players,
 		 $list_with_masters_as_index,
-		 $single_player_list;
+		 $single_player_list,
+		 $all_zone_names;
 
 	$list_with_masters_as_index = NULL;
 	$list_only_with_zone_master = NULL;
@@ -1750,6 +1751,7 @@ Global $list_only_with_zone_master,
 			if ($player['Player_RINCON'] == $player1['Master_RINCON'])
 			{
             $list_with_masters_as_index[$player['Name']][$player1['Name']] = $list_with_player_name_as_index[$player1['Name']];
+             $all_zone_names[] =$player1['Name'];
 			   if	($player1['Name'] != $player['Name'])
 				{
 				}
