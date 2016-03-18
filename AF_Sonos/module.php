@@ -589,7 +589,6 @@ global $parent_id;
 public function find_single_player()
 {
 Global $single_player_list;
-	SO_read_sonos_data(1);
 
 	return $single_player_list;
 }
@@ -1738,7 +1737,8 @@ public function generate_lists($list)
 Global $list_only_with_zone_master,
 		 $list_with_player_name_as_index,
 		 $list_only_with_single_players,
-		 $list_with_masters_as_index;
+		 $list_with_masters_as_index,
+		 $single_player_list;
 
 	$list_with_masters_as_index = NULL;
 	$list_only_with_zone_master = NULL;
