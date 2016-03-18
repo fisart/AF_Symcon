@@ -597,7 +597,7 @@ Global $single_player_list;
 public function create_zone_member_profiles()
 
 {
-	Global 	$zone_cat_id,$zone_names;
+	Global 	$zone_cat_id,$zone_names,$single_player_list;
 
 
 	$Color = [	0x15EB4A,//0 Grün
@@ -625,7 +625,7 @@ public function create_zone_member_profiles()
 				];
 
 	$free_players = "Add_Player_to_this_Zone";
-	$free_players_list = NULL;
+	$free_players_list = $single_player_list;
 	$zones = IPS_GetObject($zone_cat_id)['ChildrenIDs'];
 	if(IPS_VariableProfileExists ($free_players))
 	{
@@ -649,7 +649,7 @@ public function create_zone_member_profiles()
 		if(count($zone_member_var_ids[0]) == NULL) // Es handelt sich um einen einzelnen Player Master = Player, es gibt keine member
 		{
       		IPS_SetVariableProfileAssociation ($free_players,$iii,IPS_GetName($zone_member_var_ids[0]),"",  $Color[$iii]); // Aufbau der association" Add_Player_to_this_Zone"
-            $free_players_list[$iii] = $zone_names[$key]; // Hier stehen zum Schluss alle freien PLayer  (Master = Player) in der Liste
+//            $free_players_list[$iii] = $zone_names[$key]; // Hier stehen zum Schluss alle freien PLayer  (Master = Player) in der Liste
       		$iii++;
 		}
 		else
