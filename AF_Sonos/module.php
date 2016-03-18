@@ -1766,7 +1766,7 @@ Global $list_only_with_zone_master,
 			}
 		}
 	}
-
+   $all_zone_names = array_unique ( $all_zone_names );
 	if ($list_with_masters_as_index != NULL)
 	{
 		foreach ($list_with_masters_as_index as $key => $value)
