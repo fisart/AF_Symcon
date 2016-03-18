@@ -588,8 +588,8 @@ global $parent_id;
 
 public function find_single_player()
 {
-Global $Sonos_Data,$single_player_list;
-
+Global $single_player_list;
+read_sonos_data(1);
 
 	return $single_player_list;
 }
