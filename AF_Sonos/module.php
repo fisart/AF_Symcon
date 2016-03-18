@@ -1056,18 +1056,8 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 
 public function find_exisiting_zone_names()
 {
-			global $Sonos_Master_id,$sonos_master_string, $zone_cat_id ;
-
-
-			$master_list_var_ids = IPS_GetChildrenIDs($Sonos_Master_id);
-			$sonos_zone_names[] = NULL; //SONOS Zonen
-         foreach ($master_list_var_ids as $key => $master_id)
-			{
-			   $sonos_zone_names[$key] = IPS_GetVariableProfile($sonos_master_string)['Associations'][GetValueInteger($master_id)]['Name'];
-			}
-         $sonos_zone_names = array_unique ( $sonos_zone_names );//SONOS Zonen (immer nur einmal) feststellen
-			return $sonos_zone_names;
-
+			global $all_zone_names ;
+			return $all_zone_names ;
 }
 
 
