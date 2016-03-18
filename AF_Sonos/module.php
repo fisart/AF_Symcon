@@ -1795,20 +1795,18 @@ Global $list_only_with_zone_master,
 		foreach ($list_with_masters_as_index as $key => $value)
 		{
 
-			$position = array_search ( $key, $list_only_with_single_players);
-			if($position === false)
+			if(count($value) == 1)
 			{
 			}
 			else
 			{
-				unset($list_only_with_single_players[$position]);
+				unset($list_only_with_single_players[$key]);
 			}
 			$list_only_with_zone_master[$key] = $list_with_player_name_as_index[$key];
 		}
 	}
 
 }
-
 
  		public function get_sonos_details($value)
  		{
