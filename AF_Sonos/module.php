@@ -637,7 +637,7 @@ public function create_zone_member_profiles()
 	{
    	$zone_names[$key] = IPS_GetName($value);
    	$zone_name_profil = str_replace (" " , "_" , 	$zone_names[$key] );
-   	$zone_member_var_ids = SO_find_zone_members(1,$zone_names[$key]);
+   	$zone_member_var_ids = SO_find_zone_members_var_ids(1,$zone_names[$key]);
  		$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_profil;
 		if(IPS_VariableProfileExists ($zone_member_profile_name))
 		{
@@ -741,7 +741,7 @@ Global $list_only_with_zone_master,
 }
 
 
-public function find_zone_members($zone)
+public function find_zone_members_var_ids($zone)
 {
 	global $Sonos_Master_id;
 
@@ -1153,7 +1153,7 @@ public function configure_var_remove_player_from_this_zone($single_zone_cat_id,$
 
 			   $zone_name = IPS_GetName($single_zone_cat_id);
    			$zone_name_profil = str_replace (" " , "_" , $zone_name );
-   			$zone_member_var_ids = SO_find_zone_members($parent_id,$zone_name);// Alle Player IDS die zu dieser Zone gehören
+   			$zone_member_var_ids = SO_find_zone_members_var_ids($parent_id,$zone_name);// Alle Player IDS die zu dieser Zone gehören
 				$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_profil;
 				$zone_remove_player_var_name = "Remove Player from this Zone ".$zone_name;
 				$var_id = @IPS_GetVariableIDByName ($zone_remove_player_var_name, $single_zone_cat_id );// Variablen Name = Profilname $var_id = remove player variable der zone
@@ -1365,7 +1365,7 @@ global $parent_id;
 	}
 	IPS_CreateVariableProfile ($newprofile, 1 );
 	$i = 0;
-	$members = SO_find_zone_members($parent_id,$zone_name);
+	$members = SO_find_zone_members_var_ids($parent_id,$zone_name);
 	if(is_array($members))
 	{
 		$member_name_list = NULL;
@@ -2107,7 +2107,7 @@ Global $Sonos_Data;
 
 public function dissolve_zone($zone)
 {
-	$zone_member_var_ids = SO_find_zone_members(1,$zone);
+	$zone_member_var_ids = SO_find_zone_members_var_ids(1,$zone);
 	foreach($zone_member_var_ids as $i => $varid)
 	{
 		if($varid  != NULL)
