@@ -738,7 +738,7 @@ Global $list_only_with_zone_master,
 
 	   }
 	}
-	if ($list_only_with_single_players[$zone]['Mute'] == false)
+	if ($list_with_player_name_as_index[$zone]['Mute'] == false)
 	{
   		$mute = false;
    }
