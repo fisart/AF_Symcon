@@ -1703,6 +1703,22 @@ global $parent_id;
 					$ZoneAttributes = $sonos->GetZoneAttributes();
 					$list[$i]['Name'] = $ZoneAttributes['CurrentZoneName'];
 
+    				$PositionInfo = $sonos->GetPositionInfo();
+					$list[$i]['RelTime'] = $PositionInfo['RelTime'];
+					$list[$i]['duration'] = $PositionInfo['duration'];
+					$list[$i]['TrackDuration'] = $PositionInfo['TrackDuration'];
+					$list[$i]['URI'] = $PositionInfo['URI'];
+					$list[$i]['TrackURI'] = $PositionInfo['TrackURI'];
+					$list[$i]['artist'] = $PositionInfo['artist'];
+					$list[$i]['title_pos'] = $PositionInfo['title'];
+					$list[$i]['album'] = $PositionInfo['album'];
+					$list[$i]['albumArtURI'] = $PositionInfo['albumArtURI'];
+					$list[$i]['albumArtist'] = $PositionInfo['albumArtist'];
+					$list[$i]['albumTrackNumber'] = $PositionInfo['albumTrackNumber'];
+					$list[$i]['streamContent'] = $PositionInfo['streamContent'];
+					$list[$i]['trackURI'] = $PositionInfo['trackURI'];
+					$list[$i]['Track'] = $PositionInfo['Track'];
+
 					$media = $sonos->GetMediaInfo();
 					$list[$i]["title"] = $media["title"];
 					$list[$i]["CurrentURI"] = $media["CurrentURI"];
