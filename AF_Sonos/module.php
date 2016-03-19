@@ -734,7 +734,7 @@ Global $list_only_with_zone_master,
 	{
  		$zone_members[] = $member['IP'];
 	}
-	$zone_members[] = $list_only_with_single_players[$zone]['IP'];
+	$zone_members[] =  $list_with_player_name_as_index[$zone]['IP'];
 
 	return $zone_members;
 
