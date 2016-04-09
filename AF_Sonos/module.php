@@ -597,7 +597,7 @@ Global $single_player_list;
 public function create_zone_member_profiles()
 
 {
-	Global 	$zone_cat_id,$zone_names,$single_player_list;
+	Global 	$zone_cat_id,$zone_names,$single_player_list,$all_zone_names;
 
 
 	$Color = [	0x15EB4A,//0 Grün
@@ -2136,20 +2136,26 @@ public function party_mode($zone)
 
 	global $parent_id;
    $free_player = SO_find_single_player($parent_id);
-	foreach($free_player as $i => $player_name)
-	{
-		if(
+   if (is_array ($free_player ))
+   {
+		foreach($free_player as $i => $player_name)
+		{
+			if(
 				($player_name != "")
 				AND
 				($player_name != $zone)
 			)
-		{
-			SO_add_player(1,$player_name,$zone);
-		}
-		else
-		{
-		}
-  }
+			{
+				SO_add_player(1,$player_name,$zone);
+			}
+			else
+			{
+			}
+  		}
+	}
+	else
+	{
+	}
 }
 
 
