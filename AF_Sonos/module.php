@@ -6,14 +6,13 @@
 		{
 			//Never delete this line!
 			parent::Create();
-			$this->RegisterPropertyString("Sonos_Master_IP", "10.0.0.6");
+			$this->RegisterPropertyString("Sonos_Master_IP", "192.0.0.6");
 		}
 
 		public function ApplyChanges()
 		{
 
 			//Never delete this line!
-			parent::ApplyChanges();
 
 			global $action_ID, $parent_id, $master_IP_id,$player_data_id,$content_var_name_string_id,$Sonos_Data,$list,$var_change_script_id,
 					 $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string,
@@ -29,6 +28,7 @@
 			$parent_id = IPS_GetObject($master_IP_id)['ParentID'];
          if(Sys_Ping ($Sonos_Master_IP, 1000 ))
          {
+				parent::ApplyChanges();
 				SO_create_sonos_reader_socket($parent_id);
 				SO_create_sonos_text_parser($parent_id);
 				SO_create_sonos_content_variable($parent_id);
