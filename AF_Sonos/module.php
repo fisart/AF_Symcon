@@ -11,6 +11,16 @@
 
 		public function ApplyChanges()
 		{
+        $ipAddress = $this->$this->ReadPropertyString($master_ip_name_string);
+        if ($ipAddress){
+            $curl = curl_init();
+            curl_setopt_array($curl, array( CURLOPT_RETURNTRANSFER => 1,
+                                            CURLOPT_URL => 'http://'.$ipAddress.':1400/xml/device_description.xml' ));
+            if(!curl_exec($curl))  die('Error: "' . curl_error($curl) . '" - Code: ' . curl_errno($curl));
+        }
+
+
+
 			//Never delete this line!
 			parent::ApplyChanges();
 
@@ -1724,7 +1734,7 @@ global $parent_id;
 					$list[$i]["CurrentURI"] = $media["CurrentURI"];
 					$list[$i]["CurrentURIMetaData"] = $media["CurrentURIMetaData"];
 	            $list[$i]['Status'] = $sonos->GetTransportInfo(); // des Sonos-Players als Integer zurück, 1: PLAYING, 2: PAUSED, 3: STOPPED
-	           
+
 					$name_and_ip[$list[$i]['Name']] = $list[$i]['IP'];
 					$list_with_player_name_as_index[$list[$i]['Name']] = $list[$i];
 					$list_with_player_rincon_as_index[$list[$i]['Player_RINCON']] = $list[$i];
