@@ -11,7 +11,7 @@
 
 		public function ApplyChanges()
 		{
-        $ipAddress = $this->$this->ReadPropertyString($master_ip_name_string);
+        $ipAddress = $this->ReadPropertyString($master_ip_name_string);
         if ($ipAddress){
             $curl = curl_init();
             curl_setopt_array($curl, array( CURLOPT_RETURNTRANSFER => 1,
