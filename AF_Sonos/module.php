@@ -6,20 +6,11 @@
 		{
 			//Never delete this line!
 			parent::Create();
-			$this->RegisterPropertyString("Sonos_Master_IP", "192.168.0.54");
+			$this->RegisterPropertyString("Sonos_Master_IP", "10.0.0.6");
 		}
 
 		public function ApplyChanges()
 		{
-        $ipAddress = $this->ReadPropertyString("Sonos_Master_IP");
-        if ($ipAddress){
-            $curl = curl_init();
-            curl_setopt_array($curl, array( CURLOPT_RETURNTRANSFER => 1,
-                                            CURLOPT_URL => 'http://'.$ipAddress.':1400/xml/device_description.xml' ));
-            if(!curl_exec($curl))  die('Error: "' . curl_error($curl) . '" - Code: ' . curl_errno($curl));
-        }
-
-
 
 			//Never delete this line!
 			parent::ApplyChanges();
