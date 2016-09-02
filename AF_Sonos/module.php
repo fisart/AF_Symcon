@@ -6,7 +6,7 @@
 		{
 			//Never delete this line!
 			parent::Create();
-			$this->RegisterPropertyString("Sonos_Master_IP", "192.168.0.52");
+			$this->RegisterPropertyString("Sonos_Master_IP", "192.168.0.54");
 		}
 
 		public function ApplyChanges()
