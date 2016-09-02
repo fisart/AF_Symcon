@@ -6,7 +6,7 @@
 		{
 			//Never delete this line!
 			parent::Create();
-			$this->RegisterPropertyString("Sonos_Master_IP", "10.0.0.6");
+			$this->RegisterPropertyString("Sonos_Master_IP", "192.168.0.52");
 		}
 
 		public function ApplyChanges()
@@ -249,18 +249,18 @@ public function get_static_data()
 public function create_radio_stations()
 {
 global $parent_id,$stations_profile ;
-	$Color = [	0x15EB4A,//0 Grün
+	$Color = [	0x15EB4A,//0 GrÃ¼n
 					0xF21344,//1 Rot
 					0x1833DE,//2 Blau
 					0xE8DA10,//3 Gelb
 					0xF21BB9,//4 Violet
-					0x1BCEF2,//5 Türkis
+					0x1BCEF2,//5 TÃ¼rkis
 					0x1BF2C0,//6 Mint
-					0x1A694C,//7 Dunkelgrün
+					0x1A694C,//7 DunkelgrÃ¼n
 					0xF2981B,//8 Orange
 					0x48508A,//9 Purpur
 					0x912A41,//10 Dunkelrot
-					0x15EB4A,//11 Gift Grün
+					0x15EB4A,//11 Gift GrÃ¼n
 					0xF21344,//12 Kamin Rot
 					0x1833DE,//13 Kobalt Blau
 				 	0xA1EFB4,//14 Light Mint
@@ -270,7 +270,7 @@ global $parent_id,$stations_profile ;
 					0xee2edd,//18 Leucht Violett
 					0xFFF200,//19 Leucht Gelb
 					0xe34444,//20 Ocker Rot
-					0xfaeefb //21 Weiß
+					0xfaeefb //21 WeiÃŸ
 				];
 	$stations = SO_radio_stations_static_data($parent_id);
 	if(IPS_VariableProfileExists ($stations_profile))
@@ -539,18 +539,18 @@ public function radio_stations_static_data()
 public function free_zone_player($zone_name)
 {
 global $parent_id;
-	$Color = [	0x15EB4A,//0 Grün
+	$Color = [	0x15EB4A,//0 GrÃ¼n
 					0xF21344,//1 Rot
 					0x1833DE,//2 Blau
 					0xE8DA10,//3 Gelb
 					0xF21BB9,//4 Violet
-					0x1BCEF2,//5 Türkis
+					0x1BCEF2,//5 TÃ¼rkis
 					0x1BF2C0,//6 Mint
-					0x1A694C,//7 Dunkelgrün
+					0x1A694C,//7 DunkelgrÃ¼n
 					0xF2981B,//8 Orange
 					0x48508A,//9 Purpur
 					0x912A41,//10 Dunkelrot
-					0x15EB4A,//11 Gift Grün
+					0x15EB4A,//11 Gift GrÃ¼n
 					0xF21344,//12 Kamin Rot
 					0x1833DE,//13 Kobalt Blau
 				 	0xA1EFB4,//14 Light Mint
@@ -560,7 +560,7 @@ global $parent_id;
 					0xee2edd,//18 Leucht Violett
 					0xFFF200,//19 Leucht Gelb
 					0xe34444,//20 Ocker Rot
-					0xfaeefb //21 Weiß
+					0xfaeefb //21 WeiÃŸ
 				];
 
 	$zone_name_clean = str_replace (" " , "_" ,$zone_name );
@@ -601,18 +601,18 @@ public function create_zone_member_profiles()
 	Global 	$zone_cat_id,$zone_names,$single_player_list,$all_zone_names;
 
 
-	$Color = [	0x15EB4A,//0 Grün
+	$Color = [	0x15EB4A,//0 GrÃ¼n
 					0xF21344,//1 Rot
 					0x1833DE,//2 Blau
 					0xE8DA10,//3 Gelb
 					0xF21BB9,//4 Violet
-					0x1BCEF2,//5 Türkis
+					0x1BCEF2,//5 TÃ¼rkis
 					0x1BF2C0,//6 Mint
-					0x1A694C,//7 Dunkelgrün
+					0x1A694C,//7 DunkelgrÃ¼n
 					0xF2981B,//8 Orange
 					0x48508A,//9 Purpur
 					0x912A41,//10 Dunkelrot
-					0x15EB4A,//11 Gift Grün
+					0x15EB4A,//11 Gift GrÃ¼n
 					0xF21344,//12 Kamin Rot
 					0x1833DE,//13 Kobalt Blau
 				 	0xA1EFB4,//14 Light Mint
@@ -622,7 +622,7 @@ public function create_zone_member_profiles()
 					0xee2edd,//18 Leucht Violett
 					0xFFF200,//19 Leucht Gelb
 					0xe34444,//20 Ocker Rot
-					0xfaeefb //21 Weiß
+					0xfaeefb //21 WeiÃŸ
 				];
 
 	$free_players = "Add_Player_to_this_Zone";
@@ -748,7 +748,7 @@ public function find_zone_members_var_ids($zone)
 
 	$zone_members[] = NULL;
 	$i = 0;
-	foreach(IPS_GetObject($Sonos_Master_id)['ChildrenIDs'] as $key => $id) // Schleife über alle MASTER
+	foreach(IPS_GetObject($Sonos_Master_id)['ChildrenIDs'] as $key => $id) // Schleife Ã¼ber alle MASTER
 	{
 		$var_content = GetValueInteger($id);
 		$profile_name = IPS_GetVariable ($id)["VariableCustomProfile"];
@@ -825,7 +825,7 @@ global $content_var_name_string_id,$sonos_data_with_php_class_name,$sonos_data_v
 
 					$status = $sonos->GetTransportInfo(); // gibt den aktuellen Status
 	            $list[$i]['Status'] = $status;
-							// des Sonos-Players als Integer zurück, 1: PLAYING, 2: PAUSED, 3: STOPPED
+							// des Sonos-Players als Integer zurÃ¼ck, 1: PLAYING, 2: PAUSED, 3: STOPPED
 							// status as integer; see above
 					$sonos_data = $sonos_data." IP ".$list[$i]['IP']." V ".$list[$i]['Volume']." M ".$list[$i]['Mute']." N ".$list[$i]['Name']." S ".$list[$i]['Status'];
 
@@ -1050,7 +1050,7 @@ public function customize_group_action_profile_to_zone($group_action_profile,$zo
 	else
 	{
 	}
-	return $zone_name_profil;//hier muss dann die association geändert werden.
+	return $zone_name_profil;//hier muss dann die association geÃ¤ndert werden.
 }
 
 // ``````````````````
@@ -1100,7 +1100,7 @@ public function delete_zone_cat_and_variables($single_zone_cat_id)
 					// Zone Cat is no more needed, delete
 						$existing_variable_ids = IPS_GetChildrenIDs($single_zone_cat_id);
 
-         			foreach (	$existing_variable_ids as $key1 => $value1) //Eventuelle Variablen unterhalb des weggefallenen Zonennamen löschen
+         			foreach (	$existing_variable_ids as $key1 => $value1) //Eventuelle Variablen unterhalb des weggefallenen Zonennamen lÃ¶schen
 						{
 								IPS_DeleteVariable($value1);
 						}
@@ -1146,13 +1146,13 @@ public function configure_var_remove_player_from_this_zone($single_zone_cat_id,$
 
 			   $zone_name = IPS_GetName($single_zone_cat_id);
    			$zone_name_profil = str_replace (" " , "_" , $zone_name );
-   			$zone_member_var_ids = SO_find_zone_members_var_ids($parent_id,$zone_name);// Alle Player IDS die zu dieser Zone gehören
+   			$zone_member_var_ids = SO_find_zone_members_var_ids($parent_id,$zone_name);// Alle Player IDS die zu dieser Zone gehÃ¶ren
 				$zone_member_profile_name = "Remove_Player_from_this_Zone_".$zone_name_profil;
 				$zone_remove_player_var_name = "Remove Player from this Zone ".$zone_name;
 				$var_id = @IPS_GetVariableIDByName ($zone_remove_player_var_name, $single_zone_cat_id );// Variablen Name = Profilname $var_id = remove player variable der zone
 				if(is_array($free_player_list))
 				{
-					if($zone_member_var_ids[0] == NULL) // Es gibt keine PLayer die zu dieser Zone gehören
+					if($zone_member_var_ids[0] == NULL) // Es gibt keine PLayer die zu dieser Zone gehÃ¶ren
 					{
 						if($var_id != 0)	IPS_DeleteVariable($var_id );
 					}
@@ -1210,7 +1210,7 @@ public function create_all_zone_variables($var_id,$free_player_list,$single_zone
                	{
 							if(count($free_player_list) > 1)
 							{
-								$adjusted_profile = SO_free_zone_player($parent_id,$zone_name); // der einzelne Player darf nicht in der Liste der verfügbaren player stehen
+								$adjusted_profile = SO_free_zone_player($parent_id,$zone_name); // der einzelne Player darf nicht in der Liste der verfÃ¼gbaren player stehen
 								SO_create_variables_with_action($parent_id,"Add Player to this_Zone",$single_zone_cat_id,1,$adjusted_profile,$add_var_change_script_name_id); // create the variable to control the zone
 							}
 							else
@@ -1219,7 +1219,7 @@ public function create_all_zone_variables($var_id,$free_player_list,$single_zone
 						}
 						else // Es gibt mehr als einen Player in der Zone da nur Player die auch Zone sind (Free Player) in der free_player_list stehen
 						{//($Name,$Root,$Type,$Profile,$var_change_script_id)
-/*added*/				$adjusted_profile = SO_free_zone_player($parent_id,$zone_name); // der einzelne Player darf nicht in der Liste der verfügbaren player stehen
+/*added*/				$adjusted_profile = SO_free_zone_player($parent_id,$zone_name); // der einzelne Player darf nicht in der Liste der verfÃ¼gbaren player stehen
 //							SO_create_variables_with_action($parent_id,"Add Player to this Zone",$single_zone_cat_id,1,"Add_Player_to_this_Zone",$add_var_change_script_name_id); // create the variable to control the zone
 							SO_create_variables_with_action($parent_id,"Add Player to this_Zone",$single_zone_cat_id,1,$adjusted_profile,$add_var_change_script_name_id); // create the variable to control the zone
 
@@ -1304,18 +1304,18 @@ public function create_categories_zone_master()
 			{
 				$existing_zone_cat_name[$key] = IPS_GetName($single_zone_cat_id);
 				$existing_variable_ids = IPS_GetChildrenIDs($single_zone_cat_id);// Status der exisitierenden Zonen aktualisieren
-				if(in_array ($existing_zone_cat_name[$key] , $sonos_zone_names )) //Zonen Cat Name ist bereits vorhanden und wird auch zukünftig benötigt
+				if(in_array ($existing_zone_cat_name[$key] , $sonos_zone_names )) //Zonen Cat Name ist bereits vorhanden und wird auch zukÃ¼nftig benÃ¶tigt
 				{
 					SO_set_GROUP_ACTION_profile_for_exisiting_zone_variables(1,$existing_variable_ids,$existing_zone_cat_name,$Sonos_Data,$key);
 
 				}
-				else // Der Zonen Cat Name ist in SONOS nicht mehr vorhanden und kann gelöscht werden
+				else // Der Zonen Cat Name ist in SONOS nicht mehr vorhanden und kann gelÃ¶scht werden
 				{
 					SO_delete_zone_cat_and_variables(1,$single_zone_cat_id);
 				}
 
 			}
-			// Jetzt noch Kategorien anlegen für neu hinzugekommene SONOS Zonen
+			// Jetzt noch Kategorien anlegen fÃ¼r neu hinzugekommene SONOS Zonen
 			if($existing_zones_cat_ids != NULL)
 			{
 				$zone_cats_to_create = array_diff ($sonos_zone_names,	$existing_zone_cat_name );//Feststellen welche Zonen hinzugekommen sind
@@ -1386,7 +1386,7 @@ global $parent_id;
                      $sonos = new PHPSonos($player ); //Sonos ZP IPAdresse
 							$status = $sonos->GetTransportInfo(); // gibt den aktuellen Status
 							$mute = SO_status_zone_mute($parent_id,$zone);
-							// des Sonos-Players als Integer zurück, 1: PLAYING, 2: PAUSED, 3: STOPPED
+							// des Sonos-Players als Integer zurÃ¼ck, 1: PLAYING, 2: PAUSED, 3: STOPPED
 							// status as integer; see above
 
 						   if($mute == true)
@@ -1546,21 +1546,21 @@ global $parent_id;
 						$LinkID = IPS_CreateLink();             // Link anlegen
 						IPS_SetName($LinkID,  IPS_GetObject ($player_data_id)['ObjectName'].$Diff); // Link benennen
 						IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
-						IPS_SetLinkTargetID($LinkID, $player_data_id);    // Link verknüpfen
+						IPS_SetLinkTargetID($LinkID, $player_data_id);    // Link verknÃ¼pfen
 					}
 					if(@IPS_GetObjectIDByName (IPS_GetObject ($action_ID)['ObjectName'].$Diff, $visu_id )== false)
 					{
 						$LinkID = IPS_CreateLink();             // Link anlegen
 						IPS_SetName($LinkID,  IPS_GetObject ($action_ID)['ObjectName'].$Diff); // Link benennen
 						IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
-						IPS_SetLinkTargetID($LinkID, $action_ID);    // Link verknüpfen
+						IPS_SetLinkTargetID($LinkID, $action_ID);    // Link verknÃ¼pfen
 					}
 					if(@IPS_GetObjectIDByName (IPS_GetObject ($zone_cat_id)['ObjectName'].$Diff, $visu_id )== false)
 					{
 						$LinkID = IPS_CreateLink();             // Link anlegen
 						IPS_SetName($LinkID,  IPS_GetObject ($zone_cat_id)['ObjectName'].$Diff); // Link benennen
 						IPS_SetParent($LinkID, $visu_id); // Link einsortieren unter dem Objekt mit der ID "12345"
-						IPS_SetLinkTargetID($LinkID, $zone_cat_id);    // Link verknüpfen
+						IPS_SetLinkTargetID($LinkID, $zone_cat_id);    // Link verknÃ¼pfen
 					}
 
 
@@ -1724,7 +1724,7 @@ global $parent_id;
 					$list[$i]["title"] = $media["title"];
 					$list[$i]["CurrentURI"] = $media["CurrentURI"];
 					$list[$i]["CurrentURIMetaData"] = $media["CurrentURIMetaData"];
-	            $list[$i]['Status'] = $sonos->GetTransportInfo(); // des Sonos-Players als Integer zurück, 1: PLAYING, 2: PAUSED, 3: STOPPED
+	            $list[$i]['Status'] = $sonos->GetTransportInfo(); // des Sonos-Players als Integer zurÃ¼ck, 1: PLAYING, 2: PAUSED, 3: STOPPED
 
 					$name_and_ip[$list[$i]['Name']] = $list[$i]['IP'];
 					$list_with_player_name_as_index[$list[$i]['Name']] = $list[$i];
@@ -1946,25 +1946,25 @@ public function populate_master($Sonos_Data,$i)
 }
 
 
-public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master definiert
+public function build_or_fix_profile() //Hier wird das Profil fÃ¼r Sonos_Master definiert
 {
 	global $Sonos_Data,
 	       $content_var_name_string,$action_string,$volume_string,$mute_string, $player_data_string,$sonos_master_string,$module_name_string,$master_ip_name_string
 			 ,$group_action_string,$group_add_string,$group_remove_string,$Color;
 
 	$key = 0;
-	$Color = [	0x15EB4A,//0 Grün
+	$Color = [	0x15EB4A,//0 GrÃ¼n
 					0xF21344,//1 Rot
 					0x1833DE,//2 Blau
 					0xE8DA10,//3 Gelb
 					0xF21BB9,//4 Violet
-					0x1BCEF2,//5 Türkis
+					0x1BCEF2,//5 TÃ¼rkis
 					0x1BF2C0,//6 Mint
-					0x1A694C,//7 Dunkelgrün
+					0x1A694C,//7 DunkelgrÃ¼n
 					0xF2981B,//8 Orange
 					0x48508A,//9 Purpur
 					0x912A41,//10 Dunkelrot
-					0x15EB4A,//11 Gift Grün
+					0x15EB4A,//11 Gift GrÃ¼n
 					0xF21344,//12 Kamin Rot
 					0x1833DE,//13 Kobalt Blau
 				 	0xA1EFB4,//14 Light Mint
@@ -1974,7 +1974,7 @@ public function build_or_fix_profile() //Hier wird das Profil für Sonos_Master d
 					0xee2edd,//18 Leucht Violett
 					0xFFF200,//19 Leucht Gelb
 					0xe34444,//20 Ocker Rot
-					0xfaeefb //21 Weiß
+					0xfaeefb //21 WeiÃŸ
 				];
 	foreach($Sonos_Data as $i)
 	{
@@ -2927,7 +2927,7 @@ Content-Length: '. strlen($xml) .'
 
 //	echo $this->sendPacket($content);
 
-		// set AVtransporturi ist für STOP notwendig
+		// set AVtransporturi ist fÃ¼r STOP notwendig
  	}
 
 /* urn:upnp-org:serviceId:MusicServices */
@@ -2949,7 +2949,7 @@ Content-Length: '. strlen($xml) .'
 	"SLEEP_TIMER_RAMP_TYPE" - mutes and ups Volume per default within 17 seconds to desiredVolume
 	"ALARM_RAMP_TYPE" -Switches audio off and slowly goes to volume
 	"AUTOPLAY_RAMP_TYPE" - very fast and smooth; Implemented from Sonos for the unofficial autoplay feature.
-	When you switch on a Sonos Device it plays its autoplay Command/Playlist and Settings. It´s all there but currently no GUI setting is possible.
+	When you switch on a Sonos Device it plays its autoplay Command/Playlist and Settings. ItÂ´s all there but currently no GUI setting is possible.
 	*Should return Rampseconds* but this is not implemented! */
 	{
 
@@ -2971,7 +2971,7 @@ $content=$header . 'Content-Length: '. strlen($xml) .'
 
 	}
 /* urn:upnp-org:serviceId:AVTransport */
-// If you don´t set $id you may get duplicate playlists!!!
+// If you donÂ´t set $id you may get duplicate playlists!!!
 
  	public function SaveQueue($title,$id="") // added br
     {
@@ -3111,7 +3111,7 @@ SOAPACTION: "urn:schemas-upnp-org:service:AVTransport:1#Previous"
 
 	public function Seek($arg1,$arg2="NONE")
 	{
-// Abwärtskompatibel zu Paresys Original sein
+// AbwÃ¤rtskompatibel zu Paresys Original sein
 	if ($arg2=="NONE"){
 		$Unit="REL_TIME"; $position=$arg1;
 	} else {$Unit=$arg1; $position=$arg2;}
@@ -3778,7 +3778,7 @@ return $liste;
 
 /*
 Unter LocalUID findet sich der String, den man im $sonos->SetQueue Befehl braucht.
-Den String kann man z.B. über folgendes Codeschnipsel bekommen:
+Den String kann man z.B. Ã¼ber folgendes Codeschnipsel bekommen:
 $url = "http://".<ipAdresse des ZonePlayers>.":1400/status/zp";
 $xml = simpleXML_load_file($url);
 $result = $xml->ZPInfo->LocalUID;
